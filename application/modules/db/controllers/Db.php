@@ -1,0 +1,92 @@
+<?php
+
+/**
+ * Migration Controller
+ * This controller for make migration and seeding 
+ */
+class Db extends CI_Controller
+{
+	function __construct()
+	{
+		parent::__construct();
+		if (!$this->input->is_cli_request()) {
+			exit('Direct access is not allowed. This is a command line tool, use the terminal');
+		}
+		$this->load->library('migration');
+	}
+
+	public function index()
+	{
+		if($this->refresh() === TRUE)
+		{
+			echo($this->_seeder() ? "Migration and Seed Success" : "Seeder Went Wrong");
+		}
+		else
+		{
+			echo $this->migration->error_string();
+		}
+	}
+
+	public function refresh()
+	{
+		$refreshStatus = $this->migration->latest();
+		echo $refreshStatus !== 0 ? "Migration Success" : "Migration Failed";
+		return $refreshStatus;
+	}
+
+	public function seeder()
+	{
+		$dataUser = array(
+			'users' => array(
+				'id' => 'IU0000',
+				'email' => 'admin@admin',
+				'password' => '12345',
+				'jabatan' => 'super_admin',
+				'name_full' => 'Super Admin',
+				'ktp_no' => '12345',
+				'ktp_img' => 'IU0000.jpg',
+				'alamat' => 'Kantor',
+				'telepon_primer' => '00',
+				'rekening_no' => '00',
+				'rekening_bank' => 'Bank',
+				'agama' => 'null',
+				'status' => 'kawin',
+				'anak' => '0',
+				'photo' => 'IU0000.jpg',
+				'thumbnail' => 'IU0000_thumb.jpg',
+				'tech_support' => '0',
+			),
+			'details' => array(
+				'id' => 'IU0000',
+				'telepon_sekunder' => '00',
+				'telepon_pin' => '00',
+				'telepon_whatsapp' => '00',
+				'npwp_no' => '00',
+				'npwp_img' => '00',
+				'created_at' => mdate('%Y=%m-d',time()),
+				'edited_at' => mdate('%Y=%m-d',time()),
+			),
+			'privileges' => array(
+				'id' => 1,
+				'privileges' => 1,
+				'users' => 1,
+				'standard' => 1,
+				'contract' => 1,
+				'ring' => 1,
+				'ts' => 1,
+				'breeder' => 1,
+				'supplier' => 1,
+				'supplier_prod' => 1,
+				'buyer' => 1,
+				'breeder_score' => 1,
+			)
+		);
+		if($this->db->insert('users',$dataUser['users']))
+		{
+			if($this->db->insert('users_details',$dataUser['details']))
+			{
+				return ($this->db->insert('users_priv',$dataUser['privileges']) ? TRUE : FALSE);
+			}
+		}
+	}
+}
