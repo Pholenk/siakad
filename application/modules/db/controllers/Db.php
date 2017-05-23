@@ -17,17 +17,10 @@ class Db extends CI_Controller
 
 	public function index()
 	{
-		if($this->refresh() === TRUE)
-		{
-			echo($this->_seeder() ? "Migration and Seed Success" : "Seeder Went Wrong");
-		}
-		else
-		{
-			echo $this->migration->error_string();
-		}
+		echo "You have to decided to migrate or seed";
 	}
 
-	public function refresh()
+	public function migrate()
 	{
 		$refreshStatus = $this->migration->latest();
 		echo $refreshStatus !== 0 ? "Migration Success" : "Migration Failed";
