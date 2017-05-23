@@ -6,7 +6,8 @@
 	"license": "MIT",
 	"require": {
 		"php": ">=5.2.4",
-		"almasaeed2010/adminlte": "^2.3"
+		"almasaeed2010/adminlte": "^2.3",
+		"fzaninotto/faker": "^1.6"
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
