@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Migration Controller
+ * Db Controller
  * This controller for make migration and seeding 
  */
 class Db extends CI_Controller
