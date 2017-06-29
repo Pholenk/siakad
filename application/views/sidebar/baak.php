@@ -18,7 +18,7 @@
     <ul class="sidebar-menu">
       <li class="header">USERS</li>
       <li class="treeview">
-        <a href="/users"><i class="fa fa-users"></i><span>Users</span></a>
+        <a href="/users"><i class="fa fa-users"></i><span>Dashboard</span></a>
       </li>
       <li class="header">SETTINGS</li>
       <li class="treeview">
@@ -28,13 +28,13 @@
           <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="/privileges"><i class="fa fa-warning"></i> Privileges</a></li>
-          <li><a href="/tech_support"><i class="fa fa-wrench"></i> Technical Support</a></li>
-          <li><a href="/route_ring"><i class="fa fa-road"></i> Route & Ring Expedition</a></li>
-          <li><a href="/breeder"><i class="fa fa-envira"></i> Breeder</a></li>
-          <li><a href="/breeder_score"><i class="fa fa-star"></i> Breeder's Score</a></li>
-          <li><a href="/contract"><i class="fa fa-money"></i> Contract Prices</a></li>
-          <li><a href="/std_production"><i class="fa fa-industry"></i> Standard Production</a></li>
+          <li><a href="/route_ring"><i class="fa fa-road"></i> Pengguna</a></li>
+          <li><a href="/privileges"><i class="fa fa-warning"></i> Mahasiswa</a></li>
+          <li><a href="/breeder"><i class="fa fa-envira"></i> Orang Tua Mahasiswa</a></li>
+          <li><a href="/tech_support"><i class="fa fa-wrench"></i> Dosen</a></li>
+          <li><a href="/breeder_score"><i class="fa fa-star"></i> Jurusan</a></li>
+          <li><a href="/contract"><i class="fa fa-money"></i> Mata Kuliah</a></li>
+          <li><a href="/std_production"><i class="fa fa-industry"></i> Uang Kuliah</a></li>
           <li>
             <a href="#"><i class="fa fa-truck"></i> Supplier
               <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>

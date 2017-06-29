@@ -1,0 +1,46 @@
+.input-text {
+	border-top: none;
+	border-right: none;
+	border-left-color: #d2d6de;
+	border-bottom-color: transparent;
+}
+
+.input-icon {
+	border: none;
+}
+
+span .fa {
+	width: 20px;
+}
+
+.push-left {
+	float: left;
+}
+
+.box-tools {
+	position: static;
+	padding: 2%;
+}
+
+.box-tools span {
+	margin-left: 5%;
+	padding: 2%;
+	text-align: left;
+	font-size: 14px;
+}
+
+.box-tools .input-group {	
+	width: 75%;
+}
+
+.box-tools .input-group input {
+	border-top: none;
+	border-left: none;
+	border-bottom-color: #d2d6de;
+}
+
+.main {
+	padding-top: 20%;
+	font-size: 50px;
+	text-align: center;
+}
