@@ -18,11 +18,13 @@ class JurusanModel extends CI_Model
 	{
 		if (empty($name))
 		{
+			$this->db->where('deleted_at is Null');
 			$query = $this->db->get('jurusan');
 		}
 		else
 		{
 			$this->db->select('*')->from('jurusan');
+			$this->db->where('deleted_at is Null');
 			$this->db->like('nama', $name);
 
 			$query = $this->db->get();
@@ -37,6 +39,7 @@ class JurusanModel extends CI_Model
 	public function read($id_jurusan)
 	{
 		$this->db->select('*')->from('jurusan');
+		$this->db->where('deleted_at is Null');
 		$this->db->where('id_jurusan', $id_jurusan);
 		$query = $this->db->get();
 		return $query->result();
@@ -64,7 +67,8 @@ class JurusanModel extends CI_Model
 	 */
 	public function delete($id_jurusan)
 	{
-		return($this->db->delete('jurusan',array('id_jurusan' => $id_jurusan)) ? TRUE : FALSE);
+		$this->db->where('id_jurusan', $id_jurusan);
+		return($this->db->update('jurusan',array('deleted_at' => mdate('%Y-%m-%d', now()))) ? TRUE : FALSE);
 	}
 
 	/**
@@ -75,6 +79,7 @@ class JurusanModel extends CI_Model
 	 */
 	public function dataExists($table, $data)
 	{
+		$this->db->where('deleted_at is Null');
 		$query = $this->db->get_where($table, $data);
 		$queryStats = ($query->num_rows() > 0 ? 1 : 0);
 		return $queryStats;

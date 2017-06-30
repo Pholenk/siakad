@@ -75,48 +75,25 @@ class Jurusan extends MX_Controller
 				{
 					echo "
 					<div class='modal-header'>
-					<h1 class='modal-title'>Edit User</h1>
+					<h1 class='modal-title'>Edit Jurusan</h1>
 					</div>
-					<div id='error_form_user'></div>
-					<form class='form-horizontal' method='post' id='edit_form_user'>
+					<div id='error_form_jurusan'></div>
+					<form class='form-horizontal' method='post' id='edit_form_jurusan'>
 					<div class='modal-body'>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Username</label>
-					<label class='col-xs-4 control-label' id='username_edit'>".$data->username."</label>
-					</div>
+					<label class='col-xs-4 control-label'>Kode Jurusan</label>
+					<label class='col-xs-4 control-label'>".$data->id_jurusan."</label>
 					</div>
 					<div class='form-group'>
 					<label class='col-xs-4 control-label'>Nama</label>
 					<div class='col-xs-7'>
-					<input name='fullname' id='fullname_edit' type='text' class='form-control' value='".$data->fullname."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Password</label>
-					<div class='col-xs-7'>
-					<div class='input-group'>
-					<div class='input-group-btn'>
-					<button type='button' class='btn btn-info' id='show_password'><i class='fa fa-eye-slash' id='show_password_icon'></i></button>
-					</div>
-					<input name='password' type='password' class='form-control' id='password_add' value='".$data->password."' required>
-					</div>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Pekerjaan</label>
-					<div class='col-xs-7'>
-					<select name='job' class='form-control' id='job_edit' required>
-					<option ".($data->job === 'BAAK' ?  "selected = 'selected'" : "").">BAAK</option>
-					<option ".($data->job === 'Keuangan' ?  "selected = 'selected'" : "").">Keuangan</option>
-					<option ".($data->job === 'Dosen' ?  "selected = 'selected'" : "").">Dosen</option>
-					<option ".($data->job === 'Mahasiswa' ?  "selected = 'selected'" : "").">Mahasiswa</option>
-					</select>
+					<input name='namajurusan' id='namajurusan_edit' type='text' class='form-control' value='".$data->nama."' required>
 					</div>
 					</div>
 					</div>
 					<div class='modal-footer'>
 					<div class='col-xs-6'>
-					<button class='btn btn-success' type='submit' id='save_edit_user'><i class='fa fa-save'></i> Save</button>
+					<button class='btn btn-success' type='submit' id='save_edit_jurusan'><i class='fa fa-save'></i> Save</button>
 					</div>
 					<div class='col-xs-6 push-left'>
 					<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
@@ -158,22 +135,21 @@ class Jurusan extends MX_Controller
 	 * @param string username
 	 * @return string
 	 */
-	public function edit($username)
+	public function edit($id_jurusan)
 	{
 		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
 		{
-			if ($this->JurusanModel->dataExists('users', array('username' => $username)) === 1)
+			if ($this->JurusanModel->dataExists('jurusan', array('id_jurusan' => $id_jurusan)) === 0)
 			{
 				$jurusanData = array(
-					'password' => $this->input->post('password'),
-					'fullname' => $this->input->post('fullname'),
-					'job' => $this->input->post('job'),
+					'nama' => $this->input->post('namajurusan'),
+					'edited_at' => mdate('%Y-%m-%d', now()),
 				);
-				echo ($this->JurusanModel->edit($username, $jurusanData) === TRUE ? 'TRUE' : 'FALSE');
+				echo ($this->JurusanModel->edit($id_jurusan, $jurusanData) === TRUE ? 'TRUE' : 'FALSE');
 			}
 			else
 			{
-				echo "ERROR!";
+				echo "ERROR";
 			}
 			
 		}
@@ -228,7 +204,6 @@ class Jurusan extends MX_Controller
 			}
 			else
 			{
-				// echo $this->JurusanModel->dataExists('users', array('username' => $username));
 				if ($this->JurusanModel->dataExists('jurusan', array('id_jurusan' => $id_jurusan)) === 0)
 				{
 					$jurusanData = array(
@@ -256,13 +231,13 @@ class Jurusan extends MX_Controller
 	 * delete user data by username
 	 * @param string username
 	 */
-	public function delete($username)
+	public function delete($id_jurusan)
 	{
 		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
 		{
-			if ($this->JurusanModel->dataExists('users', array('username' => $username)) === 1)
+			if ($this->JurusanModel->dataExists('jurusan', array('id_jurusan' => $id_jurusan)) === 1)
 			{
-				echo ($this->JurusanModel->delete($username) === TRUE ? 'TRUE' : 'FALSE');
+				echo ($this->JurusanModel->delete($id_jurusan) === TRUE ? 'TRUE' : 'FALSE');
 			}
 			else
 			{

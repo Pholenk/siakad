@@ -17,7 +17,7 @@ $(document).ready(
                     window.location = '/'
                 } else {
                     $('#error').fadeIn('slow', function() {
-                        $("#error").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; ' + response + '</div>')
+                        $("#error").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; ' + response + '</div>')
                     })
                 }
             }
@@ -72,7 +72,8 @@ $(document).ready(function() {
         })
     })
 
-    $('body').on('submit', '#edit_form_user', function() {
+    $('body').on('submit', '#edit_form_user', function(event) {
+        event.preventDefault()
         $.ajax({
             cache: false,
             type: 'post',
@@ -88,12 +89,12 @@ $(document).ready(function() {
                         break
                     case 'FALSE':
                         $('#error_form_user').fadeIn('slow', function() {
-                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
                         })
                         break
                     case 'ERROR':
                         $('#error_form_user').fadeIn('slow', function() {
-                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Data sudah ada!</div>')
+                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
                         })
                         break
                 }
@@ -118,12 +119,12 @@ $(document).ready(function() {
                         break
                     case 'FALSE':
                         $('#error_form_user').fadeIn('slow', function() {
-                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
                         })
                         break
                     case 'ERROR':
                         $('#error_form_user').fadeIn('slow', function() {
-                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Data sudah ada!</div>')
+                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
                         })
                         break
                 }
@@ -132,8 +133,9 @@ $(document).ready(function() {
     })
 
     $("button[id^='delete_user_']").click(function(event) {
+        event.preventDefault()
         id = this.id.replace('delete_user_', '')
-        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete User</h1></div><div id="error_delete_user"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus pengguna secara permanen.<br><strong>Hapus pengguna?</strong></h4></div></div> <div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_user"><i class="fa fa-save"></i> Save</button></div><div class="col-xs-6 push-left"> <button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
+        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete User</h1></div><div id="error_delete_user"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus pengguna secara permanen.<br><strong>Hapus pengguna?</strong></h4></div></div> <div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_user"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"> <button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
     })
 
     $('body').on('click', '#save_delete_user', function(event) {
@@ -151,12 +153,12 @@ $(document).ready(function() {
                         break
                     case 'FALSE':
                         $('#error_delete_user').fadeIn('slow', function() {
-                            $("#error_delete_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                            $("#error_delete_user").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
                         })
                         break
                     case 'ERROR':
                         $('#error_delete_user').fadeIn('slow', function() {
-                            $("#error_delete_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Data sudah ada!</div>')
+                            $("#error_delete_user").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
                         })
                         break
                 }
@@ -164,7 +166,8 @@ $(document).ready(function() {
         })
     })
 
-    $('body').on('click', '#show_password', function() {
+    $('body').on('click', '#show_password', function(event) {
+        event.preventDefault()
         ($("input[id^='password_']").attr('type') === 'password' ? $("input[id^='password_']").attr('type', 'text') && $('#show_password_icon').removeClass('fa-eye-slash') && $('#show_password_icon').addClass('fa-eye') : $("input[id^='password_']").attr('type', 'password') && $('#show_password_icon').removeClass('fa-eye') && $('#show_password_icon').addClass('fa-eye-slash'))
     })
 })
@@ -174,6 +177,8 @@ $(document).ready(function() {
 //================//
 
 $(document).ready(function() {
+    var id
+
     $('#jurusan_search').on('keyup', function() {
         if ($('#jurusan_search').val() !== '') {
             $.ajax({
@@ -202,6 +207,23 @@ $(document).ready(function() {
         })
     })
 
+    $("button[id^='edit_jurusan_']").on('click', function(event) {
+        event.preventDefault()
+        id = this.id.replace('edit_jurusan_', '')
+        $.ajax({
+            url: '/jurusan/read/read/' + id,
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='delete_jurusan_']").click(function(event) {
+        event.preventDefault()
+        id = this.id.replace('delete_jurusan_', '')
+        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete Jurusan</h1></div><div id="error_delete_user"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus jurusan.<br><strong>Hapus jurusan?</strong></h4></div></div><div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_jurusan"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"><button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
+    })
+
     $('body').on('submit', '#add_form_jurusan', function(event) {
         event.preventDefault()
         $.ajax({
@@ -219,16 +241,75 @@ $(document).ready(function() {
                         break
                     case 'FALSE':
                         $('#error_form_user').fadeIn('slow', function() {
-                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Gagal menyimpan jurusan baru!</div>')
+                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan jurusan baru!</div>')
                         })
                         break
                     case 'ERROR':
                         $('#error_form_user').fadeIn('slow', function() {
-                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Data sudah ada!</div>')
+                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
                         })
                         break
                 }
             }
         })
     })
+
+    $('body').on('submit', '#edit_form_jurusan', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/jurusan/edit/' + id,
+            data: $('#edit_form_jurusan').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/jurusan'
+                        break
+                    case 'FALSE':
+                        $('#error_form_jurusan').fadeIn('slow', function() {
+                            $("#error_form_jurusan").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_jurusan').fadeIn('slow', function() {
+                            $("#error_form_jurusan").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('click', '#save_delete_jurusan', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            url: '/jurusan/delete/' + id,
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/jurusan'
+                        break
+                    case 'FALSE':
+                        $('#error_delete_jurusan').fadeIn('slow', function() {
+                            $("#error_delete_jurusan").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_delete_jurusan').fadeIn('slow', function() {
+                            $("#error_delete_jurusan").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
 })
