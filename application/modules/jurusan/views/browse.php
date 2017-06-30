@@ -14,7 +14,7 @@
                 <strong>Search by Name</strong>
               </label>
               <div class="input-group">
-                <input type="text" id="jurusans_search" class="form-control input-text" placeholder="Search">
+                <input type="text" id="jurusan_search" class="form-control input-text" placeholder="Search">
                 <span class="input-group-addon input-icon" style="padding:1%"><i class="fa fa-search"></i></span>
               </div>
             </div>
@@ -28,7 +28,7 @@
                     <th style="text-align:center">Action</th>
                   </tr>
                 </thead>
-                <tbody id="jurusans-data">
+                <tbody id="jurusan-data">
                   <?php $i=1; foreach ($jurusans as $jurusan) { ?>
                   <tr>
                     <td style="text-align:center">

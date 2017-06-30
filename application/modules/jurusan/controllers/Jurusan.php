@@ -27,7 +27,7 @@ class Jurusan extends MX_Controller
 		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
 		{
 			$data = array(
-				'users' =>  $this->JurusanModel->browse(),
+				'jurusans' =>  $this->JurusanModel->browse(),
 			);
 			$this->_show('browse', $data);
 		}		
@@ -56,15 +56,13 @@ class Jurusan extends MX_Controller
 				foreach ($jurusanData as $data)
 				{
 					echo "
-					<tr id='edit_source_".$data->id."'>
+					<tr id='edit_source_".$data->id_jurusan."'>
 					<td style='text-align:center;'>".$i."</td>
 					<td style='text-align:center;'>".$data->id_jurusan."</td>
 					<td style='text-align:center;'>".$data->nama."</td>
 					<td style='text-align:center;'>
 					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_jurusan_".$data->id_jurusan."'><i class='fa fa-edit'></i> EDIT</button>
-					<a href='".base_url('/users/delete/'.$data->id)."'>
-					<button type='button' class='btn btn-danger'><i class='fa fa-trash'></i> DELETE</button>
-					</a>
+					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_jurusan_".$data->id_jurusan."'><i class='fa fa-trash'></i> DELETE</button>
 					</td>
 					</tr>
 					";
@@ -134,16 +132,13 @@ class Jurusan extends MX_Controller
 				foreach ($jurusanData as $data)
 				{
 					echo "
-					<tr id='edit_source_".$data->id."'>
+					<tr id='edit_source_".$data->id_jurusan."'>
 					<td style='text-align:center;'>".$i."</td>
-					<td style='text-align:center;'>".$data->username."</td>
-					<td style='text-align:center;'>".$data->fullname."</td>
-					<td style='text-align:center;'>".$data->job."</td>
+					<td style='text-align:center;'>".$data->id_jurusan."</td>
+					<td style='text-align:center;'>".$data->nama."</td>
 					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_jurusan_".$data->username."'><i class='fa fa-edit'></i> EDIT</button>
-					<a href='".base_url('/users/delete/'.$data->id)."'>
-					<button type='button' class='btn btn-danger'><i class='fa fa-trash'></i> DELETE</button>
-					</a>
+					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_jurusan_".$data->id_jurusan."'><i class='fa fa-edit'></i> EDIT</button>
+					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_jurusan_".$data->id_jurusan."'><i class='fa fa-trash'></i> DELETE</button>
 					</td>
 					</tr>
 					";
@@ -195,55 +190,35 @@ class Jurusan extends MX_Controller
 	 * @param string username
 	 * @return mixed
 	 */
-	public function add($username = '')
+	public function add($id_jurusan = '')
 	{
 		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
 		{
-			if (empty($username))
+			if (empty($id_jurusan))
 			{
 				echo "
 					<div class='modal-header'>
-					<h1 class='modal-title'>Add User</h1>
+					<h1 class='modal-title'>Add jurusan</h1>
 					</div>
-					<div id='error_form_user'></div>
-					<form class='form-horizontal' method='post' id='add_form_user'>
+					<div id='error_form_jurusan'></div>
+					<form class='form-horizontal' method='post' id='add_form_jurusan'>
 					<div class='modal-body'>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Username</label>
+					<label class='col-xs-4 control-label'>Kode Jurusan</label>
 					<div class='col-xs-7'>
-					<input name='username' id='username_add' type='text' class='form-control' required>
+					<input name='idjurusan' id='idjurusan_add' type='text' class='form-control' required>
 					</div>
 					</div>
 					<div class='form-group'>
 					<label class='col-xs-4 control-label'>Nama</label>
 					<div class='col-xs-7'>
-					<input name='fullname' id='fullname_add' type='text' class='form-control' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Password</label>
-					<div class='col-xs-7'>
-					<div class='input-group'>
-					<div class='input-group-btn'>
-					<button type='button' class='btn btn-info' id='show_password'><i class='fa fa-eye-slash' id='show_password_icon'></i></button>
-					</div>
-					<input name='password' type='password' class='form-control' id='password_add' required>
-					</div>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Pekerjaan</label>
-					<div class='col-xs-7'>
-					<select name='job' class='form-control' id='job_add' required>
-					<option>BAAK</option>
-					<option>Keuangan</option>
-					</select>
+					<input name='namajurusan' id='namajurusan_add' type='text' class='form-control' required>
 					</div>
 					</div>
 					</div>
 					<div class='modal-footer'>
 					<div class='col-xs-6'>
-					<button class='btn btn-success' type='submit' id='save_add_user'><i class='fa fa-save'></i> Save</button>
+					<button class='btn btn-success' type='submit' id='save_add_jurusan'><i class='fa fa-save'></i> Save</button>
 					</div>
 					<div class='col-xs-6 push-left'>
 					<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
@@ -254,13 +229,12 @@ class Jurusan extends MX_Controller
 			else
 			{
 				// echo $this->JurusanModel->dataExists('users', array('username' => $username));
-				if ($this->JurusanModel->dataExists('users', array('username' => $username)) === 0)
+				if ($this->JurusanModel->dataExists('jurusan', array('id_jurusan' => $id_jurusan)) === 0)
 				{
 					$jurusanData = array(
-						'username' => $username,
-						'fullname' => $this->input->post('fullname'),
-						'password' => $this->input->post('password'),
-						'job' => $this->input->post('job'),
+						'id_jurusan' => $id_jurusan,
+						'nama' => $this->input->post('namajurusan'),
+						'created_at' => mdate('%Y-%m-%d', now()),
 					);
 					echo ($this->JurusanModel->add($jurusanData) === TRUE ? 'TRUE' : 'FALSE');
 				}
