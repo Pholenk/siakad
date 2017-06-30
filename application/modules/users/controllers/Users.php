@@ -179,7 +179,7 @@ class Users extends MX_Controller
 			}
 			else
 			{
-				echo "ERROR!";
+				echo "ERROR";
 			}
 			
 		}
@@ -255,7 +255,7 @@ class Users extends MX_Controller
 			else
 			{
 				// echo $this->UsersModel->dataExists('users', array('username' => $username));
-				if ($this->UsersModel->dataExists('users', array('username' => $username)) === 0)
+				if ($this->UsersModel->dataExists('users', array('username' => $username)) === 1)
 				{
 					$userData = array(
 						'username' => $username,
