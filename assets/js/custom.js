@@ -35,27 +35,136 @@ $(document).ready(
 $(document).ready(function() {
     var id
 
-    $('#table_search').on('keyup', function() {
-        if ($('#table_search').val() !== '') {
+    $('#users_search').on('keyup', function() {
+        if ($('#users_search').val() !== '') {
             $.ajax({
-                url: '/users/search/' + $('#table_search').val(),
+                url: '/users/read/search/' + $('#users_search').val(),
                 success: function(result) {
-                    $("tbody[id^='user-data']").html(result)
+                    (result !== '!LOGIN' ? $('#users-data').html(result) : window.location = '/auth/logout')
                 }
             })
 
         } else {
             $.ajax({
-                url: '/users/search/',
+                url: '/users/read/',
                 success: function(result) {
-                    $('#user-data').html(result)
+                    (result !== '!LOGIN' ? $('#users-data').html(result) : window.location = '/auth/logout')
                 }
             })
         }
     })
 
+    $("button[id^='edit_user']").on('click', function(event) {
+        event.preventDefault()
+        id = this.id.replace('edit_user_','')
+        $.ajax({
+            url: '/users/read/read/'+id,
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("#add_user").on('click', function(event) {
+        event.preventDefault()
+        $.ajax({
+            url:'/users/add',
+            success : function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $('body').on('submit','#edit_form_user', function() {
+        // console.log(id)
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/users/edit/'+ id,
+            data: $('#edit_form_user').serialize(),
+            success: function(response){
+                if (response === '!LOGIN'){
+                    window.location = '/auth/logout'
+                }
+                else if(response === '/users'){
+                    window.location = '/users'
+                }
+                else{
+                    $('#error_form_user').fadeIn('slow', function() {
+                        $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; '+response+'</div>')
+                    })
+                }
+            }
+        })
+        return false
+    })
+
+    $('body').on('submit', '#add_form_user', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/users/add/'+$('#username_add').val(),
+            data: $('#add_form_user').serialize(),
+            success : function(response){
+                switch(response){
+                    case '!LOGIN': 
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/users'
+                        break
+                    case 'FALSE': 
+                        $('#error_form_user').fadeIn('slow', function() {
+                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR': 
+                        $('#error_form_user').fadeIn('slow', function() {
+                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $("button[id^='delete_user_']").click(function(event) {
+        id = this.id.replace('delete_user_','')
+        console.log(id)
+        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete User</h1></div><div id="error_delete_user"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus pengguna secara permanen.<br><strong>Hapus pengguna?</strong></h4></div></div> <div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_user"><i class="fa fa-save"></i> Save</button></div><div class="col-xs-6 push-left"> <button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
+    })
+
+    $('body').on('click', '#save_delete_user', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            url: '/users/delete/'+id,
+            success :function(response){
+                switch(response){
+                    case '!LOGIN': 
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/users'
+                        break
+                    case 'FALSE': 
+                        $('#error_delete_user').fadeIn('slow', function() {
+                            $("#error_delete_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR': 
+                        $('#error_delete_user').fadeIn('slow', function() {
+                            $("#error_delete_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
     $('body').on('click', '#show_password', function() {
-        ($("input[id^='password_']").attr('type') === 'password' ? $("input[id^='password_']").attr('type', 'text') && $('i').removeClass('fa-eye') && $('i').addClass('fa-eye-slash') : $("input[id^='password_']").attr('type', 'password') && $('i').removeClass('fa-eye-slash') && $('i').addClass('fa-eye'))
+        ($("input[id^='password_']").attr('type') === 'password' ? $("input[id^='password_']").attr('type', 'text') && $('#show_password_icon').removeClass('fa-eye-slash') && $('#show_password_icon').addClass('fa-eye') : $("input[id^='password_']").attr('type', 'password') && $('#show_password_icon').removeClass('fa-eye') && $('#show_password_icon').addClass('fa-eye-slash'))
     })
 })
 

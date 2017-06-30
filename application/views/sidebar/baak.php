@@ -2,23 +2,24 @@
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar">
     <!-- Sidebar user panel -->
-    <div class="user-panel">
+    <div class="user-panel" style="padding-top:20px;padding-bottom:20px;">
       <div class="pull-left image">
         <img src="/vendor/almasaeed2010/adminlte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+        <?php //echo '/assets/image/'.$this->session->id.'jpg'?>
       </div>
       <div class="pull-left info">
         <p style='padding-bottom:2px;'>
-          <?php echo $this->session->nama ?>
+          <?php echo $this->session->name ?>
         </p>
         <i class="fa fa-circle text-success"></i>
-        <?php echo $this->session->jabatan ?>
+        <?php echo $this->session->job ?>
       </div>
     </div>
     <!-- sidebar menu: : style can be found in sidebar.less -->
     <ul class="sidebar-menu">
-      <li class="header">USERS</li>
+      <li class="header">Main Sidebar</li>
       <li class="treeview">
-        <a href="/users"><i class="fa fa-users"></i><span>Dashboard</span></a>
+        <a href="/"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
       </li>
       <li class="header">SETTINGS</li>
       <li class="treeview">
@@ -28,13 +29,13 @@
           <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="/route_ring"><i class="fa fa-road"></i> Pengguna</a></li>
-          <li><a href="/privileges"><i class="fa fa-warning"></i> Mahasiswa</a></li>
-          <li><a href="/breeder"><i class="fa fa-envira"></i> Orang Tua Mahasiswa</a></li>
-          <li><a href="/tech_support"><i class="fa fa-wrench"></i> Dosen</a></li>
-          <li><a href="/breeder_score"><i class="fa fa-star"></i> Jurusan</a></li>
-          <li><a href="/contract"><i class="fa fa-money"></i> Mata Kuliah</a></li>
-          <li><a href="/std_production"><i class="fa fa-industry"></i> Uang Kuliah</a></li>
+          <li><a href="/users"><i class="fa fa-users"></i> Pengguna</a></li>
+          <li><a href="/mahasiswa"><i class="fa fa-graduation-cap"></i> Mahasiswa</a></li>
+          <li><a href="/orangtua"><i class="fa fa-envira"></i> Orang Tua Mahasiswa</a></li>
+          <li><a href="/dosen"><i class="fa fa-wrench"></i> Dosen</a></li>
+          <li><a href="/jurusan"><i class="fa fa-star"></i> Jurusan</a></li>
+          <li><a href="/matakuliah"><i class="fa fa-money"></i> Mata Kuliah</a></li>
+          <li><a href="/uangkuliah"><i class="fa fa-industry"></i> Uang Kuliah</a></li>
           <li>
             <a href="#"><i class="fa fa-truck"></i> Supplier
               <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
@@ -48,7 +49,7 @@
           <li><a href="/buyer"><i class="fa fa-shopping-cart"></i> Buyer</a></li>
         </ul>
       </li>
-      <li class="header">PRODUCTION</li>
+      <li class="header">Cetak</li>
     </ul>
     <!-- /.sidebar menu -->
   </section>

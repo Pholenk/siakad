@@ -17,16 +17,16 @@ class Main extends MX_Controller
 				case 'super_admin': 
                     $this->_show('baak');
                     break;
-                case 'baak': 
+                case 'BAAK': 
                     $this->_show('baak');
                     break;
-                case 'keuangan': 
+                case 'Keuangan': 
                     $this->_show('keuangan');
                     break;
-                case 'dosen': 
+                case 'Dosen': 
                     $this->_show('dosen');
                     break;
-                case 'mahasiswa': 
+                case 'Mahasiswa': 
                     $this->_show('mahasiswa');
                     break;
                 default:
