@@ -40,6 +40,6 @@
   <![endif]-->
 </head>
 
-<body class=" skin-red sidebar-mini fixed wysihtml5-supported">
+<body class=" skin-blue sidebar-mini fixed wysihtml5-supported">
   <!-- begin div-wrapper -->
   <div class="wrapper">

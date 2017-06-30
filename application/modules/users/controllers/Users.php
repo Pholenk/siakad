@@ -175,11 +175,11 @@ class Users extends MX_Controller
 					'fullname' => $this->input->post('fullname'),
 					'job' => $this->input->post('job'),
 				);
-				echo ($this->UsersModel->edit($username, $userData) === TRUE ? '/users' : 'Data gagal diubah!');
+				echo ($this->UsersModel->edit($username, $userData) === TRUE ? 'TRUE' : 'FALSE');
 			}
 			else
 			{
-				echo "Data tidak ditemukan!";
+				echo "ERROR!";
 			}
 			
 		}

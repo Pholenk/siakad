@@ -76,27 +76,32 @@ $(document).ready(function() {
     })
 
     $('body').on('submit','#edit_form_user', function() {
-        // console.log(id)
         $.ajax({
             cache: false,
             type: 'post',
             url: '/users/edit/'+ id,
             data: $('#edit_form_user').serialize(),
             success: function(response){
-                if (response === '!LOGIN'){
-                    window.location = '/auth/logout'
-                }
-                else if(response === '/users'){
-                    window.location = '/users'
-                }
-                else{
-                    $('#error_form_user').fadeIn('slow', function() {
-                        $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; '+response+'</div>')
-                    })
+                switch(response){
+                    case '!LOGIN': 
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/users'
+                        break
+                    case 'FALSE': 
+                        $('#error_form_user').fadeIn('slow', function() {
+                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR': 
+                        $('#error_form_user').fadeIn('slow', function() {
+                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="glyphicon glyphicon-info-sign"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
                 }
             }
         })
-        return false
     })
 
     $('body').on('submit', '#add_form_user', function(event) {
@@ -131,7 +136,6 @@ $(document).ready(function() {
 
     $("button[id^='delete_user_']").click(function(event) {
         id = this.id.replace('delete_user_','')
-        console.log(id)
         $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete User</h1></div><div id="error_delete_user"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus pengguna secara permanen.<br><strong>Hapus pengguna?</strong></h4></div></div> <div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_user"><i class="fa fa-save"></i> Save</button></div><div class="col-xs-6 push-left"> <button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
     })
 
