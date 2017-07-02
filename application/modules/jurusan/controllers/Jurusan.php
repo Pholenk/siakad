@@ -66,6 +66,7 @@ class Jurusan extends MX_Controller
 					</td>
 					</tr>
 					";
+					$i++;
 				}
 			}
 			elseif ($type === 'read')
@@ -119,6 +120,7 @@ class Jurusan extends MX_Controller
 					</td>
 					</tr>
 					";
+					$i++;
 				}
 			}
 		}
@@ -227,6 +229,7 @@ class Jurusan extends MX_Controller
 	}
 
 	/**
+	 * fix it
 	 * delete
 	 * delete user data by username
 	 * @param string username
