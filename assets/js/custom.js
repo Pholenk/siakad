@@ -26,6 +26,23 @@ $(document).ready(
     })
 )
 
+//===================//
+//  dataTables init  //
+//===================//
+$(document).ready(function() {
+    $('.table').DataTable({
+        paging: true,
+        searching: false,
+        ordering: false,
+        autowidth: false,
+        lengthChange: false,
+        info: false,
+    })
+    $('#table-mahasiswa').DataTable({
+        buttons: ['selectRows'],
+    })
+})
+
 //==============//
 //  users page  //
 //==============//
@@ -240,13 +257,13 @@ $(document).ready(function() {
                         window.location = '/jurusan'
                         break
                     case 'FALSE':
-                        $('#error_form_user').fadeIn('slow', function() {
-                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan jurusan baru!</div>')
+                        $('#error_form_jurusan').fadeIn('slow', function() {
+                            $("#error_form_jurusan").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan jurusan baru!</div>')
                         })
                         break
                     case 'ERROR':
-                        $('#error_form_user').fadeIn('slow', function() {
-                            $("#error_form_user").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        $('#error_form_jurusan').fadeIn('slow', function() {
+                            $("#error_form_jurusan").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Id Jurusan sudah ada!</div>')
                         })
                         break
                 }

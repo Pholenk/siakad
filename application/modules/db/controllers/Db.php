@@ -10,22 +10,24 @@ class Db extends MX_Controller
             exit('Direct access is not allowed. This is a command line tool, use the terminal');
         }
         $this->load->library('migration');
-	}
+    }
 
-	public function index()
+    function migrate()
     {
+        $message = NULL;
         $migrationStatus = $this->migration->latest();
-    	if($migrationStatus != 0)
+        if($migrationStatus != 0)
         {
-            echo ($this->_seeder() ? 'migrating & seeding success' : 'migrating & seeding not success');
+            $message = 'migrating success';
         }
         else
         {
-            show_error($this->migration->error_string());    		
-    	}
+            $message = $this->migration->error_string();
+        }
+        echo $message;
     }
 
-    private function _seeder()
+    function seed()
     {
         $usersData = array(
             'fullname' => 'super admin',
@@ -33,6 +35,7 @@ class Db extends MX_Controller
             'password' => '12345',
             'job' => 'super_admin',
         );
-        return ($this->db->insert('users',$usersData) ? TRUE : FALSE);
+        $message = ($this->db->insert('users',$usersData) ? 'seeding success' : 'seeding fail');
+        echo $message;
     }
 }

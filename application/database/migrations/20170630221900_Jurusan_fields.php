@@ -32,9 +32,11 @@ class Migration_Jurusan_fields extends CI_Migration
 			),
 			'edited_at' => array(
 				'type' => 'DATE',
+				'null' => TRUE,
 			),
 			'deleted_at' => array(
 				'type' => 'DATE',
+				'null' => TRUE,
 			),
 		);
 		$this->dbforge->add_field($jurusan_fields);
