@@ -16,7 +16,7 @@ class Migration_Orangtua_fields extends CI_Migration
 		 * create users table
 		 */
 		$orangtua_fields = array(
-			'id_orangtua' => array(
+			'nim' => array(
 				'type' => 'VARCHAR',
 				'constraint' => 50,
 				'null' => FALSE,
@@ -59,21 +59,8 @@ class Migration_Orangtua_fields extends CI_Migration
 				'constraint' => 4,
 				'null' => FALSE,
 			),
-			'created_at' => array(
-				'type' => 'DATE',
-				'null' => FALSE,
-			),
-			'edited_at' => array(
-				'type' => 'DATE',
-				'null' => TRUE,
-			),
-			'deleted_at' => array(
-				'type' => 'DATE',
-				'null' => TRUE,
-			),
 		);
 		$this->dbforge->add_field($orangtua_fields);
-		$this->dbforge->add_key('id_orangtua',TRUE);
 		$this->dbforge->create_table('orangtua',TRUE);
 	}
 
