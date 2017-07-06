@@ -37,9 +37,7 @@ $(document).ready(function() {
         autowidth: false,
         lengthChange: false,
         info: false,
-    })
-    $('#table-mahasiswa').DataTable({
-        buttons: ['selectRows'],
+        select: false,
     })
 })
 
@@ -329,4 +327,160 @@ $(document).ready(function() {
         })
     })
 
+})
+
+//==================//
+//  mahasiswa page  //
+//==================//
+$(document).ready(function() {
+
+  // mixed input and icheck
+  $("input[id^='mahasiswa_check_']").iCheck({
+    checkboxClass: 'icheckbox_flat-green'
+  })
+
+  // check all
+  $('body').on('checked','#mahasiswa_check_all',function() {
+    $("body[id^='mahasiswa_check_']").attr('checked', true)
+  })
+})
+
+//==============//
+//  dosen page  //
+//==============//
+$(document).ready(function() {
+    var id
+
+     $('#dosen_search').on('keyup', function() {
+        if ($('#dosen_search').val() !== '') {
+            $.ajax({
+                url: '/dosen/read/search/' + $('#dosen_search').val(),
+                success: function(result) {
+                    (result !== '!LOGIN' ? $('#dosen-data').html(result) : window.location = '/auth/logout')
+                }
+            })
+        } else {
+            $.ajax({
+                url: '/dosen/read/',
+                success: function(result) {
+                    (result !== '!LOGIN' ? $('#dosen-data').html(result) : window.location = '/auth/logout')
+                }
+            })
+        }
+    })
+
+    $("#add_dosen").on('click', function(event) {
+        event.preventDefault()
+        $.ajax({
+            url: '/dosen/add',
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='edit_dosen_']").on('click', function(event) {
+        event.preventDefault()
+        id = this.id.replace('edit_dosen_', '')
+        $.ajax({
+            url: '/dosen/read/read/' + id,
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='delete_dosen_']").click(function(event) {
+        event.preventDefault()
+        id = this.id.replace('delete_dosen_', '')
+        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete dosen</h1></div><div id="error_delete_user"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus dosen.<br><strong>Hapus dosen?</strong></h4></div></div><div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_dosen"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"><button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
+    })
+
+    $('body').on('submit', '#add_form_dosen', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/dosen/add/' + $('#iddosen_add').val(),
+            data: $('#add_form_dosen').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/dosen'
+                        break
+                    case 'FALSE':
+                        $('#error_form_dosen').fadeIn('slow', function() {
+                            $("#error_form_dosen").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan dosen baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_dosen').fadeIn('slow', function() {
+                            $("#error_form_dosen").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Id dosen sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('submit', '#edit_form_dosen', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/dosen/edit/' + id,
+            data: $('#edit_form_dosen').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/dosen'
+                        break
+                    case 'FALSE':
+                        $('#error_form_dosen').fadeIn('slow', function() {
+                            $("#error_form_dosen").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_dosen').fadeIn('slow', function() {
+                            $("#error_form_dosen").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('click', '#save_delete_dosen', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            url: '/dosen/delete/' + id,
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/dosen'
+                        break
+                    case 'FALSE':
+                        $('#error_delete_dosen').fadeIn('slow', function() {
+                            $("#error_delete_dosen").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_delete_dosen').fadeIn('slow', function() {
+                            $("#error_delete_dosen").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
 })

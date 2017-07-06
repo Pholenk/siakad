@@ -21,7 +21,7 @@
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="/vendor/almasaeed2010/adminlte/dist/css/skins/_all-skins.min.css">
   <!-- iCheck -->
-  <link rel="stylesheet" href="/vendor/almasaeed2010/adminlte/plugins/iCheck/flat/blue.css">
+  <link rel="stylesheet" href="/vendor/almasaeed2010/adminlte/plugins/iCheck/flat/green.css">
   <!-- Morris chart -->
   <link rel="stylesheet" href="/vendor/almasaeed2010/adminlte/plugins/morris/morris.css">
   <!-- jvectormap -->

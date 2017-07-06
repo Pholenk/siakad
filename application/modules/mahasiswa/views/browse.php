@@ -22,7 +22,7 @@
               <table class="table table-hover" id="table-mahasiswa" style="margin-top:1%;border:none;">
                 <thead>
                   <tr>
-                    <th id="col" style="text-align:center"></th>
+                    <th style="text-align:center"><input type="checkbox" id='mahasiswa_check_all'></th>
                     <th style="text-align:center">No</th>
                     <th style="text-align:center">ID</th>
                     <th style="text-align:center">Name</th>
@@ -32,6 +32,7 @@
                 <tbody id="mahasiswa-data">
                   <?php $i=1; foreach ($mahasiswas as $mahasiswa) { ?>
                   <tr>
+                    <td style="text-align:center"><input type="checkbox" id='mahasiswa_check_<?php echo $i ?>'></td>
                     <td style="text-align:center">
                       <?php echo $i; ?>
                     </td>

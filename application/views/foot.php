@@ -15,6 +15,8 @@ $.widget.bridge('uibutton', $.ui.button);
 <!-- dataTables js -->
 <script src="/vendor/almasaeed2010/adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="/vendor/almasaeed2010/adminlte/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<!-- iCheck js -->
+<script src="/vendor/almasaeed2010/adminlte/plugins/iCheck/icheck.min.js"></script>
 <!-- Morris.js charts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="/vendor/almasaeed2010/adminlte/plugins/morris/morris.min.js"></script>

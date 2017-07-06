@@ -21,11 +21,6 @@ class Migration_Mahasiswa_fields extends CI_Migration
 				'constraint' => 50,
 				'null' => FALSE,
 			),
-			'id_orangtua' => array(
-				'type' => 'VARCHAR',
-				'constraint' => 50,
-				'null' => FALSE,
-			),
 			'id_jurusan' => array(
 				'type' => 'VARCHAR',
 				'constraint' => 50,
@@ -77,6 +72,16 @@ class Migration_Mahasiswa_fields extends CI_Migration
 			'semester' => array(
 				'type' => 'ENUM("1","2","3","4","5","6","7","8","LULUS")',
 				'default' => '1',
+				'null' => FALSE,
+			),
+			'status' => array(
+				'type' => 'ENUM("aktif","cuti")',
+				'default' => 'aktif',
+				'null' => FALSE,
+			),
+			'spi' => array(
+				'type' => 'INT',
+				'constraint' => 150,
 				'null' => FALSE,
 			),
 			'created_at' => array(
