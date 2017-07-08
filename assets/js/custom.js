@@ -331,6 +331,7 @@ $(document).ready(function() {
 
 //==================//
 //  mahasiswa page  //
+// fix me //
 //==================//
 $(document).ready(function() {
 
@@ -363,7 +364,7 @@ $(document).ready(function() {
             $.ajax({
                 url: '/dosen/read/',
                 success: function(result) {
-                    (result !== '!LOGIN' ? $('#dosen-data').html(result) : window.location = '/auth/logout')
+                    php(result !== '!LOGIN' ? $('#dosen-data').html(result) : window.location = '/auth/logout')
                 }
             })
         }
@@ -393,7 +394,7 @@ $(document).ready(function() {
     $("button[id^='delete_dosen_']").click(function(event) {
         event.preventDefault()
         id = this.id.replace('delete_dosen_', '')
-        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete dosen</h1></div><div id="error_delete_user"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus dosen.<br><strong>Hapus dosen?</strong></h4></div></div><div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_dosen"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"><button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
+        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete dosen</h1></div><div id="error_delete_dosen"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus dosen.<br><strong>Hapus dosen?</strong></h4></div></div><div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_dosen"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"><button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
     })
 
     $('body').on('submit', '#add_form_dosen', function(event) {
