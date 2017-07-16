@@ -18,17 +18,17 @@ class Migration_Mahasiswa_fields extends CI_Migration
 		$mahasiswa_fields = array(
 			'nim' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 40,
 				'null' => FALSE,
 			),
 			'id_jurusan' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 40,
 				'null' => FALSE,
 			),
 			'id_uangkuliah' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 40,
 				'null' => FALSE,
 			),
 			'nama' => array(
@@ -51,37 +51,36 @@ class Migration_Mahasiswa_fields extends CI_Migration
 			),
 			'agama' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 35,
 				'null' => FALSE,
 			),
 			'kelas' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 4,
+				'constraint' => 5,
 				'null' => FALSE,
 			),
 			'alamat' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 100,
+				'constraint' => 200,
 				'null' => FALSE,
 			),
 			'email' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 150,
+				'constraint' => 100,
 				'null' => FALSE,
 			),
 			'semester' => array(
-				'type' => 'ENUM("1","2","3","4","5","6","7","8","LULUS")',
+				'type' => 'ENUM("0","1","2","3","4","5","6","7","8")',
 				'default' => '1',
 				'null' => FALSE,
 			),
 			'status' => array(
-				'type' => 'ENUM("aktif","cuti")',
-				'default' => 'aktif',
+				'type' => 'ENUM("1","0")',
+				'default' => '1',
 				'null' => FALSE,
 			),
 			'spi' => array(
 				'type' => 'INT',
-				'constraint' => 150,
 				'null' => FALSE,
 			),
 			'created_at' => array(
