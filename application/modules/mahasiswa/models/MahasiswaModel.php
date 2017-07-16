@@ -19,11 +19,11 @@ class MahasiswaModel extends CI_Model
 		if (empty($name))
 		{
 			$this->db->where('deleted_at is Null');
-			$query = $this->db->get('jurusan');
+			$query = $this->db->get('mahasiswa');
 		}
 		else
 		{
-			$this->db->select('*')->from('jurusan');
+			$this->db->select('*')->from('mahasiswa');
 			$this->db->where('deleted_at is Null');
 			$this->db->like('nama', $name);
 
@@ -36,11 +36,11 @@ class MahasiswaModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function read($id_jurusan)
+	public function read($nim)
 	{
-		$this->db->select('*')->from('jurusan');
-		$this->db->where('deleted_at is Null');
-		$this->db->where('id_jurusan', $id_jurusan);
+		$this->db->select('*')->from('mahasiswa');
+		$this->db->where('mahasiswa.deleted_at is Null');
+		$this->db->where('mahasiswa.nim', $nim);
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -48,27 +48,27 @@ class MahasiswaModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function edit($id_jurusan, $jurusanData)
+	public function edit($nim, $mahasiswaData)
 	{
-		$this->db->where('id_jurusan', $id_jurusan);
-		return($this->db->update('jurusan', $jurusanData) ? TRUE : FALSE);
+		$this->db->where('nim', $nim);
+		return($this->db->update('mahasiswa', $mahasiswaData) ? TRUE : FALSE);
 	}
 
 	/**
 	 * @inherit doc
 	 */
-	public function add($jurusanData)
+	public function add($mahasiswaData)
 	{
-		return ($this->db->insert('jurusan', $jurusanData) ? TRUE : FALSE);
+		return ($this->db->insert('mahasiswa', $mahasiswaData) ? TRUE : FALSE);
 	}
 
 	/**
 	 * @inherit doc
 	 */
-	public function delete($id_jurusan)
+	public function delete($nim)
 	{
-		$this->db->where('id_jurusan', $id_jurusan);
-		return($this->db->update('jurusan',array('deleted_at' => mdate('%Y-%m-%d', now()))) ? TRUE : FALSE);
+		$this->db->where('nim', $nim);
+		return($this->db->update('mahasiswa',array('deleted_at' => mdate('%Y-%m-%d', now()))) ? TRUE : FALSE);
 	}
 
 	/**

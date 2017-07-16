@@ -8,6 +8,7 @@ class Mahasiswa extends MX_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->module('jurusan','uangkuliah','users');
 		$this->load->model('MahasiswaModel');
 		$this->_access = $this->session->job;
 	}
@@ -72,6 +73,8 @@ class Mahasiswa extends MX_Controller
 			elseif ($type === 'read')
 			{
 				$mahasiswaData = $this->MahasiswaModel->read($data);
+				$jurusanData = $this->jurusan->getJurusan();
+
 				foreach ($mahasiswaData as $data)
 				{
 					echo "
@@ -79,16 +82,146 @@ class Mahasiswa extends MX_Controller
 					<h1 class='modal-title'>Edit Mahasiswa</h1>
 					</div>
 					<div id='error_form_mahasiswa'></div>
-					<form class='form-horizontal' method='post' id='edit_form_jurusan'>
+					<form class='form-horizontal' method='post' id='add_form_mahasiswa'>
 					<div class='modal-body'>
 					<div class='form-group'>
 					<label class='col-xs-4 control-label'>NIM</label>
 					<label class='col-xs-4 control-label'>".$data->nim."</label>
 					</div>
 					<div class='form-group'>
+					<label class='col-xs-4 control-label'>Status</label>
+					<div class='col-xs-7'>
+					<select name='Status' id='status_edit' class='form-control' required>".$data->nama."
+					<option>Aktif</option>
+					<option>Tidak</option>
+					</select>
+					</div>
+					</div>
+					<div class='form-group'>
 					<label class='col-xs-4 control-label'>Nama</label>
 					<div class='col-xs-7'>
 					<input name='nama' id='nama_edit' type='text' class='form-control' value='".$data->nama."' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Jurusan
+					</label>
+					<div class='col-xs-7'>
+					<select name='id_jurusan' id='id_jurusan_edit' type='text' class='form-control' required>";
+					foreach ($jurusanData as $jurusan)
+					{
+						echo "<option value=".$jurusan->id_jurusan."".($jurusan->id_jurusan === $data->id_jurusan ? ' selected>' : '>').$jurusan->nama."</option>";
+					}
+					echo "
+					</select>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Tempat Lahir
+					</label>
+					<div class='col-xs-7'>
+					<input name='tempat_lahir' id='tempat_lahir_edit' type='text' class='form-control' value='".$data->tempat_lahir."' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Tanggal Lahir
+					</label>
+					<div class='col-xs-7'>
+					<input name='tanggal_lahir' id='tanggal_lahir_edit' type='date' class='form-control' value='".mdate('%Y-%m-%d', strtotime($data->tanggal_lahir))."' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Jenis Kelamin
+					</label>
+					<div class='col-xs-7'>
+					<select name='jenis_kelamin' id='jenis_kelamin_edit' type='text' class='form-control' required>
+					<option value=1".($data->jenis_kelamin === '1' ? ' selected' : '').">Laki-Laki</option>
+                  	<option value=0".($data->jenis_kelamin === '0' ? ' selected' : '').">Perempuan</option>
+					</select>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Alamat
+					</label>
+					<div class='col-xs-7'>
+					<input name='alamat' id='alamat_edit' type='text' class='form-control' value='".$data->alamat."' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Agama
+					</label>
+					<div class='col-xs-7'>
+					<input name='agama' id='agama_edit' type='text' class='form-control' value='".$data->agama."' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Email
+					</label>
+					<div class='col-xs-7'>
+					<input name='email' id='email_edit' type='email' class='form-control' value='".$data->email."' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Kelas
+					</label>
+					<div class='col-xs-7'>
+					<input name='kelas' id='kelas_edit' type='text' class='form-control' value='".$data->kelas."' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Semester
+					</label>
+					<div class='col-xs-7'>
+					<select name='semester' id='semester_edit' type='text' class='form-control' required>".$data->semester."
+					<option".($data->semester === '1' ? ' selected' : '').">1</option>
+					<option".($data->semester === '2' ? ' selected' : '').">2</option>
+					<option".($data->semester === '3' ? ' selected' : '').">3</option>
+					<option".($data->semester === '4' ? ' selected' : '').">4</option>
+					<option".($data->semester === '5' ? ' selected' : '').">5</option>
+					<option".($data->semester === '6' ? ' selected' : '').">6</option>
+					<option".($data->semester === '7' ? ' selected' : '').">7</option>
+					<option".($data->semester === '8' ? ' selected' : '').">8</option>
+					<option".($data->semester === 'Lulus' ? ' selected' : '').">Lulus</option>
+					</select>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Tahun Masuk
+					</label>
+					<div class='col-xs-7'>
+					<input name='tahun_masuk' id='tahun_masuk_edit' type='number' min=0 step=1 class='form-control' value='".mdate('%Y',strtotime($data->tahun_masuk))."' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Uang Kuliah
+					</label>
+					<div class='col-xs-7'>
+					<select name='id_uangkuliah' id='id_uangkuliah_edit' type='text' class='form-control' required>";
+					// foreach ($uangKuliah as $ukt)
+					// {
+					// 	echo "<option value=".$ukt->id_uangkuliah."".($ukt->id_uangkuliah === $data->id_uangkuliah ? ' selected>' : '>').$ukt->nama."</option>";
+					// }
+					echo "
+					</select>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					SPI
+					</label>
+					<div class='col-xs-7'>
+					<input name='spi' id='spi_edit' type='number' min=0 step=1 class='form-control' value='".$data->spi."' required>
 					</div>
 					</div>
 					</div>
@@ -144,7 +277,19 @@ class Mahasiswa extends MX_Controller
 			if ($this->MahasiswaModel->dataExists('mahasiswa', array('nim' => $nim)) === 0)
 			{
 				$mahasiswaData = array(
+					'id_jurusan' => $this->input->post('id_jurusan'),
+					'id_uangkuliah' => $this->input->post('id_uangkuliah'),
 					'nama' => $this->input->post('nama'),
+					'tempat_lahir' => $this->input->post('tempat_lahir'),
+					'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+					'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+					'agama' => $this->input->post('agama'),
+					'kelas' => $this->input->post('kelas'),
+					'alamat' => $this->input->post('alamat'),
+					'email' => $this->input->post('email'),
+					'semester' => $this->input->post('semester'),
+					'status' => $this->input->post('status'),
+					'spi' => $this->input->post('spi'),
 					'edited_at' => mdate('%Y-%m-%d', now()),
 				);
 				echo ($this->MahasiswaModel->edit($nim, $mahasiswaData) === TRUE ? 'TRUE' : 'FALSE');
@@ -174,6 +319,8 @@ class Mahasiswa extends MX_Controller
 		{
 			if (empty($nim))
 			{
+				$jurusanData = $this->jurusan->getJurusan();
+				// $uangKuliah = $this->uangkuliah->getUangKuliah();
 				echo "
 					<div class='modal-header'>
 					<h1 class='modal-title'>Add Mahasiswa</h1>
@@ -193,6 +340,125 @@ class Mahasiswa extends MX_Controller
 					<input name='nama' id='nama_add' type='text' class='form-control' required>
 					</div>
 					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Jurusan
+					</label>
+					<div class='col-xs-7'>
+					<select name='id_jurusan' id='id_jurusan_add' type='text' class='form-control' required>
+					";
+					foreach ($jurusanData as $jurusan)
+					{
+						echo "<option value=".$jurusan->id_jurusan.">".$jurusan->nama."</option>";
+					}
+					echo "
+					</select>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Tempat Lahir
+					</label>
+					<div class='col-xs-7'>
+					<input name='tempat_lahir' id='tempat_lahir_add' type='text' class='form-control' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Tanggal Lahir
+					</label>
+					<div class='col-xs-7'>
+					<input name='tanggal_lahir' id='tanggal_lahir_add' type='date' value='".mdate('%Y-%m-%d', now())."' class='form-control' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Jenis Kelamin
+					</label>
+					<div class='col-xs-7'>
+					<select name='jenis_kelamin' id='jenis_kelamin_add' type='text' class='form-control' required>
+					<option value=1>Laki-Laki</option>
+                  	<option value=0>Perempuan</option>
+					</select>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Alamat
+					</label>
+					<div class='col-xs-7'>
+					<input name='alamat' id='alamat_add' type='text' class='form-control' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Agama
+					</label>
+					<div class='col-xs-7'>
+					<input name='agama' id='agama_add' type='text' class='form-control' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Email
+					</label>
+					<div class='col-xs-7'>
+					<input name='email' id='email_add' type='email' class='form-control' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Kelas
+					</label>
+					<div class='col-xs-7'>
+					<input name='kelas' id='kelas_add' type='text' class='form-control' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Semester
+					</label>
+					<div class='col-xs-7'>
+					<select name='semester' id='semester_add' type='text' class='form-control' required>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+					<option>5</option>
+					<option>6</option>
+					<option>7</option>
+					<option>8</option>
+					<option>Lulus</option>
+					</select>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Tahun Masuk
+					</label>
+					<div class='col-xs-7'>
+					<input name='tahun_masuk' id='tahun_masuk_add' type='number' value='".mdate('%Y', now())."' class='form-control' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					Uang Kuliah
+					</label>
+					<div class='col-xs-7'>
+					<select name='id_uangkuliah' id='id_uangkuliah_add' type='text' class='form-control' required>
+					<option>10000</option>
+					<option>20000</option>
+					</select>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>
+					SPI
+					</label>
+					<div class='col-xs-7'>
+					<input name='spi' id='spi_add' type='number' min=0 step=1 class='form-control' required>
+					</div>
+					</div>
 					</div>
 					<div class='modal-footer'>
 					<div class='col-xs-6'>
@@ -210,7 +476,6 @@ class Mahasiswa extends MX_Controller
 				{
 					$mahasiswaData = array(
 						'nim' => $nim,
-						'id_orangtua' => $this->input->post('id_orangtua'),
 						'id_jurusan' => $this->input->post('id_jurusan'),
 						'id_uangkuliah' => $this->input->post('id_uangkuliah'),
 						'nama' => $this->input->post('nama'),
@@ -220,7 +485,9 @@ class Mahasiswa extends MX_Controller
 						'agama' => $this->input->post('agama'),
 						'alamat' => $this->input->post('alamat'),
 						'email' => $this->input->post('email'),
+						'kelas' => $this->input->post('kelas'),
 						'semester' => $this->input->post('semester'),
+						'spi' => $this->input->post('spi'),
 						'created_at' => mdate('%Y-%m-%d', now()),
 					);
 					echo ($this->MahasiswaModel->add($mahasiswaData) === TRUE ? 'TRUE' : 'FALSE');
