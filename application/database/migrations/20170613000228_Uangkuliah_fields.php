@@ -22,8 +22,7 @@ class Migration_Uangkuliah_fields extends CI_Migration
 				'null' => FALSE,
 			),
 			'nominal' => array(
-				'type' => 'VARCHAR',
-				'constraint' => 255,
+				'type' => 'INT',
 				'null' => FALSE,
 			),
 			'created_at' => array(
