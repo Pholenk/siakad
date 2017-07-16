@@ -23,12 +23,12 @@ class Migration_Initialize_project extends CI_Migration
 			),
 			'fullname' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 255,
+				'constraint' => 150,
 				'null' => FALSE,
 			),
 			'username' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 255,
+				'constraint' => 100,
 				'null' => FALSE,
 			),
 			'password' => array(
@@ -38,7 +38,7 @@ class Migration_Initialize_project extends CI_Migration
 			),
 			'job' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 255,
+				'constraint' => 30,
 				'null' => FALSE,
 			),
 		);
