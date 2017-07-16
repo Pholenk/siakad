@@ -23,7 +23,7 @@ class Migration_Matakuliah_fields extends CI_Migration
 			),
 			'nama' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 255,
+				'constraint' => 80,
 				'null' => FALSE,
 			),
 			'sks' => array(
