@@ -18,7 +18,7 @@ class Migration_Orangtua_fields extends CI_Migration
 		$orangtua_fields = array(
 			'nim' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 40,
 				'null' => FALSE,
 			),
 			'nama' => array(
@@ -28,7 +28,7 @@ class Migration_Orangtua_fields extends CI_Migration
 			),
 			'alamat' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 100,
+				'constraint' => 200,
 				'null' => FALSE,
 			),
 			'tempat_lahir' => array(
@@ -40,23 +40,18 @@ class Migration_Orangtua_fields extends CI_Migration
 				'type' => 'DATE',
 				'null' => FALSE,
 			),
-			'jenis_kelamin' => array(
-				'type' => 'ENUM("1","0")',
-				'null' => FALSE,
-			),
 			'agama' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 35,
 				'null' => FALSE,
 			),
 			'email' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 150,
+				'constraint' => 100,
 				'null' => FALSE,
 			),
 			'telepon' => array(
-				'type' => 'VARCHAR',
-				'constraint' => 4,
+				'type' => 'INT',
 				'null' => FALSE,
 			),
 		);
