@@ -16,9 +16,9 @@ class Migration_Dosen_fields extends CI_Migration
 		 * create dosen table
 		 */
 		$dosen_fields = array(
-			'nidn' => array(
+			'id_dosen' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 40,
 				'null' => FALSE,
 			),
 			'nama' => array(
@@ -41,17 +41,25 @@ class Migration_Dosen_fields extends CI_Migration
 			),
 			'agama' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 35,
 				'null' => FALSE,
 			),
 			'alamat' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 100,
+				'constraint' => 200,
 				'null' => FALSE,
 			),
 			'email' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 150,
+				'constraint' => 100,
+				'null' => FALSE,
+			),
+			'telepon' => array(
+				'type' => 'INT',
+				'null' => FALSE,
+			),
+			'created_at' => array(
+				'type' => 'DATE',
 				'null' => FALSE,
 			),
 			'created_at' => array(
@@ -68,7 +76,7 @@ class Migration_Dosen_fields extends CI_Migration
 			),
 		);
 		$this->dbforge->add_field($dosen_fields);
-		$this->dbforge->add_key('nidn',TRUE);
+		$this->dbforge->add_key('id_dosen',TRUE);
 		$this->dbforge->create_table('dosen',TRUE);
 	}
 
