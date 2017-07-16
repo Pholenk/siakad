@@ -21,19 +21,19 @@ class Migration_Ajar_fields extends CI_Migration
 				'constraint' => 40,
 				'null' => FALSE,
 			),
-			'nidn' => array(
+			'id_dosen' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 40,
 				'null' => FALSE,
 			),
 			'id_matakuliah' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 40,
 				'null' => FALSE,
 			),
 			'kelas' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 10,
 				'null' => FALSE,
 			),
 		);
@@ -52,7 +52,7 @@ class Migration_Ajar_fields extends CI_Migration
 			),
 			'nim' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 40,
 				'null' => FALSE,
 			),
 			'nilai' => array(
@@ -62,6 +62,7 @@ class Migration_Ajar_fields extends CI_Migration
 		);
 		$this->dbforge->add_field($nilai_uts_fields);
 		$this->dbforge->create_table('nilai_uts',TRUE);
+		
 		/**
 		 * create nilai_uas table
 		 */
@@ -73,7 +74,7 @@ class Migration_Ajar_fields extends CI_Migration
 			),
 			'nim' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 40,
 				'null' => FALSE,
 			),
 			'nilai' => array(
@@ -83,6 +84,7 @@ class Migration_Ajar_fields extends CI_Migration
 		);
 		$this->dbforge->add_field($nilai_uas_fields);
 		$this->dbforge->create_table('nilai_uas',TRUE);
+		
 		/**
 		 * create nilai_lain table
 		 */
@@ -94,7 +96,7 @@ class Migration_Ajar_fields extends CI_Migration
 			),
 			'nim' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 50,
+				'constraint' => 40,
 				'null' => FALSE,
 			),
 			'pengambilan' => array(
