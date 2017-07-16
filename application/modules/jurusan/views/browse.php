@@ -40,7 +40,7 @@
                     <td style="text-align:center">
                       <?php echo $jurusan->nama; ?>
                     </td>
-                    <td style='text-align:center;'>
+                    <td style='text-align:center'>
                       <button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_jurusan_<?php echo $jurusan->id_jurusan ?>'><i class='fa fa-edit'></i> EDIT</button>
                       <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_jurusan_<?php echo $jurusan->id_jurusan ?>'><i class='fa fa-trash'></i> DELETE</button>
                     </td>

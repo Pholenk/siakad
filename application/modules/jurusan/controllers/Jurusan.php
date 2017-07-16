@@ -265,4 +265,21 @@ class Jurusan extends MX_Controller
 		$this->load->view($page, $data);
 		$this->load->view('foot');
 	}
+
+	/**
+	 * retrieve data from jurusan table to send its to another module
+	 * @return mixed jurusan
+	 */
+	public function getJurusan()
+	{
+		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		{
+			return $this->JurusanModel->browse();
+		}
+		else
+		{
+			echo "!LOGIN";
+			redirect(base_url('/auth/logout'));
+		}
+	}
 }
