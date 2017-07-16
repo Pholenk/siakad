@@ -21,9 +21,14 @@ class Migration_Jurusan_fields extends CI_Migration
 				'constraint' => 40,
 				'null' => FALSE,
 			),
+			'kode_jurusan' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 10,
+				'null' => FALSE,
+			),
 			'nama' => array(
 				'type' => 'VARCHAR',
-				'constraint' => 255,
+				'constraint' => 100,
 				'null' => FALSE,
 			),
 			'created_at' => array(
