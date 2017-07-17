@@ -25,7 +25,7 @@ class Mahasiswa extends MX_Controller
 	 */
 	public function browse()
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			$data = array(
 				'mahasiswas' =>  $this->MahasiswaModel->browse(),
@@ -48,7 +48,7 @@ class Mahasiswa extends MX_Controller
 	 */
 	public function read($type = '', $data = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			$i = 1;
 			if ($type === 'search')
@@ -272,7 +272,7 @@ class Mahasiswa extends MX_Controller
 	 */
 	public function edit($nim)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if ($this->MahasiswaModel->dataExists('mahasiswa', array('nim' => $nim)) === 0)
 			{
@@ -315,7 +315,7 @@ class Mahasiswa extends MX_Controller
 	 */
 	public function add($nim = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if (empty($nim))
 			{
@@ -513,7 +513,7 @@ class Mahasiswa extends MX_Controller
 	 */
 	public function delete($nim)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if ($this->MahasiswaModel->dataExists('mahasiswa', array('nim' => $nim)) === 1)
 			{

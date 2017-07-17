@@ -14,9 +14,6 @@ class Main extends MX_Controller
 		{
 			switch ($this->session->job)
 			{
-				case 'super_admin': 
-                    $this->_show('baak');
-                    break;
                 case 'BAAK': 
                     $this->_show('baak');
                     break;

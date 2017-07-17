@@ -14,7 +14,17 @@ class Matakuliah extends MX_Controller
 
 	public function index()
 	{
-		$this->browse();
+		if ($this->_access === 'BAAK')
+		{
+			$data = array(
+				'matakuliahs' => $this->browse(),
+			);
+			$this->_show('browse', $data);
+		}		
+		else
+		{
+			redirect(base_url('/auth/logout'));
+		}
 	}
 
 	/**
@@ -24,18 +34,7 @@ class Matakuliah extends MX_Controller
 	 */
 	public function browse()
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
-		{
-			$data = array(
-				'matakuliahs' =>  $this->MatakuliahModel->browse(),
-			);
-			$this->_show('browse', $data);
-		}		
-		else
-		{
-			redirect(base_url('/auth/logout'));
-		}
-		
+		return $this->MatakuliahModel->browse();
 	}
 
 	/**
@@ -47,7 +46,7 @@ class Matakuliah extends MX_Controller
 	 */
 	public function read($type = '', $data = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			$i = 1;
 			if ($type === 'search')
@@ -155,7 +154,7 @@ class Matakuliah extends MX_Controller
 	 */
 	public function edit($id_matakuliah)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if ($this->MatakuliahModel->dataExists('matakuliah', array('id_matakuliah' => $id_matakuliah)) === 0)
 			{
@@ -188,7 +187,7 @@ class Matakuliah extends MX_Controller
 	 */
 	public function add($id_matakuliah = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if (empty($id_matakuliah))
 			{
@@ -268,7 +267,7 @@ class Matakuliah extends MX_Controller
 	 */
 	public function delete($id_matakuliah)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if ($this->MatakuliahModel->dataExists('matakuliah', array('id_matakuliah' => $id_matakuliah)) === 1)
 			{

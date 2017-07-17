@@ -24,7 +24,7 @@ class Uangkuliah extends MX_Controller
 	 */
 	public function browse()
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			$data = array(
 				'uangkuliahs' =>  $this->uangkuliahModel->browse(),
@@ -47,7 +47,7 @@ class Uangkuliah extends MX_Controller
 	 */
 	public function read($type = '', $data = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			$i = 1;
 			if ($type === 'search')
@@ -155,7 +155,7 @@ class Uangkuliah extends MX_Controller
 	 */
 	public function edit($id_uangkuliah)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if ($this->uangkuliahModel->dataExists('uangkuliah', array('id_uangkuliah' => $id_uangkuliah)) === 0)
 			{
@@ -188,7 +188,7 @@ class Uangkuliah extends MX_Controller
 	 */
 	public function add($id_uangkuliah = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if (empty($id_uangkuliah))
 			{
@@ -268,7 +268,7 @@ class Uangkuliah extends MX_Controller
 	 */
 	public function delete($id_uangkuliah)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if ($this->uangkuliahModel->dataExists('uangkuliah', array('id_uangkuliah' => $id_uangkuliah)) === 1)
 			{

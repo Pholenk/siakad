@@ -24,7 +24,7 @@ class Jurusan extends MX_Controller
 	 */
 	public function browse()
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			$data = array(
 				'jurusans' =>  $this->JurusanModel->browse(),
@@ -47,7 +47,7 @@ class Jurusan extends MX_Controller
 	 */
 	public function read($type = '', $data = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			$i = 1;
 			if ($type === 'search')
@@ -139,7 +139,7 @@ class Jurusan extends MX_Controller
 	 */
 	public function edit($id_jurusan)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if ($this->JurusanModel->dataExists('jurusan', array('id_jurusan' => $id_jurusan)) === 0)
 			{
@@ -170,7 +170,7 @@ class Jurusan extends MX_Controller
 	 */
 	public function add($id_jurusan = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if (empty($id_jurusan))
 			{
@@ -236,7 +236,7 @@ class Jurusan extends MX_Controller
 	 */
 	public function delete($id_jurusan)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if ($this->JurusanModel->dataExists('jurusan', array('id_jurusan' => $id_jurusan)) === 1)
 			{
@@ -272,7 +272,7 @@ class Jurusan extends MX_Controller
 	 */
 	public function getJurusan()
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			return $this->JurusanModel->browse();
 		}

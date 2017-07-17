@@ -24,7 +24,7 @@ class Users extends MX_Controller
 	 */
 	public function browse()
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			$data = array(
 				'users' =>  $this->UsersModel->browse(),
@@ -47,7 +47,7 @@ class Users extends MX_Controller
 	 */
 	public function read($type = '', $data = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			$i = 1;
 			if ($type === 'search')
@@ -166,7 +166,7 @@ class Users extends MX_Controller
 	 */
 	public function edit($username)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if ($this->UsersModel->dataExists('users', array('username' => $username)) === 1)
 			{
@@ -191,14 +191,14 @@ class Users extends MX_Controller
 	}
 
 	/**
-	 * add
-	 * add new data of user
+	 * add front-end
+	 * show the front-end when direct accessed by user
 	 * @param string username
 	 * @return mixed
 	 */
 	public function add($username = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if (empty($username))
 			{
@@ -253,22 +253,14 @@ class Users extends MX_Controller
 					</form>";
 			}
 			else
-			{
-				// echo $this->UsersModel->dataExists('users', array('username' => $username));
-				if ($this->UsersModel->dataExists('users', array('username' => $username)) === 1)
-				{
-					$userData = array(
-						'username' => $username,
-						'fullname' => $this->input->post('fullname'),
-						'password' => $this->input->post('password'),
-						'job' => $this->input->post('job'),
-					);
-					echo ($this->UsersModel->add($userData) === TRUE ? 'TRUE' : 'FALSE');
-				}
-				else
-				{
-					echo "ERROR";
-				}
+			{				
+				$userData = array(
+					'username' => $username,
+					'fullname' => $this->input->post('fullname'),
+					'password' => $this->input->post('password'),
+					'job' => $this->input->post('job'),
+				);
+				echo $this->_add($userData);
 			}
 		}
 		else
@@ -279,13 +271,34 @@ class Users extends MX_Controller
 	}
 
 	/**
+	 * inserting new data of user to the persistence storage
+	 * this function can used by another module such as dosen module or mahasiswa module
+	 * @param string data
+	 * @return string
+	 */
+	public function _add($data)
+	{
+		$status = "FALSE";
+
+		if ($this->UsersModel->dataExists('users', array('username' => $data['username'])) === 0)
+		{
+			$status = ($this->UsersModel->add($data) === TRUE ? 'TRUE' : 'FALSE');
+		}
+		else
+		{
+			$status = "ERROR";
+		}
+		return $status;
+	}
+
+	/**
 	 * delete
 	 * delete user data by username
 	 * @param string username
 	 */
 	public function delete($username)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if ($this->UsersModel->dataExists('users', array('username' => $username)) === 1)
 			{
