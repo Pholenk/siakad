@@ -8,14 +8,26 @@ class Mahasiswa extends MX_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->module('jurusan','uangkuliah','users');
+		$this->load->module('jurusan');
+		$this->load->module('users');
+		$this->load->module('uangkuliah');
 		$this->load->model('MahasiswaModel');
 		$this->_access = $this->session->job;
 	}
 
 	public function index()
 	{
-		$this->browse();
+		if ($this->_access === 'BAAK')
+		{
+			$data = array(
+				'mahasiswas' =>  $this->browse(),
+			);
+			$this->_show('browse', $data);
+		}		
+		else
+		{
+			redirect(base_url('/auth/logout'));
+		}
 	}
 
 	/**
@@ -27,13 +39,11 @@ class Mahasiswa extends MX_Controller
 	{
 		if ($this->_access === 'BAAK')
 		{
-			$data = array(
-				'mahasiswas' =>  $this->MahasiswaModel->browse(),
-			);
-			$this->_show('browse', $data);
+			return $this->MahasiswaModel->browse();
 		}		
 		else
 		{
+			echo "!LOGIN";
 			redirect(base_url('/auth/logout'));
 		}
 		
