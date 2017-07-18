@@ -29,17 +29,24 @@ $(document).ready(
 //===================//
 //  dataTables init  //
 //===================//
-$(document).ready(function() {
-    $('.table').DataTable({
-        paging: true,
-        searching: false,
-        ordering: false,
-        autowidth: false,
-        lengthChange: false,
-        info: false,
-        select: false,
-    })
-})
+// $(document).ready(function() {
+//     $('.table').DataTable({
+//         columnDefs: [{
+//         className: 'select-checkbox',
+//         targets: 0,
+//       }],
+//         paging: true,
+//         searching: false,
+//         ordering: false,
+//         autowidth: false,
+//         lengthChange: false,
+//         info: false,
+//         select: {
+//             style: 'os',
+//             selector: 'td:first-child',
+//         },
+//     })
+// })
 
 //==============//
 //  users page  //
@@ -335,15 +342,150 @@ $(document).ready(function() {
 //==================//
 $(document).ready(function() {
 
-  // mixed input and icheck
-  $("input[id^='mahasiswa_check_']").iCheck({
-    checkboxClass: 'icheckbox_flat-green'
-  })
+  // // mixed input and icheck
+  // $("input[name^='mahasiswa_check_']").iCheck({
+  //   checkboxClass: 'icheckbox_flat-green'
+  // })
 
-  // check all
-  $('body').on('checked','#mahasiswa_check_all',function() {
-    $("body[id^='mahasiswa_check_']").attr('checked', true)
-  })
+  // // check all
+  // $("input[name=mahasiswa_check_all]").on('ifClicked', function(){
+  //   $("input[name^='mahasiswa_check_']").iCheck('toggle')
+  // })
+
+    var id
+
+     $('#mahasiswa_search').on('keyup', function() {
+        if ($('#mahasiswa_search').val() !== '') {
+            $.ajax({
+                url: '/mahasiswa/read/search/' + $('#mahasiswa_search').val(),
+                success: function(result) {
+                    (result !== '!LOGIN' ? $('#mahasiswa-data').html(result) : window.location = '/auth/logout')
+                }
+            })
+        } else {
+            $.ajax({
+                url: '/mahasiswa/read/',
+                success: function(result) {
+                    php(result !== '!LOGIN' ? $('#mahasiswa-data').html(result) : window.location = '/auth/logout')
+                }
+            })
+        }
+    })
+
+    $("#add_mahasiswa").on('click', function(event) {
+        event.preventDefault()
+        $.ajax({
+            url: '/mahasiswa/add',
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='edit_mahasiswa_']").on('click', function(event) {
+        event.preventDefault()
+        id = this.id.replace('edit_mahasiswa_', '')
+        $.ajax({
+            url: '/mahasiswa/read/read/' + id,
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='delete_mahasiswa_']").click(function(event) {
+        event.preventDefault()
+        id = this.id.replace('delete_mahasiswa_', '')
+        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete mahasiswa</h1></div><div id="error_delete_mahasiswa"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus mahasiswa.<br><strong>Hapus mahasiswa?</strong></h4></div></div><div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_mahasiswa"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"><button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
+    })
+
+    $('body').on('submit', '#add_form_mahasiswa', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/mahasiswa/add/' + $('#nim_add').val(),
+            data: $('#add_form_mahasiswa').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/mahasiswa'
+                        break
+                    case 'FALSE':
+                        $('#error_form_mahasiswa').fadeIn('slow', function() {
+                            $("#error_form_mahasiswa").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan mahasiswa baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_mahasiswa').fadeIn('slow', function() {
+                            $("#error_form_mahasiswa").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Id mahasiswa sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('submit', '#edit_form_mahasiswa', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/mahasiswa/edit/' + id,
+            data: $('#edit_form_mahasiswa').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/mahasiswa'
+                        break
+                    case 'FALSE':
+                        $('#error_form_mahasiswa').fadeIn('slow', function() {
+                            $("#error_form_mahasiswa").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_mahasiswa').fadeIn('slow', function() {
+                            $("#error_form_mahasiswa").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('click', '#save_delete_mahasiswa', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            url: '/mahasiswa/delete/' + id,
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/mahasiswa'
+                        break
+                    case 'FALSE':
+                        $('#error_delete_mahasiswa').fadeIn('slow', function() {
+                            $("#error_delete_mahasiswa").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_delete_mahasiswa').fadeIn('slow', function() {
+                            $("#error_delete_mahasiswa").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })  
 })
 
 //==============//
@@ -402,7 +544,7 @@ $(document).ready(function() {
         $.ajax({
             cache: false,
             type: 'post',
-            url: '/dosen/add/' + $('#iddosen_add').val(),
+            url: '/dosen/add/' + $('#id_dosen_add').val(),
             data: $('#add_form_dosen').serialize(),
             success: function(response) {
                 switch (response) {
@@ -478,6 +620,426 @@ $(document).ready(function() {
                     case 'ERROR':
                         $('#error_delete_dosen').fadeIn('slow', function() {
                             $("#error_delete_dosen").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+})
+
+//===================//
+//  matakuliah page  //
+//===================//
+$(document).ready(function() {
+    var id
+
+     $('#matakuliah_search').on('keyup', function() {
+        if ($('#matakuliah_search').val() !== '') {
+            $.ajax({
+                url: '/matakuliah/read/search/' + $('#matakuliah_search').val(),
+                success: function(result) {
+                    (result !== '!LOGIN' ? $('#matakuliah-data').html(result) : window.location = '/auth/logout')
+                }
+            })
+        } else {
+            $.ajax({
+                url: '/matakuliah/read/',
+                success: function(result) {
+                    php(result !== '!LOGIN' ? $('#matakuliah-data').html(result) : window.location = '/auth/logout')
+                }
+            })
+        }
+    })
+
+    $("#add_matakuliah").on('click', function(event) {
+        event.preventDefault()
+        $.ajax({
+            url: '/matakuliah/add',
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='edit_matakuliah_']").on('click', function(event) {
+        event.preventDefault()
+        id = this.id.replace('edit_matakuliah_', '')
+        $.ajax({
+            url: '/matakuliah/read/read/' + id,
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='delete_matakuliah_']").click(function(event) {
+        event.preventDefault()
+        id = this.id.replace('delete_matakuliah_', '')
+        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete matakuliah</h1></div><div id="error_delete_matakuliah"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus matakuliah.<br><strong>Hapus matakuliah?</strong></h4></div></div><div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_matakuliah"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"><button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
+    })
+
+    $('body').on('submit', '#add_form_matakuliah', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/matakuliah/add/' + $('#idmatakuliah_add').val(),
+            data: $('#add_form_matakuliah').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/matakuliah'
+                        break
+                    case 'FALSE':
+                        $('#error_form_matakuliah').fadeIn('slow', function() {
+                            $("#error_form_matakuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan matakuliah baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_matakuliah').fadeIn('slow', function() {
+                            $("#error_form_matakuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Id matakuliah sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('submit', '#edit_form_matakuliah', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/matakuliah/edit/' + id,
+            data: $('#edit_form_matakuliah').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/matakuliah'
+                        break
+                    case 'FALSE':
+                        $('#error_form_matakuliah').fadeIn('slow', function() {
+                            $("#error_form_matakuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_matakuliah').fadeIn('slow', function() {
+                            $("#error_form_matakuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('click', '#save_delete_matakuliah', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            url: '/matakuliah/delete/' + id,
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/matakuliah'
+                        break
+                    case 'FALSE':
+                        $('#error_delete_matakuliah').fadeIn('slow', function() {
+                            $("#error_delete_matakuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_delete_matakuliah').fadeIn('slow', function() {
+                            $("#error_delete_matakuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+})
+
+//===================//
+//  ajar page  //
+//===================//
+$(document).ready(function() {
+    var id
+
+     $('#ajar_search').on('keyup', function() {
+        if ($('#ajar_search').val() !== '') {
+            $.ajax({
+                url: '/ajar/read/search/' + $('#ajar_search').val(),
+                success: function(result) {
+                    (result !== '!LOGIN' ? $('#ajar-data').html(result) : window.location = '/auth/logout')
+                }
+            })
+        } else {
+            $.ajax({
+                url: '/ajar/read/',
+                success: function(result) {
+                    php(result !== '!LOGIN' ? $('#ajar-data').html(result) : window.location = '/auth/logout')
+                }
+            })
+        }
+    })
+
+    $("#add_ajar").on('click', function(event) {
+        event.preventDefault()
+        $.ajax({
+            url: '/ajar/add',
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='edit_ajar_']").on('click', function(event) {
+        event.preventDefault()
+        id = this.id.replace('edit_ajar_', '')
+        $.ajax({
+            url: '/ajar/read/read/' + id,
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='delete_ajar_']").click(function(event) {
+        event.preventDefault()
+        id = this.id.replace('delete_ajar_', '')
+        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete ajar</h1></div><div id="error_delete_ajar"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus ajar.<br><strong>Hapus ajar?</strong></h4></div></div><div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_ajar"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"><button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
+    })
+
+    $('body').on('submit', '#add_form_ajar', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/ajar/add/' + $('#idajar_add').val(),
+            data: $('#add_form_ajar').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/ajar'
+                        break
+                    case 'FALSE':
+                        $('#error_form_ajar').fadeIn('slow', function() {
+                            $("#error_form_ajar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan ajar baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_ajar').fadeIn('slow', function() {
+                            $("#error_form_ajar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Id ajar sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('submit', '#edit_form_ajar', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/ajar/edit/' + id,
+            data: $('#edit_form_ajar').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/ajar'
+                        break
+                    case 'FALSE':
+                        $('#error_form_ajar').fadeIn('slow', function() {
+                            $("#error_form_ajar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_ajar').fadeIn('slow', function() {
+                            $("#error_form_ajar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('click', '#save_delete_ajar', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            url: '/ajar/delete/' + id,
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/ajar'
+                        break
+                    case 'FALSE':
+                        $('#error_delete_ajar').fadeIn('slow', function() {
+                            $("#error_delete_ajar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_delete_ajar').fadeIn('slow', function() {
+                            $("#error_delete_ajar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+})
+
+//===================//
+//  uangkuliah page  //
+//===================//
+$(document).ready(function() {
+    var id
+
+     $('#uangkuliah_search').on('keyup', function() {
+        if ($('#uangkuliah_search').val() !== '') {
+            $.ajax({
+                url: '/uangkuliah/read/search/' + $('#uangkuliah_search').val(),
+                success: function(result) {
+                    (result !== '!LOGIN' ? $('#uangkuliah-data').html(result) : window.location = '/auth/logout')
+                }
+            })
+        } else {
+            $.ajax({
+                url: '/uangkuliah/read/',
+                success: function(result) {
+                    php(result !== '!LOGIN' ? $('#uangkuliah-data').html(result) : window.location = '/auth/logout')
+                }
+            })
+        }
+    })
+
+    $("#add_uangkuliah").on('click', function(event) {
+        event.preventDefault()
+        $.ajax({
+            url: '/uangkuliah/add',
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='edit_uangkuliah_']").on('click', function(event) {
+        event.preventDefault()
+        id = this.id.replace('edit_uangkuliah_', '')
+        $.ajax({
+            url: '/uangkuliah/read/read/' + id,
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='delete_uangkuliah_']").click(function(event) {
+        event.preventDefault()
+        id = this.id.replace('delete_uangkuliah_', '')
+        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete uangkuliah</h1></div><div id="error_delete_uangkuliah"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus uangkuliah.<br><strong>Hapus uangkuliah?</strong></h4></div></div><div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_uangkuliah"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"><button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
+    })
+
+    $('body').on('submit', '#add_form_uangkuliah', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/uangkuliah/add/' + $('#iduangkuliah_add').val(),
+            data: $('#add_form_uangkuliah').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/uangkuliah'
+                        break
+                    case 'FALSE':
+                        $('#error_form_uangkuliah').fadeIn('slow', function() {
+                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan uangkuliah baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_uangkuliah').fadeIn('slow', function() {
+                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Id uangkuliah sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('submit', '#edit_form_uangkuliah', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/uangkuliah/edit/' + id,
+            data: $('#edit_form_uangkuliah').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/uangkuliah'
+                        break
+                    case 'FALSE':
+                        $('#error_form_uangkuliah').fadeIn('slow', function() {
+                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_uangkuliah').fadeIn('slow', function() {
+                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('click', '#save_delete_uangkuliah', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            url: '/uangkuliah/delete/' + id,
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/uangkuliah'
+                        break
+                    case 'FALSE':
+                        $('#error_delete_uangkuliah').fadeIn('slow', function() {
+                            $("#error_delete_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_delete_uangkuliah').fadeIn('slow', function() {
+                            $("#error_delete_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
                         })
                         break
                 }
