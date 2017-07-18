@@ -36,11 +36,11 @@ class DosenModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function read($nidn)
+	public function read($id_dosen)
 	{
 		$this->db->select('*')->from('dosen');
 		$this->db->where('deleted_at is Null');
-		$this->db->where('nidn', $nidn);
+		$this->db->where('id_dosen', $id_dosen);
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -48,9 +48,9 @@ class DosenModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function edit($nidn, $dosenData)
+	public function edit($id_dosen, $dosenData)
 	{
-		$this->db->where('nidn', $nidn);
+		$this->db->where('id_dosen', $id_dosen);
 		return($this->db->update('dosen', $dosenData) ? TRUE : FALSE);
 	}
 
@@ -65,9 +65,9 @@ class DosenModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function delete($nidn)
+	public function delete($id_dosen)
 	{
-		$this->db->where('nidn', $nidn);
+		$this->db->where('id_dosen', $id_dosen);
 		return($this->db->update('dosen',array('deleted_at' => mdate('%Y-%m-%d', now()))) ? TRUE : FALSE);
 	}
 
