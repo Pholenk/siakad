@@ -14,7 +14,17 @@ class Jurusan extends MX_Controller
 
 	public function index()
 	{
-		$this->browse();
+		if ($this->_access === 'BAAK')
+		{
+			$data = array(
+				'jurusans' => $this->browse(),
+			);
+			$this->_show('browse', $data);
+		}		
+		else
+		{
+			redirect(base_url('/auth/logout'));
+		}
 	}
 
 	/**
@@ -26,16 +36,13 @@ class Jurusan extends MX_Controller
 	{
 		if ($this->_access === 'BAAK')
 		{
-			$data = array(
-				'jurusans' =>  $this->JurusanModel->browse(),
-			);
-			$this->_show('browse', $data);
-		}		
+			return $this->JurusanModel->browse();
+		}
 		else
 		{
+			echo "!LOGIN";
 			redirect(base_url('/auth/logout'));
 		}
-		
 	}
 
 	/**
@@ -272,14 +279,5 @@ class Jurusan extends MX_Controller
 	 */
 	public function getJurusan()
 	{
-		if ($this->_access === 'BAAK')
-		{
-			return $this->JurusanModel->browse();
-		}
-		else
-		{
-			echo "!LOGIN";
-			redirect(base_url('/auth/logout'));
-		}
 	}
 }
