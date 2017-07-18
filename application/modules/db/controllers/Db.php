@@ -30,10 +30,10 @@ class Db extends MX_Controller
     function seed()
     {
         $usersData = array(
-            'fullname' => 'super admin',
+            'fullname' => 'BAAK',
         	'username' => 'super@admin',
             'password' => '12345',
-            'job' => 'super_admin',
+            'job' => 'BAAK',
         );
         $message = ($this->db->insert('users',$usersData) ? 'seeding success' : 'seeding fail');
         echo $message;
