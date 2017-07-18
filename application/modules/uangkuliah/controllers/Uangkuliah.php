@@ -14,7 +14,18 @@ class Uangkuliah extends MX_Controller
 
 	public function index()
 	{
-		$this->browse();
+		if ($this->_access === 'BAAK')
+		{
+			$data = array(
+				'uangkuliahs' => $this->browse(),
+			);
+			$this->_show('browse', $data);
+		}
+		else
+		{
+			echo "!LOGIN";
+			redirect(base_url('/auth/logout'));
+		}
 	}
 
 	/**
@@ -26,16 +37,13 @@ class Uangkuliah extends MX_Controller
 	{
 		if ($this->_access === 'BAAK')
 		{
-			$data = array(
-				'uangkuliahs' =>  $this->uangkuliahModel->browse(),
-			);
-			$this->_show('browse', $data);
-		}		
+			return $this->uangkuliahModel->browse();
+		}
 		else
 		{
+			echo "!LOGIN";
 			redirect(base_url('/auth/logout'));
 		}
-		
 	}
 
 	/**
@@ -59,9 +67,9 @@ class Uangkuliah extends MX_Controller
 					<tr id='edit_source_".$data->id_uangkuliah."'>
 					<td style='text-align:center;'>".$i."</td>
 					<td style='text-align:center;'>".$data->id_uangkuliah."</td>
-					<td style='text-align:center;'>".$data->nama."</td>
-					<td style='text-align:center;'>".$data->sks."</td>
-					<td style='text-align:center;'>".$data->semester."</td>
+					<td style='text-align:center;'>".$data->nominal."</td>
+					<td style='text-align:center;'>".$data->tgl_buka."</td>
+					<td style='text-align:center;'>".$data->tgl_tutup."</td>
 					<td style='text-align:center;'>
 					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_uangkuliah_".$data->id_uangkuliah."'><i class='fa fa-edit'></i> EDIT</button>
 					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_uangkuliah_".$data->id_uangkuliah."'><i class='fa fa-trash'></i> DELETE</button>
@@ -88,21 +96,21 @@ class Uangkuliah extends MX_Controller
 					<label class='col-xs-4 control-label'>".$data->id_uangkuliah."</label>
 					</div>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Nama</label>
+					<label class='col-xs-4 control-label'>nominal</label>
 					<div class='col-xs-7'>
-					<input name='namauangkuliah' id='namauangkuliah_edit' type='text' class='form-control' value='".$data->nama."' required>
+					<input name='nominaluangkuliah' id='nominaluangkuliah_edit' type='text' class='form-control' value='".$data->nominal."' required>
 					</div>
 					</div>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Jumlah SKS</label>
+					<label class='col-xs-4 control-label'>Tanggal Buka</label>
 					<div class='col-xs-7'>
-					<input name='sks' id='sks_edit' type='text' class='form-control' value='".$data->sks."' required>
+					<input name='tgl_buka' id='tgl_buka_add' type='date' value='".mdate('%Y-%m-%d', strtotime($data->tgl_buka))."' class='form-control' required>
 					</div>
 					</div>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Semester</label>
+					<label class='col-xs-4 control-label'>Tanggal Tutup</label>
 					<div class='col-xs-7'>
-					<input name='semester' id='semester_edit' type='text' class='form-control' value='".$data->semester."' required>
+					<input name='tgl_tutup' id='tgl_tutup_add' type='date' value='".mdate('%Y-%m-%d', strtotime($data->tgl_tutup))."' class='form-control' required>
 					</div>
 					</div>
 					</div>
@@ -127,9 +135,9 @@ class Uangkuliah extends MX_Controller
 					<tr id='edit_source_".$data->id_uangkuliah."'>
 					<td style='text-align:center;'>".$i."</td>
 					<td style='text-align:center;'>".$data->id_uangkuliah."</td>
-					<td style='text-align:center;'>".$data->nama."</td>
-					<td style='text-align:center;'>".$data->sks."</td>
-					<td style='text-align:center;'>".$data->semester."</td>
+					<td style='text-align:center;'>".$data->nominal."</td>
+					<td style='text-align:center;'>".$data->tgl_buka."</td>
+					<td style='text-align:center;'>".$data->tgl_tutup."</td>
 					<td style='text-align:center;'>
 					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_uangkuliah_".$data->id_uangkuliah."'><i class='fa fa-edit'></i> EDIT</button>
 					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_uangkuliah_".$data->id_uangkuliah."'><i class='fa fa-trash'></i> DELETE</button>
@@ -160,18 +168,17 @@ class Uangkuliah extends MX_Controller
 			if ($this->uangkuliahModel->dataExists('uangkuliah', array('id_uangkuliah' => $id_uangkuliah)) === 0)
 			{
 				$uangkuliahData = array(
-					'nama' => $this->input->post('namauangkuliah'),
-					'sks' => $this->input->post('sks'),
-					'semester' => $this->input->post('semester'),
+					'nominal' => $this->input->post('nominaluangkuliah'),
+					'tgl_buka' => $this->input->post('tgl_buka'),
+					'tgl_tutup' => $this->input->post('tgl_tutup'),
 					'edited_at' => mdate('%Y-%m-%d', now()),
 				);
-				echo ($this->uangkuliahModel->edit($id_uangkuliah, $uangkuliahData) === TRUE ? 'TRUE' : 'FALSE');
+				echo($this->uangkuliahModel->edit($id_uangkuliah, $uangkuliahData) ? 'TRUE' : 'FALSE');
 			}
 			else
 			{
 				echo "ERROR";
 			}
-			
 		}
 		else
 		{
@@ -200,27 +207,27 @@ class Uangkuliah extends MX_Controller
 					<form class='form-horizontal' method='post' id='add_form_uangkuliah'>
 					<div class='modal-body'>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Kode uangkuliah</label>
+					<label class='col-xs-4 control-label'>Golongan Uang Kuliah</label>
 					<div class='col-xs-7'>
-					<input name='iduangkuliah' id='iduangkuliah_add' type='text' class='form-control' required>
+					<input name='iduangkuliah' id='iduangkuliah_add' type='number' min=1 step=1 class='form-control' required>
 					</div>
 					</div>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Nama</label>
+					<label class='col-xs-4 control-label'>nominal</label>
 					<div class='col-xs-7'>
-					<input name='namauangkuliah' id='namauangkuliah_add' type='text' class='form-control' required>
+					<input name='nominaluangkuliah' id='nominaluangkuliah_add' type='number' min=1000 class='form-control' required>
 					</div>
 					</div>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Jumlah SKS</label>
+					<label class='col-xs-4 control-label'>Tanggal Buka</label>
 					<div class='col-xs-7'>
-					<input name='sks' id='sks_add' type='text' class='form-control' required>
+					<input name='tgl_buka' id='tgl_buka_add' type='date' value='".mdate('%Y-%m-%d', now())."' class='form-control' required>
 					</div>
 					</div>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Semester</label>
+					<label class='col-xs-4 control-label'>Tanggal Tutup</label>
 					<div class='col-xs-7'>
-					<input name='semester' id='semester_add' type='text' class='form-control' required>
+					<input name='tgl_tutup' id='tgl_tutup_add' type='date' value='".mdate('%Y-%m-%d', now())."' class='form-control' required>
 					</div>
 					</div>
 					</div>
@@ -240,12 +247,12 @@ class Uangkuliah extends MX_Controller
 				{
 					$uangkuliahData = array(
 						'id_uangkuliah' => $id_uangkuliah,
-						'nama' => $this->input->post('namauangkuliah'),
-						'sks' => $this->input->post('sks'),
-						'semester' => $this->input->post('semester'),
+						'nominal' => $this->input->post('nominaluangkuliah'),
+						'tgl_buka' => $this->input->post('tgl_buka'),
+						'tgl_tutup' => $this->input->post('tgl_tutup'),
 						'created_at' => mdate('%Y-%m-%d', now()),
 					);
-					echo ($this->uangkuliahModel->add($uangkuliahData) === TRUE ? 'TRUE' : 'FALSE');
+					echo($this->uangkuliahModel->add($uangkuliahData) === TRUE ? 'TRUE' : 'FALSE');
 				}
 				else
 				{
