@@ -55,11 +55,8 @@ class Migration_Dosen_fields extends CI_Migration
 				'null' => FALSE,
 			),
 			'telepon' => array(
-				'type' => 'INT',
-				'null' => FALSE,
-			),
-			'created_at' => array(
-				'type' => 'DATE',
+				'type' => 'VARCHAR',
+				'constraint' => 15,
 				'null' => FALSE,
 			),
 			'created_at' => array(
