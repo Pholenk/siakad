@@ -14,21 +14,11 @@ class UangkuliahModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function browse($name='')
+	public function browse()
 	{
-		if (empty($name))
-		{
-			$this->db->where('deleted_at is Null');
-			$query = $this->db->get('uangkuliah');
-		}
-		else
-		{
-			$this->db->select('*')->from('uangkuliah');
-			$this->db->where('deleted_at is Null');
-			$this->db->like('nama', $name);
-
-			$query = $this->db->get();
-		}
+		$this->db->select('*')->from('uangkuliah');
+		$this->db->where('uangkuliah.deleted_at is Null');
+		$query = $this->db->get();
 		
 		return $query->result();
 	}
@@ -48,7 +38,7 @@ class UangkuliahModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function edit($id_uangkuliah, $uangkuliahData)
+	public function edit($id_uangkuliah, $uangkuliahData, $tenggatData)
 	{
 		$this->db->where('id_uangkuliah', $id_uangkuliah);
 		return($this->db->update('uangkuliah', $uangkuliahData) ? TRUE : FALSE);
