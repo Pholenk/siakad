@@ -5,55 +5,42 @@
       <div class="col-xs-12">
         <div class="box box-success">
           <div class="box-header with-border">
-            <h3 class="box-title">Mata Kuliah List</h3>
+            <h3 class="box-title">Uang Kuliah List</h3>
           </div>
           <!-- /.box-header -->
           <div class="box-body table-responsive no-padding">
-            <div class="box-tools">
-              <label class="col-xs-3 control-label">
-                <strong>Search by Name</strong>
-              </label>
-              <div class="input-group">
-                <input type="text" id="matakuliah_search" class="form-control input-text" placeholder="Search">
-                <span class="input-group-addon input-icon" style="padding:1%"><i class="fa fa-search"></i></span>
-              </div>
-            </div>
             <div class="col-xs-12">
               <table class="table table-hover" style="margin-top:1%;border:none;">
                 <thead>
                   <tr>
-                    <th style="text-align:center">No</th>
-                    <th style="text-align:center">ID</th>
-                    <th style="text-align:center">Name</th>
-                    <th style="text-align:center">SKS</th>
-                    <th style="text-align:center">Semester</th>
+                    <th style="text-align:center">Golongan</th>
+                    <th style="text-align:center">Nominal</th>
+                    <th style="text-align:center">Tanggal Buka</th>
+                    <th style="text-align:center">Tanggal Tutup</th>
                     <th style="text-align:center">Action</th>
                   </tr>
                 </thead>
-                <tbody id="matakuliah-data">
-                  <?php $i=1; foreach ($matakuliahs as $matakuliah) { ?>
+                <tbody id="uangkuliah-data">
+                  <?php foreach ($uangkuliahs as $uangkuliah) { ?>
                   <tr>
                     <td style="text-align:center">
-                      <?php echo $i; ?>
+                      <?php echo $uangkuliah->id_uangkuliah; ?>
                     </td>
                     <td style="text-align:center">
-                      <?php echo $matakuliah->id_matakuliah; ?>
+                      <?php echo $uangkuliah->nominal; ?>
                     </td>
                     <td style="text-align:center">
-                      <?php echo $matakuliah->nama; ?>
+                      <?php echo $uangkuliah->tgl_buka; ?>
                     </td>
                     <td style="text-align:center">
-                      <?php echo $matakuliah->sks; ?>
-                    </td>
-                    <td style="text-align:center">
-                      <?php echo $matakuliah->semester; ?>
+                      <?php echo $uangkuliah->tgl_tutup; ?>
                     </td>
                     <td style='text-align:center;'>
-                      <button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_matakuliah_<?php echo $matakuliah->id_matakuliah ?>'><i class='fa fa-edit'></i> EDIT</button>
-                      <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_matakuliah_<?php echo $matakuliah->id_matakuliah ?>'><i class='fa fa-trash'></i> DELETE</button>
+                      <button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_uangkuliah_<?php echo $uangkuliah->id_uangkuliah ?>'><i class='fa fa-edit'></i> EDIT</button>
+                      <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_uangkuliah_<?php echo $uangkuliah->id_uangkuliah ?>'><i class='fa fa-trash'></i> DELETE</button>
                     </td>
                   </tr>
-                  <?php $i++;}?>
+                  <?php }?>
                 </tbody>
               </table>
             </div>
@@ -61,7 +48,7 @@
           <!-- /.box-body -->
           <div class="box-footer">
             <div class="col-xs-6">
-              <button type="button" class="btn btn-success pull-right" data-toggle='modal' data-target='#modal' id="add_matakuliah"><i class="fa fa-plus"></i> ADD</button>
+              <button type="button" class="btn btn-success pull-right" data-toggle='modal' data-target='#modal' id="add_uangkuliah"><i class="fa fa-plus"></i> ADD</button>
             </div>
           </div>
         </div>
