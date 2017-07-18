@@ -9,13 +9,23 @@ class Dosen extends MX_Controller
 	{
 		parent::__construct();
 		$this->load->model('DosenModel');
-		$this->load->module('auth');
+		$this->load->module('users');
 		$this->_access = $this->session->job;
 	}
 
 	public function index()
 	{
-		$this->browse();
+		if ($this->_access === 'BAAK')
+		{
+			$data = array(
+				'dosens' =>  $this->browse(),
+			);
+			$this->_show('browse', $data);
+		}		
+		else
+		{
+			redirect(base_url('/auth/logout'));
+		}
 	}
 
 	/**
@@ -25,18 +35,7 @@ class Dosen extends MX_Controller
 	 */
 	public function browse()
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
-		{
-			$data = array(
-				'dosens' =>  $this->DosenModel->browse(),
-			);
-			$this->_show('browse', $data);
-		}		
-		else
-		{
-			redirect(base_url('/auth/logout'));
-		}
-		
+		return $this->DosenModel->browse();
 	}
 
 	/**
@@ -48,7 +47,7 @@ class Dosen extends MX_Controller
 	 */
 	public function read($type = '', $data = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			$i = 1;
 			if ($type === 'search')
@@ -57,13 +56,13 @@ class Dosen extends MX_Controller
 				foreach ($dosenData as $data)
 				{
 					echo "
-					<tr id='edit_source_".$data->nidn."'>
+					<tr id='edit_source_".$data->id_dosen."'>
 					<td style='text-align:center;'>".$i."</td>
-					<td style='text-align:center;'>".$data->nidn."</td>
+					<td style='text-align:center;'>".$data->id_dosen."</td>
 					<td style='text-align:center;'>".$data->nama."</td>
 					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_dosen_".$data->nidn."'><i class='fa fa-edit'></i> EDIT</button>
-					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_dosen_".$data->nidn."'><i class='fa fa-trash'></i> DELETE</button>
+					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_dosen_".$data->id_dosen."'><i class='fa fa-edit'></i> EDIT</button>
+					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_dosen_".$data->id_dosen."'><i class='fa fa-trash'></i> DELETE</button>
 					</td>
 					</tr>
 					";
@@ -83,8 +82,8 @@ class Dosen extends MX_Controller
 					<form class='form-horizontal' method='post' id='edit_form_dosen'>
 					<div class='modal-body'>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>NIDN</label>
-					<label class='col-xs-4 control-label'>".$data->nidn."</label>
+					<label class='col-xs-4 control-label'>id_dosen</label>
+					<label class='col-xs-4 control-label'>".$data->id_dosen."</label>
 					</div>
 					<div class='form-group'>
 					<label class='col-xs-4 control-label'>Nama</label>
@@ -133,6 +132,12 @@ class Dosen extends MX_Controller
 					<input name='email' id='email_edit' type='email' class='form-control' value='".$data->email."' required>
 					</div>
 					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>Telepon</label>
+					<div class='col-xs-7'>
+					<input name='telepon' id='telepon_edit' type='number' min=0 step=1 class='form-control' value='".$data->telepon."' required>
+					</div>
+					</div>
 					</div>
 					<div class='modal-footer'>
 					<div class='col-xs-6'>
@@ -152,13 +157,13 @@ class Dosen extends MX_Controller
 				foreach ($dosenData as $data)
 				{
 					echo "
-					<tr id='edit_source_".$data->nidn."'>
+					<tr id='edit_source_".$data->id_dosen."'>
 					<td style='text-align:center;'>".$i."</td>
-					<td style='text-align:center;'>".$data->nidn."</td>
+					<td style='text-align:center;'>".$data->id_dosen."</td>
 					<td style='text-align:center;'>".$data->nama."</td>
 					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_dosen_".$data->nidn."'><i class='fa fa-edit'></i> EDIT</button>
-					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_dosen_".$data->nidn."'><i class='fa fa-trash'></i> DELETE</button>
+					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_dosen_".$data->id_dosen."'><i class='fa fa-edit'></i> EDIT</button>
+					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_dosen_".$data->id_dosen."'><i class='fa fa-trash'></i> DELETE</button>
 					</td>
 					</tr>
 					";
@@ -179,11 +184,11 @@ class Dosen extends MX_Controller
 	 * @param string username
 	 * @return string
 	 */
-	public function edit($nidn)
+	public function edit($id_dosen)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
-			if ($this->DosenModel->dataExists('dosen', array('nidn' => $nidn)) === 1)
+			if ($this->DosenModel->dataExists('dosen', array('id_dosen' => $id_dosen)) === 1)
 			{
 				$dosenData = array(
 					'nama' => $this->input->post('namadosen'),
@@ -193,9 +198,10 @@ class Dosen extends MX_Controller
 					'agama' => $this->input->post('agama'),
 					'alamat' => $this->input->post('alamat'),
 					'email' => $this->input->post('email'),
+					'telepon' => $this->input->post('telepon'),
 					'edited_at' => mdate('%Y-%m-%d', now()),
 				);
-				echo ($this->DosenModel->edit($nidn, $dosenData) === TRUE ? 'TRUE' : 'FALSE');
+				echo ($this->DosenModel->edit($id_dosen, $dosenData) === TRUE ? 'TRUE' : 'FALSE');
 			}
 			else
 			{
@@ -215,11 +221,11 @@ class Dosen extends MX_Controller
 	 * @param string username
 	 * @return mixed
 	 */
-	public function add($nidn = '')
+	public function add($id_dosen = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
-			if (empty($nidn))
+			if (empty($id_dosen))
 			{
 				echo "
 					<div class='modal-header'>
@@ -229,9 +235,9 @@ class Dosen extends MX_Controller
 					<form class='form-horizontal' method='post' id='add_form_dosen'>
 					<div class='modal-body'>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>NIDN</label>
+					<label class='col-xs-4 control-label'>id_dosen</label>
 					<div class='col-xs-7'>
-					<input name='nidn' id='nidn_add' type='text' class='form-control' required>
+					<input name='id_dosen' id='id_dosen_add' type='text' class='form-control' required>
 					</div>
 					</div>
 					<div class='form-group'>
@@ -281,6 +287,12 @@ class Dosen extends MX_Controller
 					<input name='email' id='email_add' type='email' class='form-control' required>
 					</div>
 					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>Telepon</label>
+					<div class='col-xs-7'>
+					<input name='telepon' id='telepon_add' type='number' min=0 step=1 class='form-control' required>
+					</div>
+					</div>
 					</div>
 					<div class='modal-footer'>
 					<div class='col-xs-6'>
@@ -294,20 +306,34 @@ class Dosen extends MX_Controller
 			}
 			else
 			{
-				if ($this->DosenModel->dataExists('dosen', array('nidn' => $nidn)) === 0)
+				$dosenData = array(
+					'id_dosen' => $id_dosen,
+					'nama' => $this->input->post('namadosen'),
+					'tempat_lahir' => $this->input->post('tempat_lahir'),
+					'tanggal_lahir' => $this->input->post('tanggal_lahir'),
+					'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+					'agama' => $this->input->post('agama'),
+					'alamat' => $this->input->post('alamat'),
+					'email' => $this->input->post('email'),
+					'telepon' => $this->input->post('telepon'),
+					'created_at' => mdate('%Y-%m-%d', now()),
+				);
+				$userData = array(
+					'fullname' => $this->input->post('namadosen'),
+					'username' => $id_dosen,
+					'password' => $this->input->post('tanggal_lahir'),
+					'job' => 'Dosen'
+				);
+				if ($this->DosenModel->dataExists('dosen', array('id_dosen' => $id_dosen)) === 0)
 				{
-					$dosenData = array(
-						'nidn' => $nidn,
-						'nama' => $this->input->post('namadosen'),
-						'tempat_lahir' => $this->input->post('tempat_lahir'),
-						'tanggal_lahir' => $this->input->post('tanggal_lahir'),
-						'jenis_kelamin' => $this->input->post('jenis_kelamin'),
-						'agama' => $this->input->post('agama'),
-						'alamat' => $this->input->post('alamat'),
-						'email' => $this->input->post('email'),
-						'created_at' => mdate('%Y-%m-%d', now()),
-					);
-					echo ($this->DosenModel->add($dosenData) === TRUE ? 'TRUE' : 'FALSE');
+					if ($this->users->_add($userData) === 'TRUE')
+					{
+						echo ($this->DosenModel->add($dosenData) === TRUE ? 'TRUE' : 'FALSE');
+					}
+					else
+					{
+						echo "ERROR";
+					}
 				}
 				else
 				{
@@ -323,18 +349,17 @@ class Dosen extends MX_Controller
 	}
 
 	/**
-	 * fix it
 	 * delete
 	 * delete user data by username
 	 * @param string username
 	 */
-	public function delete($nidn)
+	public function delete($id_dosen)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
-			if ($this->DosenModel->dataExists('dosen', array('nidn' => $nidn)) === 1)
+			if ($this->DosenModel->dataExists('dosen', array('id_dosen' => $id_dosen)) === 1)
 			{
-				echo ($this->DosenModel->delete($nidn) === TRUE ? 'TRUE' : 'FALSE');
+				echo ($this->DosenModel->delete($id_dosen) === TRUE ? 'TRUE' : 'FALSE');
 			}
 			else
 			{
