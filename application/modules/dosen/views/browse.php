@@ -25,6 +25,8 @@
                     <th style="text-align:center">No</th>
                     <th style="text-align:center">ID</th>
                     <th style="text-align:center">Name</th>
+                    <th style="text-align:center">Email</th>
+                    <th style="text-align:center">Telepon</th>
                     <th style="text-align:center">Action</th>
                   </tr>
                 </thead>
@@ -35,14 +37,20 @@
                       <?php echo $i; ?>
                     </td>
                     <td style="text-align:center">
-                      <?php echo $dosen->nidn; ?>
+                      <?php echo $dosen->id_dosen; ?>
                     </td>
                     <td style="text-align:center">
                       <?php echo $dosen->nama; ?>
                     </td>
+                    <td style="text-align:center">
+                      <?php echo $dosen->email; ?>
+                    </td>
+                    <td style="text-align:center">
+                      <?php echo $dosen->telepon; ?>
+                    </td>
                     <td style='text-align:center;'>
-                      <button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_dosen_<?php echo $dosen->nidn ?>'><i class='fa fa-edit'></i> EDIT</button>
-                      <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_dosen_<?php echo $dosen->nidn ?>'><i class='fa fa-trash'></i> DELETE</button>
+                      <button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_dosen_<?php echo $dosen->id_dosen ?>'><i class='fa fa-edit'></i> EDIT</button>
+                      <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_dosen_<?php echo $dosen->id_dosen ?>'><i class='fa fa-trash'></i> DELETE</button>
                     </td>
                   </tr>
                   <?php $i++;}?>
