@@ -37,20 +37,6 @@ class Migration_Uangkuliah_fields extends CI_Migration
 				'type' => 'DATE',
 				'null' => TRUE,
 			),
-		);
-		$this->dbforge->add_field($Uangkuliah_fields);
-		$this->dbforge->add_key('id_uangkuliah',TRUE);
-		$this->dbforge->create_table('uangkuliah',TRUE);
-
-		/**
-		 * create tenggat_bayar table
-		 */
-		$tenggat_bayar_fields = array(
-			'id_uangkuliah' => array(
-				'type' => 'VARCHAR',
-				'constraint' => 40,
-				'null' => FALSE,
-			),
 			'tgl_buka' => array(
 				'type' => 'DATE',
 				'null' => FALSE,
@@ -60,8 +46,9 @@ class Migration_Uangkuliah_fields extends CI_Migration
 				'null' => FALSE,
 			),
 		);
-		$this->dbforge->add_field($tenggat_bayar_fields);
-		$this->dbforge->create_table('tenggat_bayar',TRUE);
+		$this->dbforge->add_field($Uangkuliah_fields);
+		$this->dbforge->add_key('id_uangkuliah',TRUE);
+		$this->dbforge->create_table('uangkuliah',TRUE);
 	}
 
 	public function down()
