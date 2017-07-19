@@ -36,7 +36,7 @@ $(document).ready(function() {
         event.preventDefault()
         id = this.id.replace('edit_user_', '')
         $.ajax({
-            url: '/users/read/read/' + id,
+            url: '/users/read/' + id,
             success: function(response) {
                 (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
             }
@@ -147,8 +147,7 @@ $(document).ready(function() {
         })
     })
 
-    $('body').on('click', '#show_password', function(event) {
-        event.preventDefault()
+    $('body').on('click', '#show_password', function() {
         ($("input[id^='password_']").attr('type') === 'password' ? $("input[id^='password_']").attr('type', 'text') && $('#show_password_icon').removeClass('fa-eye-slash') && $('#show_password_icon').addClass('fa-eye') : $("input[id^='password_']").attr('type', 'password') && $('#show_password_icon').removeClass('fa-eye') && $('#show_password_icon').addClass('fa-eye-slash'))
     })
 })
