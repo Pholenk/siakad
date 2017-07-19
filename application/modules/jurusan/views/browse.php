@@ -9,33 +9,24 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body table-responsive no-padding">
-            <div class="box-tools">
-              <label class="col-xs-3 control-label">
-                <strong>Search by Name</strong>
-              </label>
-              <div class="input-group">
-                <input type="text" id="jurusan_search" class="form-control input-text" placeholder="Search">
-                <span class="input-group-addon input-icon" style="padding:1%"><i class="fa fa-search"></i></span>
-              </div>
-            </div>
             <div class="col-xs-12">
               <table class="table table-hover" style="margin-top:1%;border:none;">
                 <thead>
                   <tr>
-                    <th style="text-align:center">No</th>
-                    <th style="text-align:center">ID</th>
+                    <th style="text-align:center">ID Jurusan</th>
+                    <th style="text-align:center">Kode Jurusan</th>
                     <th style="text-align:center">Name</th>
                     <th style="text-align:center">Action</th>
                   </tr>
                 </thead>
                 <tbody id="jurusan-data">
-                  <?php $i=1; foreach ($jurusans as $jurusan) { ?>
+                  <?php foreach ($jurusans as $jurusan) { ?>
                   <tr>
                     <td style="text-align:center">
-                      <?php echo $i; ?>
+                      <?php echo $jurusan->id_jurusan; ?>
                     </td>
                     <td style="text-align:center">
-                      <?php echo $jurusan->id_jurusan; ?>
+                      <?php echo $jurusan->kode_jurusan; ?>
                     </td>
                     <td style="text-align:center">
                       <?php echo $jurusan->nama; ?>
@@ -45,7 +36,7 @@
                       <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_jurusan_<?php echo $jurusan->id_jurusan ?>'><i class='fa fa-trash'></i> DELETE</button>
                     </td>
                   </tr>
-                  <?php $i++;}?>
+                  <?php }?>
                 </tbody>
               </table>
             </div>
