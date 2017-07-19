@@ -14,7 +14,17 @@ class Users extends MX_Controller
 
 	public function index()
 	{
-		$this->browse();
+		if ($this->_access === 'BAAK')
+		{
+			$data = array(
+				'users' =>  $this->browse(),
+			);
+			$this->_show('browse', $data);
+		}		
+		else
+		{
+			redirect(base_url('/auth/logout'));
+		}
 	}
 
 	/**
@@ -26,13 +36,11 @@ class Users extends MX_Controller
 	{
 		if ($this->_access === 'BAAK')
 		{
-			$data = array(
-				'users' =>  $this->UsersModel->browse(),
-			);
-			$this->_show('browse', $data);
-		}		
+			return ($this->UsersModel->browse());
+		}
 		else
 		{
+			echo "!LOGIN";
 			redirect(base_url('/auth/logout'));
 		}
 		
@@ -57,16 +65,9 @@ class Users extends MX_Controller
 				{
 					echo "
 					<tr id='edit_source_".$data->id."'>
-					<td style='text-align:center;'>".$i."</td>
 					<td style='text-align:center;'>".$data->username."</td>
 					<td style='text-align:center;'>".$data->fullname."</td>
 					<td style='text-align:center;'>".$data->job."</td>
-					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_user_".$data->username."'><i class='fa fa-edit'></i> EDIT</button>
-					<a href='".base_url('/users/delete/'.$data->id)."'>
-					<button type='button' class='btn btn-danger'><i class='fa fa-trash'></i> DELETE</button>
-					</a>
-					</td>
 					</tr>
 					";
 				}
@@ -136,16 +137,9 @@ class Users extends MX_Controller
 				{
 					echo "
 					<tr id='edit_source_".$data->id."'>
-					<td style='text-align:center;'>".$i."</td>
 					<td style='text-align:center;'>".$data->username."</td>
 					<td style='text-align:center;'>".$data->fullname."</td>
 					<td style='text-align:center;'>".$data->job."</td>
-					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_user_".$data->username."'><i class='fa fa-edit'></i> EDIT</button>
-					<a href='".base_url('/users/delete/'.$data->id)."'>
-					<button type='button' class='btn btn-danger'><i class='fa fa-trash'></i> DELETE</button>
-					</a>
-					</td>
 					</tr>
 					";
 				}
