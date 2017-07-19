@@ -18,7 +18,7 @@ class JurusanModel extends CI_Model
 	{
 		if (empty($name))
 		{
-			$this->db->where('deleted_at is Null');
+			$this->db->where('deleted_at is Null')->order_by('kode_jurusan', 'ASC');
 			$query = $this->db->get('jurusan');
 		}
 		else
@@ -26,6 +26,7 @@ class JurusanModel extends CI_Model
 			$this->db->select('*')->from('jurusan');
 			$this->db->where('deleted_at is Null');
 			$this->db->like('nama', $name);
+			$this->db->order_by('kode_jurusan', 'ASC');
 
 			$query = $this->db->get();
 		}
