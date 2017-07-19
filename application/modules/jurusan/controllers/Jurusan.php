@@ -56,7 +56,6 @@ class Jurusan extends MX_Controller
 	{
 		if ($this->_access === 'BAAK')
 		{
-			$i = 1;
 			if ($type === 'search')
 			{
 				$jurusanData = $this->JurusanModel->browse($data);
@@ -64,8 +63,8 @@ class Jurusan extends MX_Controller
 				{
 					echo "
 					<tr id='edit_source_".$data->id_jurusan."'>
-					<td style='text-align:center;'>".$i."</td>
 					<td style='text-align:center;'>".$data->id_jurusan."</td>
+					<td style='text-align:center;'>".$data->kode_jurusan."</td>
 					<td style='text-align:center;'>".$data->nama."</td>
 					<td style='text-align:center;'>
 					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_jurusan_".$data->id_jurusan."'><i class='fa fa-edit'></i> EDIT</button>
@@ -73,7 +72,6 @@ class Jurusan extends MX_Controller
 					</td>
 					</tr>
 					";
-					$i++;
 				}
 			}
 			elseif ($type === 'read')
@@ -93,7 +91,13 @@ class Jurusan extends MX_Controller
 					<label class='col-xs-4 control-label'>".$data->id_jurusan."</label>
 					</div>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Nama</label>
+					<label class='col-xs-4 control-label'>Kode Jurusan</label>
+					<div class='col-xs-7'>
+					<input name='kode_jurusan' id='kode_jurusan_edit' type='text' class='form-control' value='".$data->kode_jurusan."' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>Nama Jurusan</label>
 					<div class='col-xs-7'>
 					<input name='namajurusan' id='namajurusan_edit' type='text' class='form-control' value='".$data->nama."' required>
 					</div>
@@ -117,9 +121,9 @@ class Jurusan extends MX_Controller
 				foreach ($jurusanData as $data)
 				{
 					echo "
-					<tr id='edit_source_".$data->id_jurusan."'>
-					<td style='text-align:center;'>".$i."</td>
+					<tr id='edit_source_".$data->id_jurusan."'>	
 					<td style='text-align:center;'>".$data->id_jurusan."</td>
+					<td style='text-align:center;'>".$data->kode_jurusan."</td>
 					<td style='text-align:center;'>".$data->nama."</td>
 					<td style='text-align:center;'>
 					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_jurusan_".$data->id_jurusan."'><i class='fa fa-edit'></i> EDIT</button>
@@ -127,7 +131,6 @@ class Jurusan extends MX_Controller
 					</td>
 					</tr>
 					";
-					$i++;
 				}
 			}
 		}
@@ -151,6 +154,7 @@ class Jurusan extends MX_Controller
 			if ($this->JurusanModel->dataExists('jurusan', array('id_jurusan' => $id_jurusan)) === 0)
 			{
 				$jurusanData = array(
+					'kode_jurusan' => $this->input->post('kode_jurusan'),
 					'nama' => $this->input->post('namajurusan'),
 					'edited_at' => mdate('%Y-%m-%d', now()),
 				);
@@ -189,9 +193,15 @@ class Jurusan extends MX_Controller
 					<form class='form-horizontal' method='post' id='add_form_jurusan'>
 					<div class='modal-body'>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Kode Jurusan</label>
+					<label class='col-xs-4 control-label'>ID Jurusan</label>
 					<div class='col-xs-7'>
 					<input name='idjurusan' id='idjurusan_add' type='text' class='form-control' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>Kode Jurusan</label>
+					<div class='col-xs-7'>
+					<input name='kode_jurusan' id='kode_jurusan_add' type='text' class='form-control' required>
 					</div>
 					</div>
 					<div class='form-group'>
@@ -217,6 +227,7 @@ class Jurusan extends MX_Controller
 				{
 					$jurusanData = array(
 						'id_jurusan' => $id_jurusan,
+						'kode_jurusan' => $this->input->post('kode_jurusan'),
 						'nama' => $this->input->post('namajurusan'),
 						'created_at' => mdate('%Y-%m-%d', now()),
 					);
@@ -271,13 +282,5 @@ class Jurusan extends MX_Controller
 		$this->load->view('sidebar/baak');
 		$this->load->view($page, $data);
 		$this->load->view('foot');
-	}
-
-	/**
-	 * retrieve data from jurusan table to send its to another module
-	 * @return mixed jurusan
-	 */
-	public function getJurusan()
-	{
 	}
 }
