@@ -32,8 +32,8 @@
                       <?php echo $user->job; ?>
                     </td>
                     <td style="text-align:center">
-                      <button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_user'><i class='fa fa-edit'></i> EDIT</button>
-                      <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_user'><i class='fa fa-trash'></i> DELETE</button>
+                      <button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_user_<?php echo $user->username ?>'><i class='fa fa-edit'></i> EDIT</button>
+                      <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_user_<?php echo $user->username ?>'><i class='fa fa-trash'></i> DELETE</button>
                     </td>
                   </tr>
                   <?php }?>
