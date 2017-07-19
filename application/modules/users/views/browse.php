@@ -9,20 +9,10 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body table-responsive no-padding">
-            <div class="box-tools">
-              <label class="col-xs-3 control-label">
-                <strong>Search by Name</strong>
-              </label>
-              <div class="input-group">
-                <input type="text" id="users_search" class="form-control input-text" placeholder="Search">
-                <span class="input-group-addon input-icon" style="padding:1%"><i class="fa fa-search"></i></span>
-              </div>
-            </div>
             <div class="col-sm-12">
               <table class="table table-hover" style="margin-top:1%;border:none;">
                 <thead>
                   <tr>
-                    <th style="text-align:center">No</th>
                     <th style="text-align:center">ID</th>
                     <th style="text-align:center">Name</th>
                     <th style="text-align:center">Pekerjaan</th>
@@ -30,11 +20,8 @@
                   </tr>
                 </thead>
                 <tbody id="users-data">
-                  <?php $i=1; foreach ($users as $user) { ?>
+                  <?php foreach ($users as $user) { ?>
                   <tr>
-                    <td style="text-align:center">
-                      <?php echo $i; ?>
-                    </td>
                     <td style="text-align:center">
                       <?php echo $user->username; ?>
                     </td>
@@ -44,20 +31,20 @@
                     <td style="text-align:center">
                       <?php echo $user->job; ?>
                     </td>
-                    <td style='text-align:center;'>
-                      <button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_user_<?php echo $user->username ?>'><i class='fa fa-edit'></i> EDIT</button>
-                      <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_user_<?php echo $user->username ?>'><i class='fa fa-trash'></i> DELETE</button>
+                    <td style="text-align:center">
+                      <button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_user'><i class='fa fa-edit'></i> EDIT</button>
+                      <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_user'><i class='fa fa-trash'></i> DELETE</button>
                     </td>
                   </tr>
-                  <?php $i++;}?>
+                  <?php }?>
                 </tbody>
               </table>
             </div>
           </div>
           <!-- /.box-body -->
           <div class="box-footer">
-            <div class="col-sm-6">
-              <button type="button" class="btn btn-success pull-right" data-toggle='modal' data-target='#modal' id="add_user"><i class="fa fa-plus"></i> ADD</button>
+            <div class="col-sm-12" style="text-align:center;">
+              <button type="button" class="btn btn-success" data-toggle='modal' data-target='#modal' id="add_user"><i class="fa fa-plus"></i> ADD</button>
             </div>
           </div>
         </div>
