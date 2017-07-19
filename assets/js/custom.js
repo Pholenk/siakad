@@ -26,52 +26,11 @@ $(document).ready(
     })
 )
 
-//===================//
-//  dataTables init  //
-//===================//
-// $(document).ready(function() {
-//     $('.table').DataTable({
-//         columnDefs: [{
-//         className: 'select-checkbox',
-//         targets: 0,
-//       }],
-//         paging: true,
-//         searching: false,
-//         ordering: false,
-//         autowidth: false,
-//         lengthChange: false,
-//         info: false,
-//         select: {
-//             style: 'os',
-//             selector: 'td:first-child',
-//         },
-//     })
-// })
-
 //==============//
 //  users page  //
 //==============//
 $(document).ready(function() {
     var id
-
-    $('#users_search').on('keyup', function() {
-        if ($('#users_search').val() !== '') {
-            $.ajax({
-                url: '/users/read/search/' + $('#users_search').val(),
-                success: function(result) {
-                    (result !== '!LOGIN' ? $('#users-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-
-        } else {
-            $.ajax({
-                url: '/users/read/',
-                success: function(result) {
-                    (result !== '!LOGIN' ? $('#users-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        }
-    })
 
     $("button[id^='edit_user']").on('click', function(event) {
         event.preventDefault()
@@ -201,24 +160,6 @@ $(document).ready(function() {
 $(document).ready(function() {
     var id
 
-    $('#jurusan_search').on('keyup', function() {
-        if ($('#jurusan_search').val() !== '') {
-            $.ajax({
-                url: '/jurusan/read/search/' + $('#jurusan_search').val(),
-                success: function(result) {
-                    (result !== '!LOGIN' ? $('#jurusan-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        } else {
-            $.ajax({
-                url: '/jurusan/read/',
-                success: function(result) {
-                    (result !== '!LOGIN' ? $('#jurusan-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        }
-    })
-
     $("#add_jurusan").on('click', function(event) {
         event.preventDefault()
         $.ajax({
@@ -341,36 +282,7 @@ $(document).ready(function() {
 // fix me //
 //==================//
 $(document).ready(function() {
-
-  // // mixed input and icheck
-  // $("input[name^='mahasiswa_check_']").iCheck({
-  //   checkboxClass: 'icheckbox_flat-green'
-  // })
-
-  // // check all
-  // $("input[name=mahasiswa_check_all]").on('ifClicked', function(){
-  //   $("input[name^='mahasiswa_check_']").iCheck('toggle')
-  // })
-
     var id
-
-     $('#mahasiswa_search').on('keyup', function() {
-        if ($('#mahasiswa_search').val() !== '') {
-            $.ajax({
-                url: '/mahasiswa/read/search/' + $('#mahasiswa_search').val(),
-                success: function(result) {
-                    (result !== '!LOGIN' ? $('#mahasiswa-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        } else {
-            $.ajax({
-                url: '/mahasiswa/read/',
-                success: function(result) {
-                    php(result !== '!LOGIN' ? $('#mahasiswa-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        }
-    })
 
     $("#add_mahasiswa").on('click', function(event) {
         event.preventDefault()
@@ -494,24 +406,6 @@ $(document).ready(function() {
 $(document).ready(function() {
     var id
 
-     $('#dosen_search').on('keyup', function() {
-        if ($('#dosen_search').val() !== '') {
-            $.ajax({
-                url: '/dosen/read/search/' + $('#dosen_search').val(),
-                success: function(result) {
-                    (result !== '!LOGIN' ? $('#dosen-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        } else {
-            $.ajax({
-                url: '/dosen/read/',
-                success: function(result) {
-                    php(result !== '!LOGIN' ? $('#dosen-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        }
-    })
-
     $("#add_dosen").on('click', function(event) {
         event.preventDefault()
         $.ajax({
@@ -633,24 +527,6 @@ $(document).ready(function() {
 //===================//
 $(document).ready(function() {
     var id
-
-     $('#matakuliah_search').on('keyup', function() {
-        if ($('#matakuliah_search').val() !== '') {
-            $.ajax({
-                url: '/matakuliah/read/search/' + $('#matakuliah_search').val(),
-                success: function(result) {
-                    (result !== '!LOGIN' ? $('#matakuliah-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        } else {
-            $.ajax({
-                url: '/matakuliah/read/',
-                success: function(result) {
-                    php(result !== '!LOGIN' ? $('#matakuliah-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        }
-    })
 
     $("#add_matakuliah").on('click', function(event) {
         event.preventDefault()
@@ -774,24 +650,6 @@ $(document).ready(function() {
 $(document).ready(function() {
     var id
 
-     $('#ajar_search').on('keyup', function() {
-        if ($('#ajar_search').val() !== '') {
-            $.ajax({
-                url: '/ajar/read/search/' + $('#ajar_search').val(),
-                success: function(result) {
-                    (result !== '!LOGIN' ? $('#ajar-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        } else {
-            $.ajax({
-                url: '/ajar/read/',
-                success: function(result) {
-                    php(result !== '!LOGIN' ? $('#ajar-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        }
-    })
-
     $("#add_ajar").on('click', function(event) {
         event.preventDefault()
         $.ajax({
@@ -913,24 +771,6 @@ $(document).ready(function() {
 //===================//
 $(document).ready(function() {
     var id
-
-     $('#uangkuliah_search').on('keyup', function() {
-        if ($('#uangkuliah_search').val() !== '') {
-            $.ajax({
-                url: '/uangkuliah/read/search/' + $('#uangkuliah_search').val(),
-                success: function(result) {
-                    (result !== '!LOGIN' ? $('#uangkuliah-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        } else {
-            $.ajax({
-                url: '/uangkuliah/read/',
-                success: function(result) {
-                    php(result !== '!LOGIN' ? $('#uangkuliah-data').html(result) : window.location = '/auth/logout')
-                }
-            })
-        }
-    })
 
     $("#add_uangkuliah").on('click', function(event) {
         event.preventDefault()
