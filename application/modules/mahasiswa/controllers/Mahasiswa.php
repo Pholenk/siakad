@@ -8,8 +8,8 @@ class Mahasiswa extends MX_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->module('jurusan');
 		$this->load->module('users');
+		$this->load->module('jurusan');
 		$this->load->module('uangkuliah');
 		$this->load->model('MahasiswaModel');
 		$this->_access = $this->session->job;
@@ -83,7 +83,8 @@ class Mahasiswa extends MX_Controller
 			elseif ($type === 'read')
 			{
 				$mahasiswaData = $this->MahasiswaModel->read($data);
-				$jurusanData = $this->jurusan->getJurusan();
+				$jurusanData = $this->jurusan->browse();
+				$uangkuliahData = $this->uangkuliah->browse();
 
 				foreach ($mahasiswaData as $data)
 				{
@@ -92,7 +93,7 @@ class Mahasiswa extends MX_Controller
 					<h1 class='modal-title'>Edit Mahasiswa</h1>
 					</div>
 					<div id='error_form_mahasiswa'></div>
-					<form class='form-horizontal' method='post' id='add_form_mahasiswa'>
+					<form class='form-horizontal' method='post' id='edit_form_mahasiswa'>
 					<div class='modal-body'>
 					<div class='form-group'>
 					<label class='col-xs-4 control-label'>NIM</label>
@@ -101,9 +102,9 @@ class Mahasiswa extends MX_Controller
 					<div class='form-group'>
 					<label class='col-xs-4 control-label'>Status</label>
 					<div class='col-xs-7'>
-					<select name='Status' id='status_edit' class='form-control' required>".$data->nama."
-					<option>Aktif</option>
-					<option>Tidak</option>
+					<select name='Status' id='status_edit' class='form-control' required>
+					<option".($data->status === 'Aktif' ? 'selected' : '').">Aktif</option>
+					<option".($data->status === 'Tidak' ? 'selected' : '').">Tidak</option>
 					</select>
 					</div>
 					</div>
@@ -192,15 +193,15 @@ class Mahasiswa extends MX_Controller
 					</label>
 					<div class='col-xs-7'>
 					<select name='semester' id='semester_edit' type='text' class='form-control' required>".$data->semester."
-					<option".($data->semester === '1' ? ' selected' : '').">1</option>
-					<option".($data->semester === '2' ? ' selected' : '').">2</option>
-					<option".($data->semester === '3' ? ' selected' : '').">3</option>
-					<option".($data->semester === '4' ? ' selected' : '').">4</option>
-					<option".($data->semester === '5' ? ' selected' : '').">5</option>
-					<option".($data->semester === '6' ? ' selected' : '').">6</option>
-					<option".($data->semester === '7' ? ' selected' : '').">7</option>
-					<option".($data->semester === '8' ? ' selected' : '').">8</option>
-					<option".($data->semester === 'Lulus' ? ' selected' : '').">Lulus</option>
+					<option value=1 ".($data->semester === '1' ? ' selected' : '').">1</option>
+					<option value=2 ".($data->semester === '2' ? ' selected' : '').">2</option>
+					<option value=3 ".($data->semester === '3' ? ' selected' : '').">3</option>
+					<option value=4 ".($data->semester === '4' ? ' selected' : '').">4</option>
+					<option value=5 ".($data->semester === '5' ? ' selected' : '').">5</option>
+					<option value=6 ".($data->semester === '6' ? ' selected' : '').">6</option>
+					<option value=7 ".($data->semester === '7' ? ' selected' : '').">7</option>
+					<option value=8 ".($data->semester === '8' ? ' selected' : '').">8</option>
+					<option value=0 ".($data->semester === '0' ? ' selected' : '').">Lulus</option>
 					</select>
 					</div>
 					</div>
@@ -218,10 +219,10 @@ class Mahasiswa extends MX_Controller
 					</label>
 					<div class='col-xs-7'>
 					<select name='id_uangkuliah' id='id_uangkuliah_edit' type='text' class='form-control' required>";
-					// foreach ($uangKuliah as $ukt)
-					// {
-					// 	echo "<option value=".$ukt->id_uangkuliah."".($ukt->id_uangkuliah === $data->id_uangkuliah ? ' selected>' : '>').$ukt->nama."</option>";
-					// }
+					foreach ($uangkuliahData as $ukt)
+					{
+						echo "<option value=".$ukt->id_uangkuliah." ".($ukt->id_uangkuliah === $data->id_uangkuliah ? ' selected>' : '>')." ".$ukt->nominal."</option>";
+					}
 					echo "
 					</select>
 					</div>
@@ -249,7 +250,7 @@ class Mahasiswa extends MX_Controller
 			}
 			else
 			{
-				$mahasiswaData = $this->MahasiswaModel->browse();
+				$mahasiswaData = $this->browse();
 				foreach ($mahasiswaData as $data)
 				{
 					echo "
@@ -284,7 +285,7 @@ class Mahasiswa extends MX_Controller
 	{
 		if ($this->_access === 'BAAK')
 		{
-			if ($this->MahasiswaModel->dataExists('mahasiswa', array('nim' => $nim)) === 0)
+			if ($this->MahasiswaModel->dataExists('mahasiswa', array('nim' => $nim)) === 1)
 			{
 				$mahasiswaData = array(
 					'id_jurusan' => $this->input->post('id_jurusan'),
@@ -329,8 +330,8 @@ class Mahasiswa extends MX_Controller
 		{
 			if (empty($nim))
 			{
-				$jurusanData = $this->jurusan->getJurusan();
-				// $uangKuliah = $this->uangkuliah->getUangKuliah();
+				$jurusanData = $this->jurusan->browse();
+				$uangkuliahData = $this->uangkuliah->browse();
 				echo "
 					<div class='modal-header'>
 					<h1 class='modal-title'>Add Mahasiswa</h1>
@@ -455,9 +456,12 @@ class Mahasiswa extends MX_Controller
 					Uang Kuliah
 					</label>
 					<div class='col-xs-7'>
-					<select name='id_uangkuliah' id='id_uangkuliah_add' type='text' class='form-control' required>
-					<option>10000</option>
-					<option>20000</option>
+					<select name='id_uangkuliah' id='id_uangkuliah_add' type='text' class='form-control' required>";
+					foreach ($uangkuliahData as $ukt)
+					{
+						echo "<option value=".$ukt->id_uangkuliah.">".$ukt->nominal."</option>";
+					}
+					echo "
 					</select>
 					</div>
 					</div>
@@ -500,7 +504,16 @@ class Mahasiswa extends MX_Controller
 						'spi' => $this->input->post('spi'),
 						'created_at' => mdate('%Y-%m-%d', now()),
 					);
-					echo ($this->MahasiswaModel->add($mahasiswaData) === TRUE ? 'TRUE' : 'FALSE');
+					if($this->MahasiswaModel->add($mahasiswaData) === TRUE)
+					{
+						$userData = array(
+							'username' => $nim,
+							'fullname' => $this->input->post('nama'),
+							'password' => $this->input->post('tanggal_lahir'),
+							'job' => 'Mahasiswa',
+						);
+						echo($this->users->_add($userData));
+					}
 				}
 				else
 				{
