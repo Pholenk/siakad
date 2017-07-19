@@ -20,7 +20,7 @@ class Mahasiswa extends MX_Controller
 		if ($this->_access === 'BAAK')
 		{
 			$data = array(
-				'mahasiswas' =>  $this->browse(),
+				'mahasiswas' =>  $this->_browse(),
 			);
 			$this->_show('browse', $data);
 		}		
@@ -35,7 +35,7 @@ class Mahasiswa extends MX_Controller
 	 * show list of jurusan
 	 * @return mixed
 	 */
-	public function browse()
+	function _browse()
 	{
 		if ($this->_access === 'BAAK')
 		{
@@ -51,221 +51,177 @@ class Mahasiswa extends MX_Controller
 
 	/**
 	 * read
-	 * search data use fullname or read data use single username user
-	 * @param string type
-	 * @param string username or fullname
+	 * read data from single nim
+	 * @param string nim
 	 * @return mixed
 	 */
-	public function read($type = '', $data = '')
+	public function read($nim)
 	{
 		if ($this->_access === 'BAAK')
 		{
-			$i = 1;
-			if ($type === 'search')
-			{
-				$mahasiswaData = $this->MahasiswaModel->browse($data);
-				foreach ($mahasiswaData as $data)
-				{
-					echo "
-					<tr id='edit_source_".$data->nim."'>
-					<td style='text-align:center;'>".$i."</td>
-					<td style='text-align:center;'>".$data->nim."</td>
-					<td style='text-align:center;'>".$data->nama."</td>
-					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_mahasiswa_".$data->nim."'><i class='fa fa-edit'></i> EDIT</button>
-					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_mahasiswa_".$data->nim."'><i class='fa fa-trash'></i> DELETE</button>
-					</td>
-					</tr>
-					";
-					$i++;
-				}
-			}
-			elseif ($type === 'read')
-			{
-				$mahasiswaData = $this->MahasiswaModel->read($data);
-				$jurusanData = $this->jurusan->browse();
-				$uangkuliahData = $this->uangkuliah->browse();
+			$mahasiswaData = $this->MahasiswaModel->read($nim);
+			$jurusanData = $this->jurusan->browse();
+			$uangkuliahData = $this->uangkuliah->browse();
 
-				foreach ($mahasiswaData as $data)
-				{
-					echo "
-					<div class='modal-header'>
-					<h1 class='modal-title'>Edit Mahasiswa</h1>
-					</div>
-					<div id='error_form_mahasiswa'></div>
-					<form class='form-horizontal' method='post' id='edit_form_mahasiswa'>
-					<div class='modal-body'>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>NIM</label>
-					<label class='col-xs-4 control-label'>".$data->nim."</label>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Status</label>
-					<div class='col-xs-7'>
-					<select name='Status' id='status_edit' class='form-control' required>
-					<option".($data->status === 'Aktif' ? 'selected' : '').">Aktif</option>
-					<option".($data->status === 'Tidak' ? 'selected' : '').">Tidak</option>
-					</select>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Nama</label>
-					<div class='col-xs-7'>
-					<input name='nama' id='nama_edit' type='text' class='form-control' value='".$data->nama."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					Jurusan
-					</label>
-					<div class='col-xs-7'>
-					<select name='id_jurusan' id='id_jurusan_edit' type='text' class='form-control' required>";
-					foreach ($jurusanData as $jurusan)
-					{
-						echo "<option value=".$jurusan->id_jurusan."".($jurusan->id_jurusan === $data->id_jurusan ? ' selected>' : '>').$jurusan->nama."</option>";
-					}
-					echo "
-					</select>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					Tempat Lahir
-					</label>
-					<div class='col-xs-7'>
-					<input name='tempat_lahir' id='tempat_lahir_edit' type='text' class='form-control' value='".$data->tempat_lahir."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					Tanggal Lahir
-					</label>
-					<div class='col-xs-7'>
-					<input name='tanggal_lahir' id='tanggal_lahir_edit' type='date' class='form-control' value='".mdate('%Y-%m-%d', strtotime($data->tanggal_lahir))."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					Jenis Kelamin
-					</label>
-					<div class='col-xs-7'>
-					<select name='jenis_kelamin' id='jenis_kelamin_edit' type='text' class='form-control' required>
-					<option value=1".($data->jenis_kelamin === '1' ? ' selected' : '').">Laki-Laki</option>
-                  	<option value=0".($data->jenis_kelamin === '0' ? ' selected' : '').">Perempuan</option>
-					</select>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					Alamat
-					</label>
-					<div class='col-xs-7'>
-					<input name='alamat' id='alamat_edit' type='text' class='form-control' value='".$data->alamat."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					Agama
-					</label>
-					<div class='col-xs-7'>
-					<input name='agama' id='agama_edit' type='text' class='form-control' value='".$data->agama."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					Email
-					</label>
-					<div class='col-xs-7'>
-					<input name='email' id='email_edit' type='email' class='form-control' value='".$data->email."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					Kelas
-					</label>
-					<div class='col-xs-7'>
-					<input name='kelas' id='kelas_edit' type='text' class='form-control' value='".$data->kelas."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					Semester
-					</label>
-					<div class='col-xs-7'>
-					<select name='semester' id='semester_edit' type='text' class='form-control' required>".$data->semester."
-					<option value=1 ".($data->semester === '1' ? ' selected' : '').">1</option>
-					<option value=2 ".($data->semester === '2' ? ' selected' : '').">2</option>
-					<option value=3 ".($data->semester === '3' ? ' selected' : '').">3</option>
-					<option value=4 ".($data->semester === '4' ? ' selected' : '').">4</option>
-					<option value=5 ".($data->semester === '5' ? ' selected' : '').">5</option>
-					<option value=6 ".($data->semester === '6' ? ' selected' : '').">6</option>
-					<option value=7 ".($data->semester === '7' ? ' selected' : '').">7</option>
-					<option value=8 ".($data->semester === '8' ? ' selected' : '').">8</option>
-					<option value=0 ".($data->semester === '0' ? ' selected' : '').">Lulus</option>
-					</select>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					Tahun Masuk
-					</label>
-					<div class='col-xs-7'>
-					<input name='tahun_masuk' id='tahun_masuk_edit' type='number' min=0 step=1 class='form-control' value='".mdate('%Y',strtotime($data->tahun_masuk))."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					Uang Kuliah
-					</label>
-					<div class='col-xs-7'>
-					<select name='id_uangkuliah' id='id_uangkuliah_edit' type='text' class='form-control' required>";
-					foreach ($uangkuliahData as $ukt)
-					{
-						echo "<option value=".$ukt->id_uangkuliah." ".($ukt->id_uangkuliah === $data->id_uangkuliah ? ' selected>' : '>')." ".$ukt->nominal."</option>";
-					}
-					echo "
-					</select>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>
-					SPI
-					</label>
-					<div class='col-xs-7'>
-					<input name='spi' id='spi_edit' type='number' min=0 step=1 class='form-control' value='".$data->spi."' required>
-					</div>
-					</div>
-					</div>
-					<div class='modal-footer'>
-					<div class='col-xs-6'>
-					<button class='btn btn-success' type='submit' id='save_edit_mahasiswa'><i class='fa fa-save'></i> Save</button>
-					</div>
-					<div class='col-xs-6 push-left'>
-					<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
-					</div>
-					</div>
-					</form>";
-				}
-				
-			}
-			else
+			foreach ($mahasiswaData as $data)
 			{
-				$mahasiswaData = $this->browse();
-				foreach ($mahasiswaData as $data)
+				echo "
+				<div class='modal-header'>
+				<h1 class='modal-title'>Edit Mahasiswa</h1>
+				</div>
+				<div id='error_form_mahasiswa'></div>
+				<form class='form-horizontal' method='post' id='edit_form_mahasiswa'>
+				<div class='modal-body'>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>NIM</label>
+				<label class='col-xs-4 control-label'>".$data->nim."</label>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Status</label>
+				<div class='col-xs-7'>
+				<select name='Status' id='status_edit' class='form-control' required>
+				<option".($data->status === 'Aktif' ? 'selected' : '').">Aktif</option>
+				<option".($data->status === 'Tidak' ? 'selected' : '').">Tidak</option>
+				</select>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Nama</label>
+				<div class='col-xs-7'>
+				<input name='nama' id='nama_edit' type='text' class='form-control' value='".$data->nama."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				Jurusan
+				</label>
+				<div class='col-xs-7'>
+				<select name='id_jurusan' id='id_jurusan_edit' type='text' class='form-control' required>";
+				foreach ($jurusanData as $jurusan)
 				{
-					echo "
-					<tr id='edit_source_".$data->nim."'>
-					<td style='text-align:center;'>".$i."</td>
-					<td style='text-align:center;'>".$data->nim."</td>
-					<td style='text-align:center;'>".$data->nama."</td>
-					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_mahasiswa_".$data->nim."'><i class='fa fa-edit'></i> EDIT</button>
-					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_mahasiswa_".$data->nim."'><i class='fa fa-trash'></i> DELETE</button>
-					</td>
-					</tr>
-					";
-					$i++;
+					echo "<option value=".$jurusan->id_jurusan."".($jurusan->id_jurusan === $data->id_jurusan ? ' selected>' : '>').$jurusan->nama."</option>";
 				}
+				echo "
+				</select>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				Tempat Lahir
+				</label>
+				<div class='col-xs-7'>
+				<input name='tempat_lahir' id='tempat_lahir_edit' type='text' class='form-control' value='".$data->tempat_lahir."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				Tanggal Lahir
+				</label>
+				<div class='col-xs-7'>
+				<input name='tanggal_lahir' id='tanggal_lahir_edit' type='date' class='form-control' value='".mdate('%Y-%m-%d', strtotime($data->tanggal_lahir))."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				Jenis Kelamin
+				</label>
+				<div class='col-xs-7'>
+				<select name='jenis_kelamin' id='jenis_kelamin_edit' type='text' class='form-control' required>
+				<option value=1".($data->jenis_kelamin === '1' ? ' selected' : '').">Laki-Laki</option>
+              	<option value=0".($data->jenis_kelamin === '0' ? ' selected' : '').">Perempuan</option>
+				</select>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				Alamat
+				</label>
+				<div class='col-xs-7'>
+				<input name='alamat' id='alamat_edit' type='text' class='form-control' value='".$data->alamat."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				Agama
+				</label>
+				<div class='col-xs-7'>
+				<input name='agama' id='agama_edit' type='text' class='form-control' value='".$data->agama."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				Email
+				</label>
+				<div class='col-xs-7'>
+				<input name='email' id='email_edit' type='email' class='form-control' value='".$data->email."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				Kelas
+				</label>
+				<div class='col-xs-7'>
+				<input name='kelas' id='kelas_edit' type='text' class='form-control' value='".$data->kelas."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				Semester
+				</label>
+				<div class='col-xs-7'>
+				<select name='semester' id='semester_edit' type='text' class='form-control' required>".$data->semester."
+				<option value=1 ".($data->semester === '1' ? ' selected' : '').">1</option>
+				<option value=2 ".($data->semester === '2' ? ' selected' : '').">2</option>
+				<option value=3 ".($data->semester === '3' ? ' selected' : '').">3</option>
+				<option value=4 ".($data->semester === '4' ? ' selected' : '').">4</option>
+				<option value=5 ".($data->semester === '5' ? ' selected' : '').">5</option>
+				<option value=6 ".($data->semester === '6' ? ' selected' : '').">6</option>
+				<option value=7 ".($data->semester === '7' ? ' selected' : '').">7</option>
+				<option value=8 ".($data->semester === '8' ? ' selected' : '').">8</option>
+				<option value=0 ".($data->semester === '0' ? ' selected' : '').">Lulus</option>
+				</select>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				Tahun Masuk
+				</label>
+				<div class='col-xs-7'>
+				<input name='tahun_masuk' id='tahun_masuk_edit' type='number' min=0 step=1 class='form-control' value='".mdate('%Y',strtotime($data->tahun_masuk))."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				Uang Kuliah
+				</label>
+				<div class='col-xs-7'>
+				<select name='id_uangkuliah' id='id_uangkuliah_edit' type='text' class='form-control' required>";
+				foreach ($uangkuliahData as $ukt)
+				{
+					echo "<option value=".$ukt->id_uangkuliah." ".($ukt->id_uangkuliah === $data->id_uangkuliah ? ' selected>' : '>')." ".$ukt->nominal."</option>";
+				}
+				echo "
+				</select>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>
+				SPI
+				</label>
+				<div class='col-xs-7'>
+				<input name='spi' id='spi_edit' type='number' min=0 step=1 class='form-control' value='".$data->spi."' required>
+				</div>
+				</div>
+				</div>
+				<div class='modal-footer'>
+				<div class='col-xs-6'>
+				<button class='btn btn-success' type='submit' id='save_edit_mahasiswa'><i class='fa fa-save'></i> Save</button>
+				</div>
+				<div class='col-xs-6 push-left'>
+				<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
+				</div>
+				</div>
+				</form>";
 			}
 		}
 		else
@@ -303,7 +259,10 @@ class Mahasiswa extends MX_Controller
 					'spi' => $this->input->post('spi'),
 					'edited_at' => mdate('%Y-%m-%d', now()),
 				);
-				echo ($this->MahasiswaModel->edit($nim, $mahasiswaData) === TRUE ? 'TRUE' : 'FALSE');
+				if ($this->MahasiswaModel->edit($nim, $mahasiswaData) === TRUE)
+				{
+					echo($this->users->_edit($nim, array('fullname' => $this->input->post('nama'))));
+				}
 			}
 			else
 			{
@@ -509,7 +468,7 @@ class Mahasiswa extends MX_Controller
 						$userData = array(
 							'username' => $nim,
 							'fullname' => $this->input->post('nama'),
-							'password' => $this->input->post('tanggal_lahir'),
+							'password' => str_replace("-", "", $this->input->post('tanggal_lahir')),
 							'job' => 'Mahasiswa',
 						);
 						echo($this->users->_add($userData));
