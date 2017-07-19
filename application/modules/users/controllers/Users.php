@@ -17,7 +17,7 @@ class Users extends MX_Controller
 		if ($this->_access === 'BAAK')
 		{
 			$data = array(
-				'users' =>  $this->browse(),
+				'users' =>  $this->_browse(),
 			);
 			$this->_show('browse', $data);
 		}		
@@ -32,7 +32,7 @@ class Users extends MX_Controller
 	 * show list of users
 	 * @return mixed
 	 */
-	public function browse()
+	function _browse()
 	{
 		if ($this->_access === 'BAAK')
 		{
@@ -48,101 +48,67 @@ class Users extends MX_Controller
 
 	/**
 	 * read
-	 * search data use fullname or read data use single username user
-	 * @param string type
-	 * @param string username or fullname
+	 * read data from single username user
+	 * @param string username
 	 * @return mixed
 	 */
-	public function read($type = '', $data = '')
+	public function read($username)
 	{
 		if ($this->_access === 'BAAK')
 		{
-			$i = 1;
-			if ($type === 'search')
+			$userData = $this->UsersModel->read($username);
+			foreach ($userData as $data)
 			{
-				$userData = $this->UsersModel->browse($data);
-				foreach ($userData as $data)
-				{
-					echo "
-					<tr id='edit_source_".$data->id."'>
-					<td style='text-align:center;'>".$data->username."</td>
-					<td style='text-align:center;'>".$data->fullname."</td>
-					<td style='text-align:center;'>".$data->job."</td>
-					</tr>
-					";
-				}
-			}
-			elseif ($type === 'read')
-			{
-				$userData = $this->UsersModel->read($data);
-				foreach ($userData as $data)
-				{
-					echo "
-					<div class='modal-header'>
-					<h1 class='modal-title'>Edit User</h1>
-					</div>
-					<div id='error_form_user'></div>
-					<form class='form-horizontal' method='post' id='edit_form_user'>
-					<div class='modal-body'>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Username</label>
-					<label class='col-xs-4 control-label' id='username_edit'>".$data->username."</label>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Nama</label>
-					<div class='col-xs-7'>
-					<input name='fullname' id='fullname_edit' type='text' class='form-control' value='".$data->fullname."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Password</label>
-					<div class='col-xs-7'>
-					<div class='input-group'>
-					<div class='input-group-btn'>
-					<button type='button' class='btn btn-info' id='show_password'><i class='fa fa-eye-slash' id='show_password_icon'></i></button>
-					</div>
-					<input name='password' type='password' class='form-control' id='password_add' value='".$data->password."' required>
-					</div>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Pekerjaan</label>
-					<div class='col-xs-7'>
-					<select name='job' class='form-control' id='job_edit' required>
-					<option ".($data->job === 'BAAK' ?  "selected = 'selected'" : "").">BAAK</option>
-					<option ".($data->job === 'Keuangan' ?  "selected = 'selected'" : "").">Keuangan</option>
-					<option ".($data->job === 'Dosen' ?  "selected = 'selected'" : "").">Dosen</option>
-					<option ".($data->job === 'Mahasiswa' ?  "selected = 'selected'" : "").">Mahasiswa</option>
-					</select>
-					</div>
-					</div>
-					</div>
-					<div class='modal-footer'>
-					<div class='col-xs-6'>
-					<button class='btn btn-success' type='submit' id='save_edit_user'><i class='fa fa-save'></i> Save</button>
-					</div>
-					<div class='col-xs-6 push-left'>
-					<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
-					</div>
-					</div>
-					</form>";
-				}
-				
-			}
-			else
-			{
-				$userData = $this->UsersModel->browse();
-				foreach ($userData as $data)
-				{
-					echo "
-					<tr id='edit_source_".$data->id."'>
-					<td style='text-align:center;'>".$data->username."</td>
-					<td style='text-align:center;'>".$data->fullname."</td>
-					<td style='text-align:center;'>".$data->job."</td>
-					</tr>
-					";
-				}
+				echo "
+				<div class='modal-header'>
+				<h1 class='modal-title'>Edit User</h1>
+				</div>
+				<div id='error_form_user'></div>
+				<form class='form-horizontal' method='post' id='edit_form_user'>
+				<div class='modal-body'>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Username</label>
+				<label class='col-xs-4 control-label' id='username_edit'>".$data->username."</label>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Nama</label>
+				<div class='col-xs-7'>
+				<input name='fullname' id='fullname_edit' type='text' class='form-control' value='".$data->fullname."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Password</label>
+				<div class='col-xs-7'>
+				<div class='input-group'>
+				<div class='input-group-btn'>
+				<button type='button' class='btn btn-info' id='show_password'><i class='fa fa-eye-slash' id='show_password_icon'></i></button>
+				</div>
+				<input name='password' type='password' class='form-control' id='password_add' value='".$data->password."' required>
+				</div>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Pekerjaan</label>
+				<div class='col-xs-7'>
+				<select name='job' class='form-control' id='job_edit' required>
+				<option ".($data->job === 'BAAK' ?  "selected = 'selected'" : "").">BAAK</option>
+				<option ".($data->job === 'Keuangan' ?  "selected = 'selected'" : "").">Keuangan</option>
+				<option ".($data->job === 'Dosen' ?  "selected = 'selected'" : "").">Dosen</option>
+				<option ".($data->job === 'Mahasiswa' ?  "selected = 'selected'" : "").">Mahasiswa</option>
+				</select>
+				</div>
+				</div>
+				</div>
+				<div class='modal-footer'>
+				<div class='col-xs-6'>
+				<button class='btn btn-success' type='submit' id='save_edit_user'><i class='fa fa-save'></i> Save</button>
+				</div>
+				<div class='col-xs-6 push-left'>
+				<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
+				</div>
+				</div>
+				</form>";
 			}
 		}
 		else
@@ -153,7 +119,7 @@ class Users extends MX_Controller
 	}
 
 	/**
-	 * edit
+	 * edit 
 	 * edit data from a single username of user
 	 * @param string username
 	 * @return string
@@ -169,19 +135,43 @@ class Users extends MX_Controller
 					'fullname' => $this->input->post('fullname'),
 					'job' => $this->input->post('job'),
 				);
-				echo ($this->UsersModel->edit($username, $userData) === TRUE ? 'TRUE' : 'FALSE');
+				echo ($this->_edit($username, $userData));
 			}
-			else
-			{
-				echo "ERROR";
-			}
-			
 		}
 		else
 		{
 			echo "!LOGIN";
 			redirect(base_url('/auth/logout'));
 		}
+	}
+
+	/**
+	 * edit data of user and save it into the persistence storage
+	 * this function can be used by another module such as dosen module or mahasiswa module
+	 * @param string username
+	 * @param string data
+	 * @return string
+	 */
+	function _edit($username, $data)
+	{
+		$status = "FALSE";
+		
+		if ($this->_access === 'BAAK')
+		{
+			if ($this->UsersModel->dataExists('users', array('username' => $username)) === 1)
+			{
+				$status = ($this->UsersModel->edit($username, $data) === TRUE ? 'TRUE' : 'FALSE');
+			}
+			else
+			{
+				$status = "ERROR";
+			}
+		}
+		else
+		{
+			$status = "!LOGIN";
+		}
+		return $status;
 	}
 
 	/**
@@ -265,12 +255,12 @@ class Users extends MX_Controller
 	}
 
 	/**
-	 * inserting new data of user to the persistence storage
-	 * this function can used by another module such as dosen module or mahasiswa module
+	 * inserting new data of user into the persistence storage
+	 * this function can be used by another module such as dosen module or mahasiswa module
 	 * @param string data
 	 * @return string
 	 */
-	public function _add($data)
+	function _add($data)
 	{
 		$status = "FALSE";
 
