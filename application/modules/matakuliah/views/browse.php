@@ -9,15 +9,6 @@
           </div>
           <!-- /.box-header -->
           <div class="box-body table-responsive no-padding">
-            <div class="box-tools">
-              <label class="col-xs-3 control-label">
-                <strong>Search by Name</strong>
-              </label>
-              <div class="input-group">
-                <input type="text" id="matakuliah_search" class="form-control input-text" placeholder="Search">
-                <span class="input-group-addon input-icon" style="padding:1%"><i class="fa fa-search"></i></span>
-              </div>
-            </div>
             <div class="col-xs-12">
               <table class="table table-hover" style="margin-top:1%;border:none;">
                 <thead>
