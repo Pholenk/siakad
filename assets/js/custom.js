@@ -681,7 +681,7 @@ $(document).ready(function() {
         $.ajax({
             cache: false,
             type: 'post',
-            url: '/ajar/add/' + $('#idajar_add').val(),
+            url: '/ajar/add/',
             data: $('#add_form_ajar').serialize(),
             success: function(response) {
                 switch (response) {
@@ -698,7 +698,7 @@ $(document).ready(function() {
                         break
                     case 'ERROR':
                         $('#error_form_ajar').fadeIn('slow', function() {
-                            $("#error_form_ajar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Id ajar sudah ada!</div>')
+                            $("#error_form_ajar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Dosen sudah mengajar mata kuliah ini!</div>')
                         })
                         break
                 }
