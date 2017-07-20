@@ -173,7 +173,7 @@ $(document).ready(function() {
         event.preventDefault()
         id = this.id.replace('edit_jurusan_', '')
         $.ajax({
-            url: '/jurusan/read/read/' + id,
+            url: '/jurusan/read/' + id,
             success: function(response) {
                 (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
             }
@@ -297,7 +297,7 @@ $(document).ready(function() {
         event.preventDefault()
         id = this.id.replace('edit_mahasiswa_', '')
         $.ajax({
-            url: '/mahasiswa/read/read/' + id,
+            url: '/mahasiswa/read/' + id,
             success: function(response) {
                 (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
             }
@@ -419,7 +419,7 @@ $(document).ready(function() {
         event.preventDefault()
         id = this.id.replace('edit_dosen_', '')
         $.ajax({
-            url: '/dosen/read/read/' + id,
+            url: '/dosen/read/' + id,
             success: function(response) {
                 (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
             }
@@ -541,7 +541,7 @@ $(document).ready(function() {
         event.preventDefault()
         id = this.id.replace('edit_matakuliah_', '')
         $.ajax({
-            url: '/matakuliah/read/read/' + id,
+            url: '/matakuliah/read/' + id,
             success: function(response) {
                 (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
             }
@@ -663,7 +663,7 @@ $(document).ready(function() {
         event.preventDefault()
         id = this.id.replace('edit_ajar_', '')
         $.ajax({
-            url: '/ajar/read/read/' + id,
+            url: '/ajar/read/' + id,
             success: function(response) {
                 (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
             }
@@ -785,7 +785,7 @@ $(document).ready(function() {
         event.preventDefault()
         id = this.id.replace('edit_uangkuliah_', '')
         $.ajax({
-            url: '/uangkuliah/read/read/' + id,
+            url: '/uangkuliah/read/' + id,
             success: function(response) {
                 (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
             }
@@ -879,6 +879,128 @@ $(document).ready(function() {
                     case 'ERROR':
                         $('#error_delete_uangkuliah').fadeIn('slow', function() {
                             $("#error_delete_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+})
+
+//=================//
+//  orangtua page  //
+//=================//
+$(document).ready(function() {
+    var id
+
+    $("#add_orangtua").on('click', function(event) {
+        event.preventDefault()
+        $.ajax({
+            url: '/orangtua/add',
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='edit_orangtua_']").on('click', function(event) {
+        event.preventDefault()
+        id = this.id.replace('edit_orangtua_', '')
+        $.ajax({
+            url: '/orangtua/read/' + id,
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+
+    $("button[id^='delete_orangtua_']").click(function(event) {
+        event.preventDefault()
+        id = this.id.replace('delete_orangtua_', '')
+        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete orangtua</h1></div><div id="error_delete_orangtua"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus orangtua.<br><strong>Hapus orangtua?</strong></h4></div></div><div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_orangtua"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"><button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
+    })
+
+    $('body').on('submit', '#add_form_orangtua', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/orangtua/add/' + $('#id_orangtua_add').val(),
+            data: $('#add_form_orangtua').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/orangtua'
+                        break
+                    case 'FALSE':
+                        $('#error_form_orangtua').fadeIn('slow', function() {
+                            $("#error_form_orangtua").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan orangtua baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_orangtua').fadeIn('slow', function() {
+                            $("#error_form_orangtua").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Id orangtua sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('submit', '#edit_form_orangtua', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/orangtua/edit/' + id,
+            data: $('#edit_form_orangtua').serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/orangtua'
+                        break
+                    case 'FALSE':
+                        $('#error_form_orangtua').fadeIn('slow', function() {
+                            $("#error_form_orangtua").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_form_orangtua').fadeIn('slow', function() {
+                            $("#error_form_orangtua").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('click', '#save_delete_orangtua', function(event) {
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            url: '/orangtua/delete/' + id,
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/orangtua'
+                        break
+                    case 'FALSE':
+                        $('#error_delete_orangtua').fadeIn('slow', function() {
+                            $("#error_delete_orangtua").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    case 'ERROR':
+                        $('#error_delete_orangtua').fadeIn('slow', function() {
+                            $("#error_delete_orangtua").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
                         })
                         break
                 }
