@@ -17,10 +17,10 @@ class Matakuliah extends MX_Controller
 		if ($this->_access === 'BAAK')
 		{
 			$data = array(
-				'matakuliahs' => $this->browse(),
+				'matakuliahs' => $this->_browse(),
 			);
 			$this->_show('browse', $data);
-		}		
+		}
 		else
 		{
 			redirect(base_url('/auth/logout'));
@@ -32,9 +32,16 @@ class Matakuliah extends MX_Controller
 	 * show list of matakuliah
 	 * @return mixed
 	 */
-	public function browse()
+	function _browse()
 	{
-		return $this->MatakuliahModel->browse();
+		if ($this->_access === 'BAAK')
+		{
+			return $this->MatakuliahModel->browse();
+		}
+		else
+		{
+			redirect(base_url('/auth/logout'));
+		}
 	}
 
 	/**
@@ -44,99 +51,52 @@ class Matakuliah extends MX_Controller
 	 * @param string username or fullname
 	 * @return mixed
 	 */
-	public function read($type = '', $data = '')
+	public function read($id_matakuliah)
 	{
 		if ($this->_access === 'BAAK')
 		{
-			$i = 1;
-			if ($type === 'search')
+			$matakuliahData = $this->MatakuliahModel->read($id_matakuliah);
+			foreach ($matakuliahData as $data)
 			{
-				$matakuliahData = $this->MatakuliahModel->browse($data);
-				foreach ($matakuliahData as $data)
-				{
-					echo "
-					<tr id='edit_source_".$data->id_matakuliah."'>
-					<td style='text-align:center;'>".$i."</td>
-					<td style='text-align:center;'>".$data->id_matakuliah."</td>
-					<td style='text-align:center;'>".$data->nama."</td>
-					<td style='text-align:center;'>".$data->sks."</td>
-					<td style='text-align:center;'>".$data->semester."</td>
-					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_matakuliah_".$data->id_matakuliah."'><i class='fa fa-edit'></i> EDIT</button>
-					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_matakuliah_".$data->id_matakuliah."'><i class='fa fa-trash'></i> DELETE</button>
-					</td>
-					</tr>
-					";
-					$i++;
-				}
-			}
-			elseif ($type === 'read')
-			{
-				$matakuliahData = $this->MatakuliahModel->read($data);
-				foreach ($matakuliahData as $data)
-				{
-					echo "
-					<div class='modal-header'>
-					<h1 class='modal-title'>Edit matakuliah</h1>
-					</div>
-					<div id='error_form_matakuliah'></div>
-					<form class='form-horizontal' method='post' id='edit_form_matakuliah'>
-					<div class='modal-body'>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Kode matakuliah</label>
-					<label class='col-xs-4 control-label'>".$data->id_matakuliah."</label>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Nama</label>
-					<div class='col-xs-7'>
-					<input name='namamatakuliah' id='namamatakuliah_edit' type='text' class='form-control' value='".$data->nama."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Jumlah SKS</label>
-					<div class='col-xs-7'>
-					<input name='sks' id='sks_edit' type='text' class='form-control' value='".$data->sks."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Semester</label>
-					<div class='col-xs-7'>
-					<input name='semester' id='semester_edit' type='text' class='form-control' value='".$data->semester."' required>
-					</div>
-					</div>
-					</div>
-					<div class='modal-footer'>
-					<div class='col-xs-6'>
-					<button class='btn btn-success' type='submit' id='save_edit_matakuliah'><i class='fa fa-save'></i> Save</button>
-					</div>
-					<div class='col-xs-6 push-left'>
-					<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
-					</div>
-					</div>
-					</form>";
-				}
-				
-			}
-			else
-			{
-				$matakuliahData = $this->MatakuliahModel->browse();
-				foreach ($matakuliahData as $data)
-				{
-					echo "
-					<tr id='edit_source_".$data->id_matakuliah."'>
-					<td style='text-align:center;'>".$i."</td>
-					<td style='text-align:center;'>".$data->id_matakuliah."</td>
-					<td style='text-align:center;'>".$data->nama."</td>
-					<td style='text-align:center;'>".$data->sks."</td>
-					<td style='text-align:center;'>".$data->semester."</td>
-					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_matakuliah_".$data->id_matakuliah."'><i class='fa fa-edit'></i> EDIT</button>
-					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_matakuliah_".$data->id_matakuliah."'><i class='fa fa-trash'></i> DELETE</button>
-					</td>
-					</tr>
-					";
-					$i++;
-				}
+				echo "
+				<div class='modal-header'>
+				<h1 class='modal-title'>Edit matakuliah</h1>
+				</div>
+				<div id='error_form_matakuliah'></div>
+				<form class='form-horizontal' method='post' id='edit_form_matakuliah'>
+				<div class='modal-body'>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Kode matakuliah</label>
+				<label class='col-xs-4 control-label'>".$data->id_matakuliah."</label>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Nama</label>
+				<div class='col-xs-7'>
+				<input name='namamatakuliah' id='namamatakuliah_edit' type='text' class='form-control' value='".$data->nama."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Jumlah SKS</label>
+				<div class='col-xs-7'>
+				<input name='sks' id='sks_edit' type='text' class='form-control' value='".$data->sks."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Semester</label>
+				<div class='col-xs-7'>
+				<input name='semester' id='semester_edit' type='text' class='form-control' value='".$data->semester."' required>
+				</div>
+				</div>
+				</div>
+				<div class='modal-footer'>
+				<div class='col-xs-6'>
+				<button class='btn btn-success' type='submit' id='save_edit_matakuliah'><i class='fa fa-save'></i> Save</button>
+				</div>
+				<div class='col-xs-6 push-left'>
+				<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
+				</div>
+				</div>
+				</form>";
 			}
 		}
 		else
