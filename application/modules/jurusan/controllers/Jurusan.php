@@ -52,86 +52,46 @@ class Jurusan extends MX_Controller
 	 * @param string username or fullname
 	 * @return mixed
 	 */
-	public function read($type = '', $data = '')
+	public function read($id_jurusan)
 	{
 		if ($this->_access === 'BAAK')
 		{
-			if ($type === 'search')
+			$jurusanData = $this->JurusanModel->read($id_jurusan);
+			foreach ($jurusanData as $data)
 			{
-				$jurusanData = $this->JurusanModel->browse($data);
-				foreach ($jurusanData as $data)
-				{
-					echo "
-					<tr id='edit_source_".$data->id_jurusan."'>
-					<td style='text-align:center;'>".$data->id_jurusan."</td>
-					<td style='text-align:center;'>".$data->kode_jurusan."</td>
-					<td style='text-align:center;'>".$data->nama."</td>
-					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_jurusan_".$data->id_jurusan."'><i class='fa fa-edit'></i> EDIT</button>
-					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_jurusan_".$data->id_jurusan."'><i class='fa fa-trash'></i> DELETE</button>
-					</td>
-					</tr>
-					";
-				}
-			}
-			elseif ($type === 'read')
-			{
-				$jurusanData = $this->JurusanModel->read($data);
-				foreach ($jurusanData as $data)
-				{
-					echo "
-					<div class='modal-header'>
-					<h1 class='modal-title'>Edit Jurusan</h1>
-					</div>
-					<div id='error_form_jurusan'></div>
-					<form class='form-horizontal' method='post' id='edit_form_jurusan'>
-					<div class='modal-body'>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Kode Jurusan</label>
-					<label class='col-xs-4 control-label'>".$data->id_jurusan."</label>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Kode Jurusan</label>
-					<div class='col-xs-7'>
-					<input name='kode_jurusan' id='kode_jurusan_edit' type='text' class='form-control' value='".$data->kode_jurusan."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Nama Jurusan</label>
-					<div class='col-xs-7'>
-					<input name='namajurusan' id='namajurusan_edit' type='text' class='form-control' value='".$data->nama."' required>
-					</div>
-					</div>
-					</div>
-					<div class='modal-footer'>
-					<div class='col-xs-6'>
-					<button class='btn btn-success' type='submit' id='save_edit_jurusan'><i class='fa fa-save'></i> Save</button>
-					</div>
-					<div class='col-xs-6 push-left'>
-					<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
-					</div>
-					</div>
-					</form>";
-				}
-				
-			}
-			else
-			{
-				$jurusanData = $this->JurusanModel->browse();
-				foreach ($jurusanData as $data)
-				{
-					echo "
-					<tr id='edit_source_".$data->id_jurusan."'>	
-					<td style='text-align:center;'>".$data->id_jurusan."</td>
-					<td style='text-align:center;'>".$data->kode_jurusan."</td>
-					<td style='text-align:center;'>".$data->nama."</td>
-					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_jurusan_".$data->id_jurusan."'><i class='fa fa-edit'></i> EDIT</button>
-					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_jurusan_".$data->id_jurusan."'><i class='fa fa-trash'></i> DELETE</button>
-					</td>
-					</tr>
-					";
-				}
+				echo "
+				<div class='modal-header'>
+				<h1 class='modal-title'>Edit Jurusan</h1>
+				</div>
+				<div id='error_form_jurusan'></div>
+				<form class='form-horizontal' method='post' id='edit_form_jurusan'>
+				<div class='modal-body'>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Kode Jurusan</label>
+				<label class='col-xs-4 control-label'>".$data->id_jurusan."</label>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Kode Jurusan</label>
+				<div class='col-xs-7'>
+				<input name='kode_jurusan' id='kode_jurusan_edit' type='text' class='form-control' value='".$data->kode_jurusan."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Nama Jurusan</label>
+				<div class='col-xs-7'>
+				<input name='namajurusan' id='namajurusan_edit' type='text' class='form-control' value='".$data->nama."' required>
+				</div>
+				</div>
+				</div>
+				<div class='modal-footer'>
+				<div class='col-xs-6'>
+				<button class='btn btn-success' type='submit' id='save_edit_jurusan'><i class='fa fa-save'></i> Save</button>
+				</div>
+				<div class='col-xs-6 push-left'>
+				<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
+				</div>
+				</div>
+				</form>";
 			}
 		}
 		else
