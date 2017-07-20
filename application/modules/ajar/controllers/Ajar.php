@@ -26,7 +26,7 @@ class Ajar extends MX_Controller
 	 */
 	public function browse()
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			$data = array(
 				'ajars' =>  $this->ajarModel->browse(),
@@ -47,112 +47,66 @@ class Ajar extends MX_Controller
 	 * @param string username or fullname
 	 * @return mixed
 	 */
-	public function read($type = '', $data = '')
+	public function read($id_ajar = '')
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
-			$i = 1;
-			if ($type === 'search')
+			$ajarData = $this->ajarModel->read($id_ajar);
+			$matakuliahs = $this->matakuliah->_browse();
+			$dosens = $this->dosen->_browse();
+			foreach ($ajarData as $data)
 			{
-				$ajarData = $this->ajarModel->browse($data);
-				foreach ($ajarData as $data)
+				echo "
+				<div class='modal-header'>
+				<h1 class='modal-title'>Edit Ajar</h1>
+				</div>
+				<div id='error_form_ajar'></div>
+				<form class='form-horizontal' method='post' id='edit_form_ajar'>
+				<div class='modal-body'>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Kode ajar</label>
+				<label class='col-xs-4 control-label'>".$data->id_ajar."</label>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Mata Kuliah</label>
+				<div class='col-xs-7'>
+				<select name='matakuliah' id='matakuliah_edit' type='text' class='form-control' required>";
+				foreach ($matakuliahs as $matakuliah)
 				{
-					echo "
-					<tr>
-                    <td style='text-align:center'>".$i."</td>
-                    <td style='text-align:center'>".$ajar->nama_dosen."</td>
-                    <td style='text-align:center'>".$ajar->nama_matakuliah."</td>
-                    <td style='text-align:center'>".$ajar->kelas."</td>
-                    <td style='text-align:center;'>
-                      <button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_matakuliah_".$ajar->id_ajar."'><i class='fa fa-edit'></i> EDIT</button>
-                      <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_matakuliah_".$ajar->id_ajar."'><i class='fa fa-trash'></i> DELETE</button>
-                    </td>
-                  	</tr>
-					";
-					$i++;
+					echo "<option value='".$matakuliah->id_matakuliah."'".($matakuliah->id_matakuliah === $data->id_matakuliah ? 'selected' : '').">".$matakuliah->nama."</option>";
 				}
-			}
-			elseif ($type === 'read')
-			{
-				$ajarData = $this->ajarModel->read($data);
-				$matakuliahs = $this->matakuliah->browse();
-				$dosens = $this->dosen->browse();
-				foreach ($ajarData as $data)
+				echo "
+				</select>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Dosen</label>
+				<div class='col-xs-7'>
+				<select name='dosen' id='dosen_edit' type='text' class='form-control' required>";
+				foreach ($dosens as $dosen)
 				{
-					echo "
-					<div class='modal-header'>
-					<h1 class='modal-title'>Edit ajar</h1>
-					</div>
-					<div id='error_form_ajar'></div>
-					<form class='form-horizontal' method='post' id='edit_form_ajar'>
-					<div class='modal-body'>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Kode ajar</label>
-					<label class='col-xs-4 control-label'>".$data->id_ajar."</label>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Mata Kuliah</label>
-					<div class='col-xs-7'>
-					<select name='matakuliah' id='matakuliah_edit' type='text' class='form-control' required>";
-					foreach ($matakuliahs as $matakuliah)
-					{
-						echo "<option value='".$matakuliah->id_matakuliah."'".($matakuliah->id_matakuliah === $data->id_matakuliah ? 'selected' : '').">".$matakuliah->nama."</option>";
-					}
-					echo "
-					</select>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Dosen</label>
-					<div class='col-xs-7'>
-					<select name='dosen' id='dosen_edit' type='text' class='form-control' required>";
-					foreach ($dosens as $dosen)
-					{
-						echo "<option value='".$dosen->id_dosen."'".($dosen->id_dosen === $data->id_dosen ? 'selected' : '').">".$dosen->nama."</option>";
-					}
-					echo "
-					</select>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Kelas</label>
-					<div class='col-xs-7'>
-					<input name='kelas' id='kelas_edit' type='text' class='form-control' value='".$data->kelas."' required>
-					</div>
-					</div>
-					</div>
-					<div class='modal-footer'>
-					<div class='col-xs-6'>
-					<button class='btn btn-success' type='submit' id='save_edit_ajar'><i class='fa fa-save'></i> Save</button>
-					</div>
-					<div class='col-xs-6 push-left'>
-					<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
-					</div>
-					</div>
-					</form>";
+					echo "<option value='".$dosen->id_dosen."'".($dosen->id_dosen === $data->id_dosen ? 'selected' : '').">".$dosen->nama."</option>";
 				}
-				
-			}
-			else
-			{
-				$ajarData = $this->ajarModel->browse();
-				foreach ($ajarData as $data)
-				{
-					echo "
-					<tr id='edit_source_".$data->id_ajar."'>
-					<td style='text-align:center;'>".$i."</td>
-					<td style='text-align:center;'>".$data->id_ajar."</td>
-					<td style='text-align:center;'>".$data->nama."</td>
-					<td style='text-align:center;'>".$data->sks."</td>
-					<td style='text-align:center;'>".$data->semester."</td>
-					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_ajar_".$data->id_ajar."'><i class='fa fa-edit'></i> EDIT</button>
-					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_ajar_".$data->id_ajar."'><i class='fa fa-trash'></i> DELETE</button>
-					</td>
-					</tr>
-					";
-					$i++;
-				}
+				echo "
+				</select>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Kelas</label>
+				<div class='col-xs-7'>
+				<input name='kelas' id='kelas_edit' type='text' class='form-control' value='".$data->kelas."' required>
+				</div>
+				</div>
+				</div>
+				<div class='modal-footer'>
+				<div class='col-xs-6'>
+				<button class='btn btn-success' type='submit' id='save_edit_ajar'><i class='fa fa-save'></i> Save</button>
+				</div>
+				<div class='col-xs-6 push-left'>
+				<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
+				</div>
+				</div>
+				</form>";
 			}
 		}
 		else
@@ -170,14 +124,14 @@ class Ajar extends MX_Controller
 	 */
 	public function edit($id_ajar)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
-			if ($this->ajarModel->dataExists('ajar', array('id_ajar' => $id_ajar)) === 0)
+			if ($this->ajarModel->dataExists('ajar', array('id_ajar' => $id_ajar)) === 1)
 			{
 				$ajarData = array(
-					'nama' => $this->input->post('namaajar'),
-					'sks' => $this->input->post('sks'),
-					'semester' => $this->input->post('semester'),
+					'id_matakuliah' => $this->input->post('matakuliah'),
+					'id_dosen' => $this->input->post('dosen'),
+					'kelas' => $this->input->post('kelas'),
 					'edited_at' => mdate('%Y-%m-%d', now()),
 				);
 				echo ($this->ajarModel->edit($id_ajar, $ajarData) === TRUE ? 'TRUE' : 'FALSE');
@@ -201,63 +155,72 @@ class Ajar extends MX_Controller
 	 * @param string username
 	 * @return mixed
 	 */
-	public function add($id_ajar = '')
+	public function add()
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
-			if (empty($id_ajar))
+			if (empty($this->input->post('kelas')))
 			{
+				$matakuliahs = $this->matakuliah->_browse();
+				$dosens = $this->dosen->_browse();
 				echo "
-					<div class='modal-header'>
-					<h1 class='modal-title'>Add Mata Kuliah</h1>
-					</div>
-					<div id='error_form_ajar'></div>
-					<form class='form-horizontal' method='post' id='add_form_ajar'>
-					<div class='modal-body'>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Kode ajar</label>
-					<div class='col-xs-7'>
-					<input name='idajar' id='idajar_add' type='text' class='form-control' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Nama</label>
-					<div class='col-xs-7'>
-					<input name='namaajar' id='namaajar_add' type='text' class='form-control' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Jumlah SKS</label>
-					<div class='col-xs-7'>
-					<input name='sks' id='sks_add' type='text' class='form-control' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Semester</label>
-					<div class='col-xs-7'>
-					<input name='semester' id='semester_add' type='text' class='form-control' required>
-					</div>
-					</div>
-					</div>
-					<div class='modal-footer'>
-					<div class='col-xs-6'>
-					<button class='btn btn-success' type='submit' id='save_add_ajar'><i class='fa fa-save'></i> Save</button>
-					</div>
-					<div class='col-xs-6 push-left'>
-					<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
-					</div>
-					</div>
-					</form>";
+				<div class='modal-header'>
+				<h1 class='modal-title'>Add Ajar</h1>
+				</div>
+				<div id='error_form_ajar'></div>
+				<form class='form-horizontal' method='post' id='add_form_ajar'>
+				<div class='modal-body'>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Mata Kuliah</label>
+				<div class='col-xs-7'>
+				<select name='matakuliah' id='matakuliah_edit' type='text' class='form-control' required>";
+				foreach ($matakuliahs as $matakuliah)
+				{
+					echo "<option value='".$matakuliah->id_matakuliah."'>".$matakuliah->nama."</option>";
+				}
+				echo "
+				</select>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Dosen</label>
+				<div class='col-xs-7'>
+				<select name='dosen' id='dosen_edit' type='text' class='form-control' required>";
+				foreach ($dosens as $dosen)
+				{
+					echo "<option value='".$dosen->id_dosen."'>".$dosen->nama."</option>";
+				}
+				echo "
+				</select>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Kelas</label>
+				<div class='col-xs-7'>
+				<input name='kelas' id='kelas_edit' type='text' class='form-control' required>
+				</div>
+				</div>
+				</div>
+				<div class='modal-footer'>
+				<div class='col-xs-6'>
+				<button class='btn btn-success' type='submit' id='save_add_ajar'><i class='fa fa-save'></i> Save</button>
+				</div>
+				<div class='col-xs-6 push-left'>
+				<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
+				</div>
+				</div>
+				</form>";
 			}
 			else
 			{
-				if ($this->ajarModel->dataExists('ajar', array('id_ajar' => $id_ajar)) === 0)
+				// echo $this->ajarModel->dataExists('ajar', array('id_dosen' => '08.014','id_matakuliah' => 'TI215P'));
+				if ($this->ajarModel->dataExists('ajar', array('id_dosen' => $this->input->post('dosen'),'id_matakuliah' => $this->input->post('matakuliah'))) === 0)
 				{
 					$ajarData = array(
-						'id_ajar' => $id_ajar,
-						'nama' => $this->input->post('namaajar'),
-						'sks' => $this->input->post('sks'),
-						'semester' => $this->input->post('semester'),
+						'id_ajar' => $this->ajarModel->genID(),
+						'id_matakuliah' => $this->input->post('matakuliah'),
+						'id_dosen' => $this->input->post('dosen'),
+						'kelas' => $this->input->post('kelas'),
 						'created_at' => mdate('%Y-%m-%d', now()),
 					);
 					echo ($this->ajarModel->add($ajarData) === TRUE ? 'TRUE' : 'FALSE');
@@ -283,7 +246,7 @@ class Ajar extends MX_Controller
 	 */
 	public function delete($id_ajar)
 	{
-		if ($this->_access === 'BAAK' || $this->_access === 'super_admin')
+		if ($this->_access === 'BAAK')
 		{
 			if ($this->ajarModel->dataExists('ajar', array('id_ajar' => $id_ajar)) === 1)
 			{
