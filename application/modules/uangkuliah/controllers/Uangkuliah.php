@@ -53,99 +53,52 @@ class Uangkuliah extends MX_Controller
 	 * @param string username or fullname
 	 * @return mixed
 	 */
-	public function read($type = '', $data = '')
+	public function read($id_uangkuliah)
 	{
 		if ($this->_access === 'BAAK')
 		{
-			$i = 1;
-			if ($type === 'search')
+			$uangkuliahData = $this->uangkuliahModel->read($id_uangkuliah);
+			foreach ($uangkuliahData as $data)
 			{
-				$uangkuliahData = $this->uangkuliahModel->browse($data);
-				foreach ($uangkuliahData as $data)
-				{
-					echo "
-					<tr id='edit_source_".$data->id_uangkuliah."'>
-					<td style='text-align:center;'>".$i."</td>
-					<td style='text-align:center;'>".$data->id_uangkuliah."</td>
-					<td style='text-align:center;'>".$data->nominal."</td>
-					<td style='text-align:center;'>".$data->tgl_buka."</td>
-					<td style='text-align:center;'>".$data->tgl_tutup."</td>
-					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_uangkuliah_".$data->id_uangkuliah."'><i class='fa fa-edit'></i> EDIT</button>
-					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_uangkuliah_".$data->id_uangkuliah."'><i class='fa fa-trash'></i> DELETE</button>
-					</td>
-					</tr>
-					";
-					$i++;
-				}
-			}
-			elseif ($type === 'read')
-			{
-				$uangkuliahData = $this->uangkuliahModel->read($data);
-				foreach ($uangkuliahData as $data)
-				{
-					echo "
-					<div class='modal-header'>
-					<h1 class='modal-title'>Edit uangkuliah</h1>
-					</div>
-					<div id='error_form_uangkuliah'></div>
-					<form class='form-horizontal' method='post' id='edit_form_uangkuliah'>
-					<div class='modal-body'>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Kode uangkuliah</label>
-					<label class='col-xs-4 control-label'>".$data->id_uangkuliah."</label>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>nominal</label>
-					<div class='col-xs-7'>
-					<input name='nominaluangkuliah' id='nominaluangkuliah_edit' type='text' class='form-control' value='".$data->nominal."' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Tanggal Buka</label>
-					<div class='col-xs-7'>
-					<input name='tgl_buka' id='tgl_buka_add' type='date' value='".mdate('%Y-%m-%d', strtotime($data->tgl_buka))."' class='form-control' required>
-					</div>
-					</div>
-					<div class='form-group'>
-					<label class='col-xs-4 control-label'>Tanggal Tutup</label>
-					<div class='col-xs-7'>
-					<input name='tgl_tutup' id='tgl_tutup_add' type='date' value='".mdate('%Y-%m-%d', strtotime($data->tgl_tutup))."' class='form-control' required>
-					</div>
-					</div>
-					</div>
-					<div class='modal-footer'>
-					<div class='col-xs-6'>
-					<button class='btn btn-success' type='submit' id='save_edit_uangkuliah'><i class='fa fa-save'></i> Save</button>
-					</div>
-					<div class='col-xs-6 push-left'>
-					<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
-					</div>
-					</div>
-					</form>";
-				}
-				
-			}
-			else
-			{
-				$uangkuliahData = $this->uangkuliahModel->browse();
-				foreach ($uangkuliahData as $data)
-				{
-					echo "
-					<tr id='edit_source_".$data->id_uangkuliah."'>
-					<td style='text-align:center;'>".$i."</td>
-					<td style='text-align:center;'>".$data->id_uangkuliah."</td>
-					<td style='text-align:center;'>".$data->nominal."</td>
-					<td style='text-align:center;'>".$data->tgl_buka."</td>
-					<td style='text-align:center;'>".$data->tgl_tutup."</td>
-					<td style='text-align:center;'>
-					<button type='button' class='btn btn-info' data-toggle='modal' data-target='#modal' id='edit_uangkuliah_".$data->id_uangkuliah."'><i class='fa fa-edit'></i> EDIT</button>
-					<button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_uangkuliah_".$data->id_uangkuliah."'><i class='fa fa-trash'></i> DELETE</button>
-					</td>
-					</tr>
-					";
-					$i++;
-				}
+				echo "
+				<div class='modal-header'>
+				<h1 class='modal-title'>Edit uangkuliah</h1>
+				</div>
+				<div id='error_form_uangkuliah'></div>
+				<form class='form-horizontal' method='post' id='edit_form_uangkuliah'>
+				<div class='modal-body'>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Kode uangkuliah</label>
+				<label class='col-xs-4 control-label'>".$data->id_uangkuliah."</label>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>nominal</label>
+				<div class='col-xs-7'>
+				<input name='nominaluangkuliah' id='nominaluangkuliah_edit' type='text' class='form-control' value='".$data->nominal."' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Tanggal Buka</label>
+				<div class='col-xs-7'>
+				<input name='tgl_buka' id='tgl_buka_add' type='date' value='".mdate('%Y-%m-%d', strtotime($data->tgl_buka))."' class='form-control' required>
+				</div>
+				</div>
+				<div class='form-group'>
+				<label class='col-xs-4 control-label'>Tanggal Tutup</label>
+				<div class='col-xs-7'>
+				<input name='tgl_tutup' id='tgl_tutup_add' type='date' value='".mdate('%Y-%m-%d', strtotime($data->tgl_tutup))."' class='form-control' required>
+				</div>
+				</div>
+				</div>
+				<div class='modal-footer'>
+				<div class='col-xs-6'>
+				<button class='btn btn-success' type='submit' id='save_edit_uangkuliah'><i class='fa fa-save'></i> Save</button>
+				</div>
+				<div class='col-xs-6 push-left'>
+				<button class='btn btn-danger push-left' type='button' data-dismiss='modal'><i class='fa fa-times'></i> Cancel</button>
+				</div>
+				</div>
+				</form>";
 			}
 		}
 		else
