@@ -37,17 +37,6 @@
           <li><a href="/matakuliah"><i class="fa fa-dot-circle-o"></i> Mata Kuliah</a></li>
           <li><a href="/ajar"><i class="fa fa-dot-circle-o"></i> Mengajar</a></li>
           <li><a href="/uangkuliah"><i class="fa fa-dot-circle-o"></i> Uang Kuliah</a></li>
-          <li>
-            <a href="#"><i class="fa fa-truck"></i> Supplier
-              <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>
-            </a>
-            <ul class="treeview-menu">
-              <li><a href="/supplier"><i class="fa fa-th-list"></i> Suppliers List</a></li>
-              <li><a href="/supplier_product"><i class="fa fa-archive"></i> Supplier's Products</a></li>
-            </ul>
-          </li>
-          <li><a href="/insentif"><i class="fa fa-dollar"></i> Insentif</a></li>
-          <li><a href="/buyer"><i class="fa fa-shopping-cart"></i> Buyer</a></li>
         </ul>
       </li>
       <li class="header">Cetak</li>
