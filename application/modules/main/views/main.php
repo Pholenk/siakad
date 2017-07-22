@@ -2,8 +2,8 @@
 	<!-- Main content -->
 	<section class="content">
 		<div class="row">
-			<div class="col-xs-12 main">
-				<div class="box box-success">
+			<div class="col-xs-12">
+				<div class="box box-success" id="main">
 					<div class="box-body table-responsive no-padding">
 						<div class="col-xs-12">
 							Selamat datang, <b><?php echo $this->session->name; ?></b>.
