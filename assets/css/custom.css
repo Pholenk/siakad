@@ -39,8 +39,8 @@ span .fa {
 	border-bottom-color: #d2d6de;
 }
 
-.main {
-	padding-top: 20%;
+#main {
+	margin-top: 20%;
 	font-size: 50px;
 	text-align: center;
 }
