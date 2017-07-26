@@ -1008,3 +1008,157 @@ $(document).ready(function() {
         })
     })
 })
+
+//=================//
+//  bayar page  //
+//=================//
+$(document).ready(function() {
+    var uri
+    var id
+    $('a[id^="bayar_add_"]').on('click', function(event) {
+        event.preventDefault()
+        uri = this.id.replace("bayar_add_",'')
+        $.ajax({
+            url: '/bayar/add/'+uri,
+            success: function(response) {
+                (response !== '!LOGIN' ? $('.modal-content').html(response) : window.location = '/auth/logout')
+            }
+        })
+    })
+    $('body').on('submit', '[id^="add_form_"]', function(event) {
+        event.preventDefault();
+        uri = this.id.replace("add_form_",'')
+        $.ajax({
+            cache: false,
+            type: 'post',
+            url: '/bayar/add/'+uri,
+            data: $('#add_form_'+uri).serialize(),
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/'
+                        break
+                    case 'FALSE':
+                        $('#error_form_bayar').fadeIn('slow', function() {
+                            $("#error_form_bayar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    default:
+                        $('#error_form_bayar').fadeIn('slow', function() {
+                            $("#error_form_bayar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; '+response+'</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+
+    $("button[id^='delete_bayar_']").click(function(event) {
+        event.preventDefault()
+        id = this.id.replace('delete_bayar_', '')
+        uri = id.replace('-','/')
+        $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete Data Pembayaran</h1></div><div id="error_delete_bayar"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus orangtua.<br><strong>Hapus orangtua?</strong></h4></div></div><div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_bayar"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"><button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
+    })
+
+    $('body').on('click', '#save_delete_bayar', function(event) {
+        event.preventDefault()
+        $.ajax({
+            url: '/bayar/delete/'+uri,
+            success: function(response) {
+                switch (response) {
+                    case '!LOGIN':
+                        window.location = '/auth/logout'
+                        break
+                    case 'TRUE':
+                        window.location = '/'
+                        break
+                    case 'FALSE':
+                        $('#error_form_bayar').fadeIn('slow', function() {
+                            $("#error_form_bayar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                        })
+                        break
+                    default:
+                        $('#error_form_bayar').fadeIn('slow', function() {
+                            $("#error_form_bayar").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; '+response+'</div>')
+                        })
+                        break
+                }
+            }
+        })
+    })
+})
+
+//==============//
+//  nilai page  //
+//==============//
+$(document).ready(function() {
+    $('[id^="matakuliah_nilai"]').on('change', function(event) {
+        if ($('[id^="matakuliah_nilai"]').val() !== '') {
+            $.ajax({
+                url: '/nilai/getKelas/'+$('[id^="matakuliah_nilai"]').val(),
+                success: function(response) {
+                    (response === '!LOGIN' ? window.location = '/' : $('[id^="kelas_nilai"]').attr('disabled', false).html(response) && $('[id^="jenis_nilai"]').attr('disabled', false))
+                }
+            })
+        }
+        else
+        {
+            $('.btn-success').addClass('hide')
+            $('#form-nilai').html('')
+            $('[id^="kelas_nilai"]').attr('disabled', true).html('')
+            $('[id^="jenis_nilai"]').attr('disabled', true)
+        }
+    })
+    $('[id^="pencarian_nilai"]').on('submit',function(event){
+        event.preventDefault()
+        // console.log($('#pencarian_nilai').serialize())
+        $.ajax({
+            url: '/nilai/browse',
+            type: 'POST',
+            data: $('#pencarian_nilai').serialize(),
+            success: function(response){
+                console.log(response)
+                (response === '!LOGIN' ? window.location = '/' : $('.table-responsive').html(response))
+            }
+        })
+    })
+    $('[id^="jenis_nilai"]').on('change', function(event) {
+        event.preventDefault()
+        if($('#jenis_nilai').val() !== '' && $('[id^="matakuliah_nilai"]').val() !== '' && $('[id^="kelas_nilai"]').val() !== ''){
+            $.ajax({
+                cache: false,
+                url: '/nilai/add/',
+                method: 'post',
+                data: $('#tambah_nilai').serialize(),
+                // {
+                //     matakuliah: $('[id^="matakuliah_nilai"]').val(),
+                //     kelas: $('[id^="kelas_nilai"]').val(),
+                // },
+                success: function(response) {
+                    $('.btn-success').removeClass('hide')
+                    $('#form-nilai').html(response)
+                }
+            })
+        }
+        else{
+            $('#form-nilai').html('')
+            $('.btn-success').addClass('hide')
+        }
+    })
+
+    $('body').on('submit','#tambah_nilai',function(event){
+        event.preventDefault()
+        $.ajax({
+            url: '/nilai/add/TRUE',
+            method: 'post',
+            data: $('#tambah_nilai').serialize(),
+            success: function(response) {
+                console.log(response)
+                console.log($('#tambah_nilai').serialize())
+            }
+        })
+    })
+})
