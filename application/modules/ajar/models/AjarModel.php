@@ -14,14 +14,26 @@ class AjarModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function browse()
+	public function browse($id_dosen = '')
 	{
-		$this->db->select('ajar.id_ajar,ajar.id_dosen,dosen.nama as nama_dosen,ajar.id_matakuliah,matakuliah.nama as nama_matakuliah,ajar.kelas')
-		->from('ajar');
-		$this->db->join('dosen', 'ajar.id_dosen = dosen.id_dosen');
-		$this->db->join('matakuliah', 'ajar.id_matakuliah = matakuliah.id_matakuliah');
-		$this->db->where('dosen.deleted_at is Null');
-		$this->db->where('ajar.deleted_at is Null');
+		if(empty($id_dosen))
+		{
+			$this->db->select('ajar.id_ajar,ajar.id_dosen,dosen.nama as nama_dosen,ajar.id_matakuliah,matakuliah.nama as nama_matakuliah,ajar.kelas')
+			->from('ajar');
+			$this->db->join('dosen', 'ajar.id_dosen = dosen.id_dosen');
+			$this->db->join('matakuliah', 'ajar.id_matakuliah = matakuliah.id_matakuliah');
+			$this->db->where('dosen.deleted_at is Null');
+			$this->db->where('ajar.deleted_at is Null');
+		}
+		else
+		{
+			$this->db->select('ajar.id_ajar,matakuliah.nama as nama_matakuliah,ajar.kelas')
+			->from('ajar');
+			$this->db->join('dosen', 'ajar.id_dosen = dosen.id_dosen');
+			$this->db->join('matakuliah', 'ajar.id_matakuliah = matakuliah.id_matakuliah');
+			$this->db->where('dosen.id_dosen', $id_dosen);
+		}
+
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -32,6 +44,17 @@ class AjarModel extends CI_Model
 	public function read($id_ajar)
 	{
 		$this->db->select('*')->from('ajar');
+		$this->db->where('id_ajar', $id_ajar);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	/**
+	 * @inherit doc
+	 */
+	public function readKelas($id_ajar)
+	{
+		$this->db->select('kelas')->from('ajar');
 		$this->db->where('id_ajar', $id_ajar);
 		$query = $this->db->get();
 		return $query->result();
