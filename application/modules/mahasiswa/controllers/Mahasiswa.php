@@ -35,11 +35,11 @@ class Mahasiswa extends MX_Controller
 	 * show list of jurusan
 	 * @return mixed
 	 */
-	function _browse()
+	function _browse($kelas = '')
 	{
-		if ($this->_access === 'BAAK')
+		if ($this->_access === 'BAAK' || $this->_access === 'Keuangan' || $this->_access === 'Dosen')
 		{
-			return $this->MahasiswaModel->browse();
+			return $this->MahasiswaModel->browse($kelas);
 		}		
 		else
 		{
