@@ -16,20 +16,10 @@ class Ajar extends MX_Controller
 
 	public function index()
 	{
-		$this->browse();
-	}
-
-	/**
-	 * browse
-	 * show list of ajar
-	 * @return mixed
-	 */
-	public function browse()
-	{
 		if ($this->_access === 'BAAK')
 		{
 			$data = array(
-				'ajars' =>  $this->ajarModel->browse(),
+				'ajars' =>  $this->_browse(),
 			);
 			$this->_show('browse', $data);
 		}		
@@ -37,8 +27,26 @@ class Ajar extends MX_Controller
 		{
 			redirect(base_url('/auth/logout'));
 		}
+	}
+
+	/**
+	 * browse
+	 * show list of ajar
+	 * @return mixed
+	 */
+	function _browse($id_dosen = '', $id_ajar = '')
+	{
+		if ($this->_access === 'BAAK' || $this->_access === 'Dosen')
+		{
+			return ($this->ajarModel->browse($id_dosen));
+		}		
+		else
+		{
+			redirect(base_url('/auth/logout'));
+		}
 		
 	}
+
 
 	/**
 	 * read
@@ -112,6 +120,24 @@ class Ajar extends MX_Controller
 		else
 		{
 			echo "!LOGIN";
+		}
+		
+	}
+
+	/**
+	 * retrive kelas from table ajar that belongs to single id_ajar
+	 * @param string id_ajar
+	 * @return mixed
+	 */
+	function _readKelas($id_ajar = '')
+	{
+		if ($this->_access === 'BAAK' || $this->_access === 'Dosen')
+		{
+			return ($this->ajarModel->readKelas($id_ajar));
+		}		
+		else
+		{
+			redirect(base_url('/auth/logout'));
 		}
 		
 	}
