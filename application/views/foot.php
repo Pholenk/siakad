@@ -12,8 +12,6 @@ $.widget.bridge('uibutton', $.ui.button);
 <script src="/vendor/almasaeed2010/adminlte/bootstrap/js/bootstrap.min.js"></script>
 <!-- Custom js -->
 <script src="/assets/js/custom.js"></script>
-<!-- bootstrap-select js -->
-<script src="/assets/js/bootstrap-select/dist/js/bootstrap-select.js"></script>
 <!-- iCheck js -->
 <script src="/vendor/almasaeed2010/adminlte/plugins/iCheck/icheck.min.js"></script>
 <!-- Sparkline -->
