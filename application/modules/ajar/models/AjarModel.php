@@ -18,7 +18,7 @@ class AjarModel extends CI_Model
 	{
 		if(empty($id_dosen))
 		{
-			$this->db->select('ajar.id_ajar,ajar.id_dosen,dosen.nama as nama_dosen,ajar.id_matakuliah,matakuliah.nama as nama_matakuliah,ajar.kelas')
+			$this->db->select('ajar.id_ajar,ajar.id_dosen,dosen.nama as nama_dosen,ajar.id_matakuliah,matakuliah.nama as nama_matakuliah,matakuliah.semester,ajar.kelas')
 			->from('ajar');
 			$this->db->join('dosen', 'ajar.id_dosen = dosen.id_dosen');
 			$this->db->join('matakuliah', 'ajar.id_matakuliah = matakuliah.id_matakuliah');
@@ -27,7 +27,7 @@ class AjarModel extends CI_Model
 		}
 		else
 		{
-			$this->db->select('ajar.id_ajar,matakuliah.nama as nama_matakuliah,ajar.kelas')
+			$this->db->select('ajar.id_ajar,matakuliah.nama as nama_matakuliah,matakuliah.semester,ajar.kelas')
 			->from('ajar');
 			$this->db->join('dosen', 'ajar.id_dosen = dosen.id_dosen');
 			$this->db->join('matakuliah', 'ajar.id_matakuliah = matakuliah.id_matakuliah');
