@@ -31,7 +31,7 @@
         <ul class="treeview-menu">
           <li class="treview"><a href="/nilai/"><i class="fa fa-dot-circle-o"></i> Show Nilai</a></li>
           <li class="treview"><a href="/nilai/add"><i class="fa fa-dot-circle-o"></i> Add Nilai</a></li>
-          <li class="treview"><a href=""><i class="fa fa-dot-circle-o"></i> Edit Nilai</a></li>
+          <li class="treview"><a href="/nilai/read"><i class="fa fa-dot-circle-o"></i> Edit Nilai</a></li>
         </ul>
       </li>
       <li class="header">Cetak</li>
