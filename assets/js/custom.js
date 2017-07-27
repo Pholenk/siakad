@@ -1098,66 +1098,154 @@ $(document).ready(function() {
     $('[id^="matakuliah_nilai"]').on('change', function(event) {
         if ($('[id^="matakuliah_nilai"]').val() !== '') {
             $.ajax({
-                url: '/nilai/getKelas/'+$('[id^="matakuliah_nilai"]').val(),
+                url: '/nilai/getKelas/'+$('[id^="matakuliah_nilai"]').val().substr(1),
                 success: function(response) {
-                    (response === '!LOGIN' ? window.location = '/' : $('[id^="kelas_nilai"]').attr('disabled', false).html(response) && $('[id^="jenis_nilai"]').attr('disabled', false))
+                    response === '!LOGIN' ? window.location = '/' : $('[id^="kelas_nilai"]').val('') && $('[id^="kelas_nilai"]').attr('disabled', false).html(response) && $('[id^="jenis_nilai"]').val('') && $('[id^="jenis_nilai"]').attr('disabled', false)
                 }
             })
         }
         else
         {
-            $('.btn-success').addClass('hide')
             $('#form-nilai').html('')
+            $('#save-form-nilai').addClass('hide')
             $('[id^="kelas_nilai"]').attr('disabled', true).html('')
-            $('[id^="jenis_nilai"]').attr('disabled', true)
+            $('#pengambilan_nilai').addClass('hide')
+            $('[id^="jenis_nilai"]').attr('disabled', true).val('')
         }
     })
-    $('[id^="pencarian_nilai"]').on('submit',function(event){
+
+    $('[id^="kelas_nilai"]').change(function(event) {
+        $('[id^="jenis_nilai"]').val('')
+        $('#form-nilai').html('')
+        $('#save-form-nilai').addClass('hide')
+        $('#pengambilan_nilai').addClass('hide')
+    })
+
+    $('#browse_nilai').on('submit',function(event){
         event.preventDefault()
         // console.log($('#pencarian_nilai').serialize())
         $.ajax({
             url: '/nilai/browse',
             type: 'POST',
-            data: $('#pencarian_nilai').serialize(),
+            data: $('#browse_nilai').serialize(),
             success: function(response){
-                console.log(response)
                 (response === '!LOGIN' ? window.location = '/' : $('.table-responsive').html(response))
             }
         })
     })
-    $('[id^="jenis_nilai"]').on('change', function(event) {
+
+    $('#jenis_nilai_add').on('change', function(event) {
         event.preventDefault()
-        if($('#jenis_nilai').val() !== '' && $('[id^="matakuliah_nilai"]').val() !== '' && $('[id^="kelas_nilai"]').val() !== ''){
+        if($('#jenis_nilai_add').val() !== '' && $('#matakuliah_nilai_add').val() !== '' && $('#kelas_nilai_add').val() !== ''){
             $.ajax({
                 cache: false,
                 url: '/nilai/add/',
                 method: 'post',
-                data: $('#tambah_nilai').serialize(),
-                // {
-                //     matakuliah: $('[id^="matakuliah_nilai"]').val(),
-                //     kelas: $('[id^="kelas_nilai"]').val(),
-                // },
+                data: $('#form_add_nilai').serialize(),
                 success: function(response) {
-                    $('.btn-success').removeClass('hide')
+                    $('#save-form-nilai').removeClass('hide')
                     $('#form-nilai').html(response)
                 }
             })
         }
         else{
             $('#form-nilai').html('')
-            $('.btn-success').addClass('hide')
+            $('#save-form-nilai').addClass('hide')
         }
     })
 
-    $('body').on('submit','#tambah_nilai',function(event){
+    $('#jenis_nilai_edit').on('change', function(event) {
+        event.preventDefault()
+        if($('#jenis_nilai_edit').val() !== '' && $('#jenis_nilai_edit').val() !== 'nilai_lain' && $('#matakuliah_nilai_edit').val() !== '' && $('#kelas_nilai_edit').val() !== ''){
+            $.ajax({
+                cache: false,
+                url: '/nilai/read/',
+                method: 'post',
+                data: $('#form_edit_nilai').serialize(),
+                success: function(response) {
+                    $('#save-form-nilai').removeClass('hide')
+                    $('#form-nilai').html(response)
+                    $('#pengambilan_nilai').addClass('hide')
+                }
+            })
+        }
+        else if($('#jenis_nilai_edit').val() === 'nilai_lain' && $('#matakuliah_nilai_edit').val() !== '' && $('#kelas_nilai_edit').val() !== ''){
+            $.ajax({
+                cache: false,
+                url: '/nilai/getPengambilan/'+$('#matakuliah_nilai_edit').val().substr(1)+'/'+$('#kelas_nilai_edit').val()+'/'+$('#matakuliah_nilai_edit').val().substr(0,1),
+                success: function(response) {
+                    $('#pengambilan_nilai').removeClass('hide')
+                    $('#pengambilan_nilai_edit').html(response)
+                }
+            })
+        }
+        else{
+            $('#pengambilan_nilai').addClass('hide')
+            $('#form-nilai').html('')
+            $('#save-form-nilai').addClass('hide')
+        }
+    })
+
+    $('#pengambilan_nilai_edit').on('change', function(event) {
+        event.preventDefault()
+        if($('#jenis_nilai_edit').val() !== '' && $('#pengambilan_nilai_edit').val() !== '' && $('#matakuliah_nilai_edit').val() !== '' && $('#kelas_nilai_edit').val() !== ''){
+            $.ajax({
+                cache: false,
+                url: '/nilai/read/',
+                method: 'post',
+                data: $('#form_edit_nilai').serialize(),
+                success: function(response) {
+                    $('#save-form-nilai').removeClass('hide')
+                    $('#form-nilai').html(response)
+                }
+            })
+        }
+    })
+
+    $('body').on('submit','#form_add_nilai',function(event){
         event.preventDefault()
         $.ajax({
+            cache: false,
             url: '/nilai/add/TRUE',
             method: 'post',
-            data: $('#tambah_nilai').serialize(),
+            data: $('#form_add_nilai').serialize(),
+            success: function(response) {
+                switch(response) {
+                    case 'TRUE':
+                        $('#error_form_add_nilai').fadeIn('slow').html('<div class="alert alert-success"><span class="fa fa-check"></span> &nbsp; Data nilai berhasil disimpan!</div>')
+                        break
+                    case 'FALSE':
+                        $('#error_form_add_nilai').fadeIn('slow').html('<div class="alert alert-danger"><span class="fa fa-exclamation"></span> &nbsp; Data nilai gagal disimpan!</div>')
+                        break
+                    case 'ERROR':
+                        $('#error_form_add_nilai').fadeIn('slow').html('<div class="alert alert-warning"><span class="fa fa-exclamation"></span> &nbsp; Data nilai sudah ada!</div>')
+                        break
+                }
+            }
+        })
+    })
+
+    $('body').on('submit','#form_edit_nilai',function(event){
+        event.preventDefault()
+        $.ajax({
+            cache: false,
+            url: '/nilai/edit',
+            method: 'post',
+            data: $('#form_edit_nilai').serialize(),
             success: function(response) {
                 console.log(response)
-                console.log($('#tambah_nilai').serialize())
+                console.log($('#form_edit_nilai').serialize())
+                switch(response) {
+                    case 'TRUE':
+                        $('#error_form_edit_nilai').fadeIn('slow').html('<div class="alert alert-success"><span class="fa fa-check"></span> &nbsp; Data nilai berhasil disimpan!</div>')
+                        break
+                    case 'FALSE':
+                        $('#error_form_edit_nilai').fadeIn('slow').html('<div class="alert alert-danger"><span class="fa fa-exclamation"></span> &nbsp; Data nilai gagal disimpan!</div>')
+                        break
+                    case 'ERROR':
+                        $('#error_form_edit_nilai').fadeIn('slow').html('<div class="alert alert-warning"><span class="fa fa-exclamation"></span> &nbsp; Data nilai sudah ada!</div>')
+                        break
+                }
             }
         })
     })
