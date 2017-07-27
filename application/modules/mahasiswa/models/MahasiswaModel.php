@@ -14,7 +14,7 @@ class MahasiswaModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function browse($kelas='')
+	public function browse($kelas='', $semester='')
 	{
 		if (empty($kelas))
 		{
@@ -26,6 +26,7 @@ class MahasiswaModel extends CI_Model
 			$this->db->select('*')->from('mahasiswa');
 			$this->db->where('deleted_at is Null');
 			$this->db->where('kelas', $kelas);
+			$this->db->where('semester', $semester);
 
 			$query = $this->db->get();
 		}
