@@ -14,7 +14,7 @@ class NilaiModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function browse($id_ajar, $table, $kelas, $option = '')
+	public function browse($id_ajar, $table, $kelas, $pengambilan = '')
 	{
 		if ($table === 'nilai_lain') {
 			$this->db->select($table.'.nim,'.$table.'.pengambilan,'.$table.'.nilai');
@@ -23,7 +23,7 @@ class NilaiModel extends CI_Model
 			$this->db->join('mahasiswa', 'mahasiswa.nim = '.$table.'.nim');
 			$this->db->where('mahasiswa.kelas',$kelas);
 			$this->db->where($table.'.id_ajar',$id_ajar);
-			(empty($option) ? '' : $this->db->where($table.'.pengambilan',$option));
+			(empty($pengambilan) ? '' : $this->db->where($table.'.pengambilan',$pengambilan));
 		}
 		else {
 			$this->db->select($table.'.nim,'.$table.'.nilai');
@@ -51,10 +51,12 @@ class NilaiModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function edit($id_ajar, $nilaiData)
+	public function edit($table, $id_ajar, $nim, $nilai, $pengambilan='')
 	{
 		$this->db->where('id_ajar', $id_ajar);
-		return($this->db->update('ajar', $nilaiData) ? TRUE : FALSE);
+		$this->db->where('nim', $nim);
+		(!empty($pengambilan) ? $this->db->where('pengambilan', $pengambilan) : '');
+		return($this->db->update($table, array('nilai'=> $nilai)) ? TRUE : FALSE);
 	}
 
 	/**
@@ -93,11 +95,12 @@ class NilaiModel extends CI_Model
 	 * @param string kelas
 	 * @return mixed pengambilan
 	 */
-	public function getPengambilan($id_ajar, $kelas)
+	public function getPengambilan($id_ajar, $kelas, $semester)
 	{
 		$this->db->select('nilai_lain.pengambilan')->from('nilai_lain');
 		$this->db->join('mahasiswa','nilai_lain.nim = mahasiswa.nim');
 		$this->db->where('mahasiswa.kelas', $kelas);
+		$this->db->where('mahasiswa.semester', $semester);
 		$this->db->where('nilai_lain.id_ajar', $id_ajar);
 		$this->db->group_by('nilai_lain.pengambilan');
 		$pengambilan = $this->db->get();
@@ -110,12 +113,13 @@ class NilaiModel extends CI_Model
 	 * @param string kelas
 	 * @return int ambil
 	 */
-	public function maxPengambilan($id_ajar, $kelas)
+	public function maxPengambilan($id_ajar, $kelas, $semester)
 	{
 		$ambil = 0;
 		$this->db->select_max('nilai_lain.pengambilan')->from('nilai_lain');
 		$this->db->join('mahasiswa','nilai_lain.nim = mahasiswa.nim');
 		$this->db->where('mahasiswa.kelas', $kelas);
+		$this->db->where('mahasiswa.semester', $semester);
 		$this->db->where('nilai_lain.id_ajar', $id_ajar);
 		$this->db->group_by('nilai_lain.pengambilan');
 		$pengambilan = $this->db->get();
