@@ -14,7 +14,7 @@
                 Pencarian Nilai
               </div>
               <div class="login-box-body form-horizontal">
-                <form method='post' id="pencarian_nilai">
+                <form method='post' id="browse_nilai">
                   <div class='form-group'>
                     <label class='col-xs-5 control-label'>Mata kuliah</label>
                     <div class='col-xs-7'>
@@ -23,27 +23,28 @@
                         <?php
                           foreach ($ajars as $ajar)
                           {
-                            echo "<option value='".$ajar->id_ajar."'>".$ajar->nama_matakuliah."</option>";
+                            echo "<option value='".$ajar->semester."".$ajar->id_ajar."'>".$ajar->nama_matakuliah."</option>";
                           }
                         ?>
                       </select>
                     </div>
                   </div>
                   <div class='form-group'>
-                    <label class='col-xs-5 control-label'>Jenis Nilai</label>
+                    <label class='col-xs-5 control-label'>Kelas</label>
                     <div class='col-xs-7'>
-                      <select name='jenis' id='jenis_nilai_browse' type='text' class='form-control' required>
-                        <option value="nilai_lain">Nilai Lain-lain</option>
-                        <option value="nilai_uts">Nilai UTS</option>
-                        <option value="nilai_uas">Nilai UAS</option>
+                      <select name='kelas' id='kelas_nilai_browse' type='text' class='form-control' disabled required>
+                        <option></option>
                       </select>
                     </div>
                   </div>
                   <div class='form-group'>
-                    <label class='col-xs-5 control-label'>Kelas</label>
+                    <label class='col-xs-5 control-label'>Jenis Nilai</label>
                     <div class='col-xs-7'>
-                      <select name='kelas' id='kelas_nilai_browse' type='text' class='form-control' required>
+                      <select name='jenis' id='jenis_nilai_browse' type='text' class='form-control' disabled required>
                         <option></option>
+                        <option value="nilai_lain">Nilai Lain-lain</option>
+                        <option value="nilai_uts">Nilai UTS</option>
+                        <option value="nilai_uas">Nilai UAS</option>
                       </select>
                     </div>
                   </div>
@@ -53,7 +54,7 @@
                 </form>
               </div>
             </div>
-            <div class="col-xs-12 table-responsive"></div>
+            <div class="col-xs-12 table-responsive" id="form-nilai"></div>
           </div>
           <!-- /.box-body -->
           <div class="box-footer"></div>
