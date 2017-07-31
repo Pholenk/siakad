@@ -179,11 +179,12 @@ class Orangtua extends MX_Controller
 	 * @param string username
 	 * @return mixed
 	 */
-	public function add($nim = '')
+	public function add()
 	{
 		if ($this->_access === 'BAAK')
 		{
-			if (empty($nim))
+			echo $this->_access;
+			if (empty($this->input->post('nim')))
 			{
 				$mahasiswa = $this->mahasiswa->_browse();
 				echo "
@@ -255,7 +256,7 @@ class Orangtua extends MX_Controller
 					<div class='form-group'>
 					<label class='col-xs-4 control-label'>Telepon</label>
 					<div class='col-xs-7'>
-					<input name='telepon' id='telepon_add' type='number' min=0 step=1 class='form-control' required>
+					<input name='telepon' id='telepon_add' type='text' class='form-control' required>
 					</div>
 					</div>
 					</div>
@@ -272,7 +273,7 @@ class Orangtua extends MX_Controller
 			else
 			{
 				$orangtuaData = array(
-					'nim' => $nim,
+					'nim' => $this->input->post('nim'),
 					'nama' => $this->input->post('namaorangtua'),
 					'tempat_lahir' => $this->input->post('tempat_lahir'),
 					'tanggal_lahir' => $this->input->post('tanggal_lahir'),
@@ -281,9 +282,8 @@ class Orangtua extends MX_Controller
 					'alamat' => $this->input->post('alamat'),
 					'email' => $this->input->post('email'),
 					'telepon' => $this->input->post('telepon'),
-					'created_at' => mdate('%Y-%m-%d', now()),
 				);
-				if ($this->OrangtuaModel->dataExists('orangtua', array('nim' => $nim)) === 0)
+				if ($this->OrangtuaModel->dataExists('orangtua', array('nim' => $this->input->post('nim'))) === 0)
 				{
 					echo ($this->OrangtuaModel->add($orangtuaData) === TRUE ? 'TRUE' : 'FALSE');
 				}
@@ -296,7 +296,7 @@ class Orangtua extends MX_Controller
 		else
 		{
 			echo "!LOGIN";
-			redirect(base_url('/auth/logout'));
+			// redirect(base_url('/auth/logout'));
 		}
 	}
 
