@@ -925,27 +925,28 @@ $(document).ready(function() {
         $.ajax({
             cache: false,
             type: 'post',
-            url: '/orangtua/add/' + $('#id_orangtua_add').val(),
+            url: '/orangtua/add',
             data: $('#add_form_orangtua').serialize(),
             success: function(response) {
-                switch (response) {
-                    case '!LOGIN':
-                        window.location = '/auth/logout'
-                        break
-                    case 'TRUE':
-                        window.location = '/orangtua'
-                        break
-                    case 'FALSE':
-                        $('#error_form_orangtua').fadeIn('slow', function() {
-                            $("#error_form_orangtua").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan orangtua baru!</div>')
-                        })
-                        break
-                    case 'ERROR':
-                        $('#error_form_orangtua').fadeIn('slow', function() {
-                            $("#error_form_orangtua").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Id orangtua sudah ada!</div>')
-                        })
-                        break
-                }
+                console.log(response)
+                // switch (response) {
+                //     case '!LOGIN':
+                //         window.location = '/auth/logout'
+                //         break
+                //     case 'TRUE':
+                //         window.location = '/orangtua'
+                //         break
+                //     case 'FALSE':
+                //         $('#error_form_orangtua').fadeIn('slow', function() {
+                //             $("#error_form_orangtua").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan orangtua baru!</div>')
+                //         })
+                //         break
+                //     case 'ERROR':
+                //         $('#error_form_orangtua').fadeIn('slow', function() {
+                //             $("#error_form_orangtua").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Id orangtua sudah ada!</div>')
+                //         })
+                //         break
+                // }
             }
         })
     })
