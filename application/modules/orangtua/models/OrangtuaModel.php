@@ -67,7 +67,6 @@ class OrangtuaModel extends CI_Model
 	 */
 	public function dataExists($table, $data)
 	{
-		$this->db->where('deleted_at is Null');
 		$query = $this->db->get_where($table, $data);
 		$queryStats = ($query->num_rows() > 0 ? 1 : 0);
 		return $queryStats;
