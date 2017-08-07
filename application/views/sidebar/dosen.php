@@ -4,8 +4,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel" style="padding-top:20px;padding-bottom:20px;">
       <div class="pull-left image">
-        <img src="/vendor/almasaeed2010/adminlte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        <?php //echo '/assets/image/'.$this->session->id.'jpg'?>
+        <img src="/assets/image/logo-pnc.png" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         <p style='padding-bottom:2px;'>
@@ -34,7 +33,6 @@
           <li class="treview"><a href="/nilai/read"><i class="fa fa-dot-circle-o"></i> Edit Nilai</a></li>
         </ul>
       </li>
-      <li class="header">Cetak</li>
     </ul>
     <!-- /.sidebar menu -->
   </section>
