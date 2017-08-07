@@ -12,10 +12,6 @@ $.widget.bridge('uibutton', $.ui.button);
 <script src="/vendor/almasaeed2010/adminlte/bootstrap/js/bootstrap.min.js"></script>
 <!-- Custom js -->
 <script src="/assets/js/custom.js"></script>
-<!-- iCheck js -->
-<script src="/vendor/almasaeed2010/adminlte/plugins/iCheck/icheck.min.js"></script>
-<!-- Sparkline -->
-<script src="/vendor/almasaeed2010/adminlte/plugins/sparkline/jquery.sparkline.min.js"></script>
 <!-- daterangepicker -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
 <script src="/vendor/almasaeed2010/adminlte/plugins/daterangepicker/daterangepicker.js"></script>
