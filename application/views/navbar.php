@@ -2,9 +2,9 @@
   <!-- Logo -->
   <a href="<?php base_url(); ?>" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
-    <span class="logo-mini"><b>S</b>MF</span>
+    <span class="logo-mini"><b>PNC</b></span>
     <!-- logo for regular state and mobile devices -->
-    <span class="logo-lg"><b>Management</b> Farm</span>
+    <span class="logo-lg"><b>PNC</b> SIAKAD</span>
   </a>
   <!-- /.Logo -->
   <!-- Header Navbar: style can be found in header.less -->
@@ -19,16 +19,15 @@
         <!-- User Account: style can be found in dropdown.less -->
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="/vendor/almasaeed2010/adminlte/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-            <span class="hidden-xs">Alexander Pierce</span>
+            <img src="/assets/image/logo-pnc.png" class="user-image" alt="User Image">
+            <span class="hidden-xs"><?php echo $this->session->name; ?></span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->
             <li class="user-header">
-              <img src="/vendor/almasaeed2010/adminlte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+              <img src="/assets/image/logo-pnc.png" class="img-circle" alt="User Image">
               <p>
-                Alexander Pierce - Web Developer
-                <small>Member since Nov. 2012</small>
+                <?php echo $this->session->name.' - '.$this->session->job; ?>
               </p>
             </li>
             <!-- Menu Footer-->
