@@ -4,8 +4,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel" style="padding-top:20px;padding-bottom:20px;">
       <div class="pull-left image">
-        <img src="/vendor/almasaeed2010/adminlte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-        <?php //echo '/assets/image/'.$this->session->id.'jpg'?>
+        <img src="/assets/image/logo-pnc.png" class="img-circle" alt="User Image">
       </div>
       <div class="pull-left info">
         <p style='padding-bottom:2px;'>
@@ -40,6 +39,12 @@
         </ul>
       </li>
       <li class="header">Cetak</li>
+      <li class="treeview">
+        <a href="/ledger"><i class="fa fa-print"></i><span> Ledger Nilai</span></a>
+      </li>
+      <li class="treeview">
+        <a href="/kartu_ujian"><i class="fa fa-print"></i><span> Kartu Ujian</span></a>
+      </li>
     </ul>
     <!-- /.sidebar menu -->
   </section>
