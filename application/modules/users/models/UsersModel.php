@@ -18,6 +18,8 @@ class UsersModel extends CI_Model
 	{
 		if (empty($name))
 		{
+			$this->db->where("users.job != 'Mahasiswa'");
+			$this->db->where("users.job != 'Dosen'");
 			$query = $this->db->get('users');
 		}
 		else
