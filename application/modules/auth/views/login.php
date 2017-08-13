@@ -4,15 +4,15 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SMF | Log in</title>
+  <title>SIAKAD | Log in</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="/vendor/almasaeed2010/adminlte/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/assets/css/font-awesome-4.7.0/css/font-awesome.css">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Ionicons >
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css"-->
   <!-- Theme style -->
   <link rel="stylesheet" href="/vendor/almasaeed2010/adminlte/dist/css/AdminLTE.min.css">
   <!-- Custom stylesheet -->
@@ -36,12 +36,12 @@
       <form method="post" id="login">
         <div class="input-group">
           <span class="input-group-addon input-icon"><i class="fa fa-user"></i></span>
-          <input type="text" id="username" class="form-control input-text" placeholder="Email">
+          <input type="text" name="username" id="username" class="form-control input-text" placeholder="Username">
         </div>
         <br />
         <div class="input-group">
           <span class="input-group-addon input-icon"><i class="fa fa-unlock"></i></span>
-          <input type="password" id="password" class="form-control input-text" placeholder="Password">
+          <input type="password" name="password" id="password" class="form-control input-text" placeholder="Password">
         </div>
         <br />
         <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>

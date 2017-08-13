@@ -41,7 +41,7 @@ class Auth extends MX_Controller
 		}
 		else
 		{
-			echo 'Username or Password not found!';
+			echo $this->input->post('username');//'Username or Password not found!';
 		}
 	}
 
@@ -51,8 +51,7 @@ class Auth extends MX_Controller
 	 */
 	public function logout()
 	{
-		$this->session->unset_userdata('username','job','logged_in');
-		session_destroy();
+		$this->session->sess_destroy();
 		redirect(base_url());
 	}
 }
