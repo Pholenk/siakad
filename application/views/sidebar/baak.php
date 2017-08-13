@@ -45,6 +45,9 @@
       <li class="treeview">
         <a href="/kartu_ujian"><i class="fa fa-print"></i><span> Kartu Ujian</span></a>
       </li>
+      <li class="treeview">
+        <a href="/KHS"><i class="fa fa-print"></i><span> Kartu Hasil Studi</span></a>
+      </li>
     </ul>
     <!-- /.sidebar menu -->
   </section>
