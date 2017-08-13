@@ -3,12 +3,12 @@
   <section class="content">
     <div class="row">
       <div class="col-xs-12">
-        <div class="box box-success">
-          <div class="box-header with-border">
+        <div class="box box-info">
+          <div class="box-header with-border animated">
             <h3 class="box-title">Users List</h3>
           </div>
           <!-- /.box-header -->
-          <div class="box-body table-responsive no-padding">
+          <div class="box-body table-responsive no-padding animated">
             <div class="col-sm-12">
               <table class="table table-hover" style="margin-top:1%;border:none;">
                 <thead>
@@ -23,7 +23,7 @@
                   <?php foreach ($users as $user) { ?>
                   <tr>
                     <td style="text-align:center">
-                      <?php echo $user->username; ?>
+                      <?php echo $user->username?>
                     </td>
                     <td style="text-align:center">
                       <?php echo $user->fullname; ?>
@@ -42,7 +42,7 @@
             </div>
           </div>
           <!-- /.box-body -->
-          <div class="box-footer">
+          <div class="box-footer animated">
             <div class="col-sm-12" style="text-align:center;">
               <button type="button" class="btn btn-success" data-toggle='modal' data-target='#modal' id="add_user"><i class="fa fa-plus"></i> ADD</button>
             </div>
