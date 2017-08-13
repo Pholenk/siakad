@@ -10,12 +10,12 @@
             </div>
             <form method="post" id="form_add_nilai">
             <div class="box-body no-padding">
+              <div id="error_form_add_nilai"></div>
               <div class="login-box" style="margin-top:2%;margin-bottom:0;">
                 <div class="login-logo" style="margin-bottom:0px;">
                   Tambah Nilai
                 </div>
                 <div class="login-box-body form-horizontal">
-                  <div id="error_form_add_nilai"></div>
                   <div class='form-group'>
                     <label class='col-xs-5 control-label'>Mata kuliah</label>
                     <div class='col-xs-7'>
