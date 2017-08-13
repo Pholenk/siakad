@@ -871,24 +871,35 @@ $(document).ready(function() {
             url: '/uangkuliah/edit/' + id,
             data: $('#edit_form_uangkuliah').serialize(),
             success: function(response) {
+                if (response.search('!LOGIN')=== 0){
+                    window.location = '/auth/logout'
+                }
+                else if (response.search('TRUE')=== 0){
+                    $('#error_form_uangkuliah').fadeIn('slow', function() {
+                        $("#error_form_uangkuliah").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
+                    })
+
+                }
+                else if (response.search('FALSE')=== 0){
+                    $('#error_form_uangkuliah').fadeIn('slow', function() {
+                        $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan perubahan uang kuliah!</div>')
+                    })
+
+                }
+                else if (response.search('ERROR')=== 0){
+                    $('#error_form_uangkuliah').fadeIn('slow', function() {
+                        $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data tidak ada!</div>')
+                    })
+
+                }
                 switch (response) {
                     case '!LOGIN':
-                        window.location = '/auth/logout'
                         break
                     case 'TRUE':
-                        $('#error_form_uangkuliah').fadeIn('slow', function() {
-                            $("#error_form_uangkuliah").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
-                        })
                         break
                     case 'FALSE':
-                        $('#error_form_uangkuliah').fadeIn('slow', function() {
-                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan perubahan uang kuliah!</div>')
-                        })
                         break
                     case 'ERROR':
-                        $('#error_form_uangkuliah').fadeIn('slow', function() {
-                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data tidak ada!</div>')
-                        })
                         break
                 }
             }
