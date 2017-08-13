@@ -66,7 +66,7 @@ class Dosen extends MX_Controller
 				<form class='form-horizontal' method='post' id='edit_form_dosen'>
 				<div class='modal-body'>
 				<div class='form-group'>
-				<label class='col-xs-4 control-label'>id_dosen</label>
+				<label class='col-xs-4 control-label'>NIDN / NPAK</label>
 				<label class='col-xs-4 control-label'>".$data->id_dosen."</label>
 				</div>
 				<div class='form-group'>
@@ -166,7 +166,7 @@ class Dosen extends MX_Controller
 				);
 				if ($this->DosenModel->edit($id_dosen, $dosenData) === TRUE)
 				{
-					echo($this->users->_edit($id_dosen,array('fullname' => $this->input->post('namadosen'))));
+					echo($this->users->_edit($id_dosen,array('fullname' => $this->input->post('namadosen'),'password' => str_replace("-", "",$this->input->post('tanggal_lahir')),)));
 				}
 			}
 			else
@@ -187,11 +187,11 @@ class Dosen extends MX_Controller
 	 * @param string username
 	 * @return mixed
 	 */
-	public function add($id_dosen = '')
+	public function add()
 	{
 		if ($this->_access === 'BAAK')
 		{
-			if (empty($id_dosen))
+			if (empty($this->input->post('id_dosen')))
 			{
 				echo "
 					<div class='modal-header'>
@@ -201,7 +201,7 @@ class Dosen extends MX_Controller
 					<form class='form-horizontal' method='post' id='add_form_dosen'>
 					<div class='modal-body'>
 					<div class='form-group'>
-					<label class='col-xs-4 control-label'>id_dosen</label>
+					<label class='col-xs-4 control-label'>NIDN / NPAK</label>
 					<div class='col-xs-7'>
 					<input name='id_dosen' id='id_dosen_add' type='text' class='form-control' required>
 					</div>
@@ -273,7 +273,7 @@ class Dosen extends MX_Controller
 			else
 			{
 				$dosenData = array(
-					'id_dosen' => $id_dosen,
+					'id_dosen' => $this->input->post('id_dosen'),
 					'nama' => $this->input->post('namadosen'),
 					'tempat_lahir' => $this->input->post('tempat_lahir'),
 					'tanggal_lahir' => $this->input->post('tanggal_lahir'),
@@ -286,11 +286,11 @@ class Dosen extends MX_Controller
 				);
 				$userData = array(
 					'fullname' => $this->input->post('namadosen'),
-					'username' => $id_dosen,
-					'password' => $this->input->post('tanggal_lahir'),
+					'username' => $this->input->post('id_dosen'),
+					'password' => str_replace("-", "",$this->input->post('tanggal_lahir')),
 					'job' => 'Dosen'
 				);
-				if ($this->DosenModel->dataExists('dosen', array('id_dosen' => $id_dosen)) === 0)
+				if ($this->DosenModel->dataExists('dosen', array('id_dosen' => $this->input->post('id_dosen'))) === 0)
 				{
 					if ($this->DosenModel->add($dosenData) === TRUE)
 					{
