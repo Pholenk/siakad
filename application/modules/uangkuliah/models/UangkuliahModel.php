@@ -23,6 +23,15 @@ class UangkuliahModel extends CI_Model
 		return $query->result();
 	}
 
+	public function browseOrangtua($id_uangkuliah)
+	{
+		return $this->db->select('orangtua.telepon')
+			->from('orangtua')
+			->join('mahasiswa', 'mahasiswa.nim = orangtua.nim')
+			->where('mahasiswa.id_uangkuliah', $id_uangkuliah)
+			->get()->result();
+	}
+
 	/**
 	 * @inherit doc
 	 */
@@ -38,7 +47,7 @@ class UangkuliahModel extends CI_Model
 	/**
 	 * @inherit doc
 	 */
-	public function edit($id_uangkuliah, $uangkuliahData, $tenggatData)
+	public function edit($id_uangkuliah, $uangkuliahData)
 	{
 		$this->db->where('id_uangkuliah', $id_uangkuliah);
 		return($this->db->update('uangkuliah', $uangkuliahData) ? TRUE : FALSE);
