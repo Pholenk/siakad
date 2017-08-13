@@ -10,12 +10,12 @@
           <!-- /.box-header -->
           <form method='post' id="form_edit_nilai">
           <div class="box-body no-padding">
+            <div id="error_form_edit_nilai"></div>
             <div class="login-box" style="margin-top:2%;margin-bottom:0;">
               <div class="login-logo" style="margin-bottom:0px;">
                 Edit Nilai
               </div>
               <div class="login-box-body form-horizontal">
-                <div id="error_form_edit_nilai"></div>
                 <div class='form-group'>
                   <label class='col-xs-5 control-label'>Mata kuliah</label>
                   <div class='col-xs-7'>
@@ -33,7 +33,7 @@
                 <div class='form-group'>
                   <label class='col-xs-5 control-label'>Kelas</label>
                   <div class='col-xs-7'>
-                    <select name='kelas' id='kelas_nilai_edit' type='text' class='form-control' required>
+                    <select name='kelas' id='kelas_nilai_edit' type='text' class='form-control' required disabled>
                       <option></option>
                     </select>
                   </div>
@@ -41,7 +41,7 @@
                 <div class='form-group'>
                   <label class='col-xs-5 control-label'>Jenis Nilai</label>
                   <div class='col-xs-7'>
-                    <select name='jenis' id='jenis_nilai_edit' type='text' class='form-control' required>
+                    <select name='jenis' id='jenis_nilai_edit' type='text' class='form-control' required disabled>
                       <option></option>
                       <option value="nilai_lain">Nilai Lain-lain</option>
                       <option value="nilai_uts">Nilai UTS</option>
