@@ -16,7 +16,7 @@ $(document).ready(function(){
                 }
                 else {
                     $('#error').fadeIn('slow', function() {
-                        $("#error").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; ' + response + '</div>')
+                        $("#error").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Wrong username or password!</div>')
                     })
                 }
             }   
@@ -71,7 +71,7 @@ $(document).ready(function() {
                     case 'TRUE':
                         console.log(response)
                         $('#error_form_user').fadeIn('slow', function() {
-                            $("#error_form_user").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil mengubah data pengguna!</div>')
+                            $("#error_form_user").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -103,7 +103,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_delete_user').fadeIn('slow', function() {
-                            $("#error_delete_user").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Data pengguna dihapus!</div>')
+                            $("#error_delete_user").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -133,7 +133,7 @@ $(document).ready(function() {
                     case 'TRUE':
                         console.log(response)
                         $('#error_form_user').fadeIn('slow', function() {
-                            $("#error_form_user").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil mengubah data pengguna!</div>')
+                            $("#error_form_user").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -203,7 +203,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_jurusan').fadeIn('slow', function() {
-                            $("#error_form_jurusan").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan jurusan baru!</div>')
+                            $("#error_form_jurusan").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -235,7 +235,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_jurusan').fadeIn('slow', function() {
-                            $("#error_form_jurusan").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan perubahan jurusan!</div>')
+                            $("#error_form_jurusan").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -265,7 +265,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_delete_jurusan').fadeIn('slow', function() {
-                            $("#error_delete_jurusan").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus jurusan!</div>')
+                            $("#error_delete_jurusan").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -333,7 +333,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_mahasiswa').fadeIn('slow', function() {
-                            $("#error_form_mahasiswa").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan mahasiswa baru!</div>')
+                            $("#error_form_mahasiswa").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -365,7 +365,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_mahasiswa').fadeIn('slow', function() {
-                            $("#error_form_mahasiswa").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan perubahan mahasiswa!</div>')
+                            $("#error_form_mahasiswa").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -395,7 +395,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_delete_mahasiswa').fadeIn('slow', function() {
-                            $("#error_delete_mahasiswa").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus mahasiswa!</div>')
+                            $("#error_delete_mahasiswa").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -461,7 +461,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_dosen').fadeIn('slow', function() {
-                            $("#error_form_dosen").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan dosen baru!</div>')
+                            $("#error_form_dosen").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -493,7 +493,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_dosen').fadeIn('slow', function() {
-                            $("#error_form_dosen").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan perubahan dosen!</div>')
+                            $("#error_form_dosen").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -523,7 +523,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_delete_dosen').fadeIn('slow', function() {
-                            $("#error_delete_dosen").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus dosen!</div>')
+                            $("#error_delete_dosen").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -588,7 +588,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_matakuliah').fadeIn('slow', function() {
-                            $("#error_form_matakuliah").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan mata kuliah baru!</div>')
+                            $("#error_form_matakuliah").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -717,7 +717,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_ajar').fadeIn('slow', function() {
-                            $("#error_form_ajar").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data mengajar baru!</div>')
+                            $("#error_form_ajar").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -749,7 +749,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_ajar').fadeIn('slow', function() {
-                            $("#error_form_ajar").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan perubahan data mengajar!</div>')
+                            $("#error_form_ajar").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -779,7 +779,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_delete_ajar').fadeIn('slow', function() {
-                            $("#error_delete_ajar").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus data mengajar!</div>')
+                            $("#error_delete_ajar").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -845,7 +845,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_uangkuliah').fadeIn('slow', function() {
-                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan uangkuliah baru!</div>')
+                            $("#error_form_uangkuliah").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -877,17 +877,17 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_uangkuliah').fadeIn('slow', function() {
-                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                            $("#error_form_uangkuliah").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
                         $('#error_form_uangkuliah').fadeIn('slow', function() {
-                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan perubahan uang kuliah!</div>')
                         })
                         break
                     case 'ERROR':
                         $('#error_form_uangkuliah').fadeIn('slow', function() {
-                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                            $("#error_form_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data tidak ada!</div>')
                         })
                         break
                 }
@@ -907,17 +907,17 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_delete_uangkuliah').fadeIn('slow', function() {
-                            $("#error_delete_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                            $("#error_delete_uangkuliah").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus data!</div>')
                         })
                         break
                     case 'FALSE':
                         $('#error_delete_uangkuliah').fadeIn('slow', function() {
-                            $("#error_delete_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menyimpan pengguna baru!</div>')
+                            $("#error_delete_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Gagal menghapus uang kuliah!</div>')
                         })
                         break
                     case 'ERROR':
                         $('#error_delete_uangkuliah').fadeIn('slow', function() {
-                            $("#error_delete_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data sudah ada!</div>')
+                            $("#error_delete_uangkuliah").html('<div class="alert alert-danger"> <span class="fa fa-exclamation"></span> &nbsp; Data tidak ada!</div>')
                         })
                         break
                 }
@@ -974,7 +974,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_orangtua').fadeIn('slow', function() {
-                            $("#error_form_orangtua").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan orangtua baru!</div>')
+                            $("#error_form_orangtua").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -1006,7 +1006,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_orangtua').fadeIn('slow', function() {
-                            $("#error_form_orangtua").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan perubahan orangtua!</div>')
+                            $("#error_form_orangtua").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -1036,7 +1036,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_delete_orangtua').fadeIn('slow', function() {
-                            $("#error_delete_orangtua").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus orangtua!</div>')
+                            $("#error_delete_orangtua").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -1090,7 +1090,7 @@ $(document).ready(function() {
         event.preventDefault()
         $.ajax({
             cache: false,
-            url: '/bayar/add/'+ uri,
+            url: '/'+ uri,
             type: 'POST',
             data: $(this).serialize(),
             success: function(response) {
@@ -1101,7 +1101,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_form_bayar').fadeIn('slow', function() {
-                            $("#error_form_bayar").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan pembayaran baru!</div>')
+                            $("#error_form_bayar").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menyimpan data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -1138,7 +1138,7 @@ $(document).ready(function() {
                         break
                     case 'TRUE':
                         $('#error_delete_bayar').fadeIn('slow', function() {
-                            $("#error_delete_bayar").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus data pembayaran!</div>')
+                            $("#error_delete_bayar").html('<div class="alert alert-success"> <span class="fa fa-exclamation"></span> &nbsp; Berhasil menghapus data!</div>')
                         })
                         break
                     case 'FALSE':
@@ -1226,11 +1226,16 @@ $(document).ready(function() {
         if($('#jenis_nilai_edit').val() !== '' && $('#jenis_nilai_edit').val() !== 'nilai_lain' && $('#matakuliah_nilai_edit').val() !== '' && $('#kelas_nilai_edit').val() !== ''){
             $.ajax({
                 cache: false,
-                url: '/nilai/read/',
+                url: '/nilai/read',
                 method: 'post',
-                data: $('#form_edit_nilai').serialize(),
+                data: {
+                    matakuliah: $('#matakuliah_nilai_edit').val(),
+                    jenis: $('#jenis_nilai_edit').val(),
+                    kelas: $('#kelas_nilai_edit').val(),
+                    pengambilan: $('#pengambilan_nilai_edit').val(),
+                },
                 success: function(response) {
-                    console.log(response)
+                    console.log($('#form_edit_nilai').serialize())
                     $('#save-form-nilai').removeClass('hide')
                     $('#form-nilai').html(response)
                     $('#pengambilan_nilai').addClass('hide')
@@ -1302,20 +1307,19 @@ $(document).ready(function() {
             method: 'post',
             data: $('#form_edit_nilai').serialize(),
             success: function(response) {
-                console.log(response)
-                // console.log($('#form_edit_nilai').serialize())
+                // console.log(response)
                 switch(response) {
                     case 'TRUE':
-                        $('#form-nilai').html('<div class="alert alert-success"><span class="fa fa-check"></span> &nbsp; Data nilai berhasil disimpan!</div>') && $('#save-form-nilai').addClass('hide')
+                        $('#error_form_edit_nilai').html('<div class="alert alert-success"><span class="fa fa-check"></span> &nbsp; Data nilai berhasil disimpan!</div>') && $('#save-form-nilai').addClass('hide')
                         break
                     case 'FALSE':
-                        $('#form-nilai').html('<div class="alert alert-danger"><span class="fa fa-exclamation"></span> &nbsp; Data nilai gagal disimpan!</div>') && $('#save-form-nilai').addClass('hide')
+                        $('#error_form_edit_nilai').html('<div class="alert alert-danger"><span class="fa fa-exclamation"></span> &nbsp; Data nilai gagal disimpan!</div>') && $('#save-form-nilai').addClass('hide')
                         break
                     case 'ERROR':
-                        $('#form-nilai').html('<div class="alert alert-warning"><span class="fa fa-exclamation"></span> &nbsp; Data nilai tidak ada!</div>') && $('#save-form-nilai').addClass('hide')
+                        $('#error_form_edit_nilai').html('<div class="alert alert-warning"><span class="fa fa-exclamation"></span> &nbsp; Data nilai tidak ada!</div>') && $('#save-form-nilai').addClass('hide')
                         break
                 }
-            }
+            },
         })
     })
 })
