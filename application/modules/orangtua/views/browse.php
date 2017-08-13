@@ -31,7 +31,7 @@
                       <?php echo $orangtua->nama; ?>
                     </td>
                     <td style="text-align:center">
-                      <?php echo $orangtua->nama; ?>
+                      <?php echo $orangtua->mahasiswa; ?>
                     </td>
                     <td style="text-align:center">
                       <?php echo $orangtua->email; ?>
