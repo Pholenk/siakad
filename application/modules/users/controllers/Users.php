@@ -23,7 +23,8 @@ class Users extends MX_Controller
 		}		
 		else
 		{
-			redirect(base_url('/auth/logout'));
+			echo "!LOGIN";
+			//redirect(base_url('/auth/logout'));
 		}
 	}
 
@@ -41,7 +42,6 @@ class Users extends MX_Controller
 		else
 		{
 			echo "!LOGIN";
-			redirect(base_url('/auth/logout'));
 		}
 		
 	}
@@ -69,7 +69,6 @@ class Users extends MX_Controller
 				<div class='form-group'>
 				<label class='col-xs-4 control-label'>Username</label>
 				<label class='col-xs-4 control-label' id='username_edit'>".$data->username."</label>
-				</div>
 				</div>
 				<div class='form-group'>
 				<label class='col-xs-4 control-label'>Nama</label>
@@ -141,7 +140,6 @@ class Users extends MX_Controller
 		else
 		{
 			echo "!LOGIN";
-			redirect(base_url('/auth/logout'));
 		}
 	}
 
@@ -180,11 +178,11 @@ class Users extends MX_Controller
 	 * @param string username
 	 * @return mixed
 	 */
-	public function add($username = '')
+	public function add()
 	{
 		if ($this->_access === 'BAAK')
 		{
-			if (empty($username))
+			if (empty($this->input->post('username')))
 			{
 				echo "
 					<div class='modal-header'>
@@ -239,7 +237,7 @@ class Users extends MX_Controller
 			else
 			{				
 				$userData = array(
-					'username' => $username,
+					'username' => $this->input->post('username'),
 					'fullname' => $this->input->post('fullname'),
 					'password' => $this->input->post('password'),
 					'job' => $this->input->post('job'),
@@ -250,7 +248,6 @@ class Users extends MX_Controller
 		else
 		{
 			echo "!LOGIN";
-			redirect(base_url('/auth/logout'));
 		}
 	}
 
@@ -296,7 +293,7 @@ class Users extends MX_Controller
 		else
 		{
 			echo "!LOGIN";
-			redirect(base_url('/auth/logout'));
+			// redirect(base_url('/auth/logout'));
 		}
 	}
 
