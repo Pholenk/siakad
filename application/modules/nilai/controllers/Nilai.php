@@ -107,34 +107,45 @@ class Nilai extends MX_Controller
 				$nilais = $this->nilaiModel->browse(substr($this->input->post('matakuliah'),1), $this->input->post('jenis'), $this->input->post('kelas'), $this->input->post('pengambilan'));
 				$mahasiswas = $this->mahasiswa->_browse($this->input->post('kelas'), substr($this->input->post('matakuliah'), 0, 1));
 
-				echo "
-					<div  class='box' style='margin-top:1%;padding:0 2% 2% 2%;'>
-            		<div class='box-body form-horizontal'>
-					<div class='col-xs-12'>";
-				foreach ($mahasiswas as $mahasiswa)
+				if (!empty($nilais))
 				{
-                	echo"
-	                	<div class='form-group'>
-						<label class='col-xs-5 control-label' style='text-align: left;'>".$mahasiswa->nama."</label>
-						<div class='col-xs-6'>
-						<input name='nilai_".str_replace('.','',$mahasiswa->nim)."' type='number' min=0 max=100 step=1 class='form-control' id='nilai_edit'";
-					foreach ($nilais as $nilai)
+					echo "
+						<div  class='box' style='margin-top:1%;padding:0 2% 2% 2%;'>
+	            		<div class='box-body form-horizontal'>
+						<div class='col-xs-12'>";
+					foreach ($mahasiswas as $mahasiswa)
 					{
-						if ($mahasiswa->nim === $nilai->nim)
+	                	echo"
+		                	<div class='form-group'>
+							<label class='col-xs-5 control-label' style='text-align: left;'>".$mahasiswa->nama."</label>
+							<div class='col-xs-6'>
+							<input name='nilai_".str_replace('.','',$mahasiswa->nim)."' type='number' min=0 max=100 step=1 class='form-control' id='nilai_edit'";
+						foreach ($nilais as $nilai)
 						{
-							echo "value='".$nilai->nilai."'";
+							if ($mahasiswa->nim === $nilai->nim)
+							{
+								echo "value='".$nilai->nilai."'";
+							}
 						}
+					echo "
+						required>
+	                	</div>
+						</div>";
 					}
-				echo "
-					required>
-                	</div>
-					</div>";
 				}
+				else
+				{
+					echo "
+						<div  class='box' style='margin-top:1%;padding:0 2% 2% 2%;'>
+	            		<div class='box-body form-horizontal'>
+						<div class='col-xs-12'>
+						<div class='alert alert-danger'><span class='fa fa-exclamation'></span> &nbsp; Data nilai tidak ada!</div>
+						";
+				}
+				
 			}
 			else
 			{
-				// $data['nilais'] = $this->nilaiModel->browse(substr('6A0001',1), 'nilai_uts', 'C', $this->input->post('pengambilan'));
-				// $data['mahasiswas'] = $this->mahasiswa->_browse('C', substr('6A0001', 0, 1));
 				$data['ajars'] = $this->ajar->_browse($this->session->username);
 				$this->_show('edit',$data);
 			}
@@ -160,36 +171,38 @@ class Nilai extends MX_Controller
 			$status = 'FALSE';
 			if (!empty($this->input->post('jenis')))
 			{
+				$jenis = $this->input->post('jenis');
 				$id_ajar = $this->input->post('matakuliah');
 				$mahasiswas = $this->mahasiswa->_browse($this->input->post('kelas'), substr($id_ajar, 0, 1));
 				$pengambilan = $this->input->post('pengambilan');
+				$nilaiData = array(
+					'id_ajar'=> substr($id_ajar,1),
+				);
+				($jenis === 'nilai_lain' ? $nilaiData['pengambilan'] = $pengambilan : '');
 				$this->db->trans_begin();
 				foreach ($mahasiswas as $mahasiswa)
 				{
-					$nilaiData = array(
-						'id_ajar'=> substr($id_ajar,1),
-						'nim' => $mahasiswa->nim,
-					);
-					if($this->input->post('jenis') === 'nilai_lain')
-					{
-						$nilaiData['pengambilan'] = $pengambilan;
-					}
+					$nilaiData['nim'] = $mahasiswa->nim;
+
 					$nilai = $this->input->post('nilai_'.str_replace('.','',$mahasiswa->nim));
-					if($this->nilaiModel->dataExists($this->input->post('jenis'), $nilaiData) === 1)
+
+					if($this->nilaiModel->dataExists($jenis, $nilaiData) === 1)
 					{
-						$status = ($this->nilaiModel->edit($this->input->post('jenis'), $nilaiData['id_ajar'], $nilaiData['nim'], $nilai, ($this->input->post('jenis') === 'nilai_lain' ? $pengambilan : '')) ? 'TRUE' : 'FALSE');
+						$status = ($this->nilaiModel->edit($jenis, $nilaiData['id_ajar'], $nilaiData['nim'], $nilai, ($jenis === 'nilai_lain' ? $nilaiData['pengambilan'] = $pengambilan : '')) === TRUE ? 'TRUE' : 'FALSE');
 					}
 					else
 					{
 						$status = 'ERROR';
 					}
-				print_r($this->input->post('nilai_'.str_replace('.','',$mahasiswa->nim)));
+				// print_r($this->input->post('nilai_'.str_replace('.','',$mahasiswa->nim)));
 				}
 				($this->db->trans_status() === TRUE ? $this->db->trans_commit() : $this->db->trans_rollback());
+				echo $status;//$this->nilaiModel->dataExists($this->input->post('jenis'), $nilaiData);//
 			}
 			else
 			{
-				echo $status;//$this->input->post('jenis');
+				echo $status;//$this->nilaiModel->dataExists($this->input->post('jenis'), $nilaiData);//
+				// echo $this->input->post('jenis');
 			}
 		}
 		else
