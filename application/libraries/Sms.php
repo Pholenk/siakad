@@ -38,30 +38,33 @@ class Sms
 	/**
 	 * Perform send text to someone
 	 *
-	 * @param string to
+	 * @param mixed receivers
 	 * @param string text
 	 * @return mixed
 	 */
-	public function send($to, $text)
+	public function send($text, $receivers)
 	{
-		// url-ify the data for the POST
-		$post_data = 'api_key='.$this->_apiKey.'&api_secret='.$this->_apiSecret.'&to='.$to.'&from='.$this->_from.'&text='.$text;
-		
-		// open connection
-		$curlSMS = curl_init();
-
-		// set the url, POST data
-		curl_setopt($curlSMS,CURLOPT_URL, $this->_url);
-		curl_setopt($curlSMS,CURLOPT_POSTFIELDS, $post_data);
-
-		// execute curl
-		// if error occured while execution this will send an error report
-		if(curl_exec($curlSMS))
+		foreach ($receivers as $receiver => $number)
 		{
-			$to ='';
-			$text='';
+			// url-ify the data for the POST
+			$post_data = 'api_key='.$this->_apiKey.'&api_secret='.$this->_apiSecret.'&to='.$number.'&from='.$this->_from.'&text='.$text;
+			
+			// open connection
+			$curlSMS = curl_init();
+
+			// set the url, POST data
+			curl_setopt($curlSMS,CURLOPT_URL, $this->_url);
+			curl_setopt($curlSMS,CURLOPT_POSTFIELDS, $post_data);
+
+			// execute curl
+			// if error occured while execution this will send an error report
+			if(curl_exec($curlSMS))
+			{
+				$to ='';
+				$text='';
+			}
+			
 		}
-		
 	    // close connection
 	    curl_close($curlSMS);
 	}
