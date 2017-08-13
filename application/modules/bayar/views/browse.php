@@ -16,7 +16,7 @@
                     <th style="text-align:center">No</th>
                     <th style="text-align:center">Mahasiswa</th>
                     <th style="text-align:center">Tanggal Bayar</th>
-                    <th style="text-align:center;<?php echo($tipe === 'Uang Kuliah' ? '': 'display:none;');?>">Semester</th>
+                    <th style="text-align:center;<?php echo($tipe === 'uangkuliah' ? '': 'display:none;');?>">Semester</th>
                     <th style="text-align:center">Cicilan</th>
                     <th style="text-align:center">Nominal</th>
                     <th style="text-align:center">Action</th>
@@ -34,8 +34,8 @@
                     <td style="text-align:center">
                       <?php echo $bayar->tgl_bayar; ?>
                     </td>
-                    <td style="text-align:center;<?php echo($tipe === 'Uang Kuliah' ? '' : 'display:none;');?>">
-                      <?php echo($tipe === 'Uang Kuliah' ? ''.$bayar->semester.'' : '');?>
+                    <td style="text-align:center;<?php echo($tipe === 'uangkuliah' ? '' : 'display:none;');?>">
+                      <?php echo($tipe === 'uangkuliah' ? ''.$bayar->semester.'' : '');?>
                     </td>
                     <td style="text-align:center">
                       <?php echo $bayar->cicilan; ?>
@@ -44,7 +44,7 @@
                       <?php echo $bayar->nominal; ?>
                     </td>
                     <td style='text-align:center;'>
-                      <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='delete_bayar_<?php echo $tipe.'-'.$bayar->id_bayar ?>'><i class='fa fa-trash'></i> DELETE</button>
+                      <button type='button' class='btn btn-danger' data-toggle='modal' data-target='#modal' id='bayar_delete_<?php echo $tipe.'_'.$bayar->id_bayar ?>'><i class='fa fa-trash'></i> DELETE</button>
                     </td>
                   </tr>
                   <?php }?>

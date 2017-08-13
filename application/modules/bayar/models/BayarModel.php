@@ -198,4 +198,88 @@ class BayarModel extends CI_Model
 		$result = $this->db->get()->row();
 		return $result->tgl_bayar;
 	}
+
+	/**
+	 * retrieve sumarize data pembayaran from presistence storage
+	 * @param string type
+	 * @param string nim
+	 * @param int semester
+	 * @return int total
+	 */
+	private function totalPayment($type, $nim, $semester)
+	{
+		// declare variable that contains table name
+		$table = '';
+
+		// declare variable that contains final result
+		$total = 0;
+
+		// filled table name and some where clause
+		if ($type === 'uangkuliah')
+		{
+			$table = 'det_bayar_semester';
+			$this->db->where($table.'.semester', $semester);
+		}
+		else
+		{
+			$table = 'det_bayar_spi';
+		}
+		
+		$this->db->select_sum('nominal');
+		$this->db->from($table);
+		$this->db->join('pembayaran', $table.'.id_bayar = pembayaran.id_bayar');
+		$this->db->where('pembayaran.nim', $nim);
+
+		foreach ($this->db->get()->result() as $result)
+		{
+			$total = $result->nominal;
+		}
+
+		return $total;
+	}
+
+	/**
+	 * retrieve total nominal to be paid by mahasiswa
+	 * @param string type
+	 * @param string nim
+	 * @param int semester
+	 * @return int total
+	 */
+	private function totalBill($type, $nim)
+	{
+		// declare variable that contains final result
+		$total = 0;
+
+		if ($type === 'uangkuliah')
+		{
+			$this->db->select('uangkuliah.nominal')->from('uangkuliah');
+			$this->db->join('mahasiswa', 'uangkuliah.id_uangkuliah = mahasiswa.id_uangkuliah');
+		}
+		else
+		{
+			$this->db->select('mahasiswa.spi as nominal')->from('mahasiswa');
+		}
+
+		$this->db->where('mahasiswa.nim', $nim);
+
+		foreach ($this->db->get()->result() as $result)
+		{
+			$total = $result->nominal;
+		}
+
+		return $total;
+	}
+
+	/**
+	 * count the deviation between totalBill and totalPayment
+	 * @param string type
+	 * @param string nim
+	 * @param int semester
+	 * @return int total
+	 */
+	public function remainingPayment($type, $nim, $semester= NULL)
+	{
+		$total = $this->totalBill($type, $nim) - $this->totalPayment($type, $nim, $semester);
+		return $total;
+	}
 }

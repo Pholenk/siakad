@@ -17,9 +17,8 @@ class Bayar extends MX_Controller
 	{
 		if ($this->_access === 'Keuangan')
 		{
-			// echo $this->_access;
 			$data = array(
-				'tipe' => ($tipe === 'SPI' ? 'SPI' : 'Uang Kuliah'),
+				'tipe' => $tipe,
 				'bayars' => $this->browse($tipe),
 			);
 			$this->_show('browse', $data);
@@ -153,7 +152,7 @@ class Bayar extends MX_Controller
 	{
 		if ($this->_access === 'Keuangan')
 		{
-			if (empty($this->input->post('cicilan')))
+			if (empty($this->input->post('cicilan_bayar')))
 			{
 				$mahasiswaData = $this->mahasiswa->_browse();
 				echo "
@@ -161,12 +160,14 @@ class Bayar extends MX_Controller
 					<h1 class='modal-title'>Add Pembayaran </h1>
 					</div>
 					<div id='error_form_bayar'></div>
-					<form class='form-horizontal' method='post' id='add_form_".$tipe."'>
+					<form class='form-horizontal' method='post' id='add_form_bayar'>
 					<div class='modal-body'>
 					<div class='form-group'>
 					<label class='col-xs-4 control-label'>Mahasiswa</label>
 					<div class='col-xs-7'>
-					<select name='nimbayar' id='nimbayar_add' class='form-control' required>";
+					<select name='nim_bayar' id='nim_bayar_add' class='form-control' required>
+					<option></option>
+					";
 				foreach ($mahasiswaData as $mhs)
 				{
 					echo "<option value=".$mhs->nim.">".$mhs->nim." - ".$mhs->nama."</option>";
@@ -178,19 +179,19 @@ class Bayar extends MX_Controller
 					<div class='form-group ".($tipe === 'SPI' ? 'hide' : '')."'>
 					<label class='col-xs-4 control-label'>Semester</label>
 					<div class='col-xs-7'>
-					<input name='semester' id='semester_add' type='number' min=1 max=8 class='form-control'".($tipe === 'SPI' ? '' : 'required').">
+					<input name='semester_bayar' id='semester_bayar_add' type='number' value=1 min=1 max=8 class='form-control'".($tipe === 'SPI' ? '' : 'required').">
 					</div>
 					</div>
 					<div class='form-group'>
 					<label class='col-xs-4 control-label'>Cicilan</label>
 					<div class='col-xs-7'>
-					<input name='cicilan' id='cicilan_add' type='number' min=1 class='form-control' required>
+					<input name='cicilan_bayar' id='cicilan_bayar_add' type='number' min=1 class='form-control' required>
 					</div>
 					</div>
 					<div class='form-group'>
 					<label class='col-xs-4 control-label'>Nominal</label>
 					<div class='col-xs-7'>
-					<input name='nominal' id='nominal_add' type='number' min=100000 step=100 class='form-control' required>
+					<input name='nominal_bayar' id='nominal_bayar_add' type='number' min=100000 step=100 class='form-control' required>
 					</div>
 					</div>
 					</div>
@@ -206,36 +207,51 @@ class Bayar extends MX_Controller
 			}
 			else
 			{
+				$table = '';
+				$nim_bayar = $this->input->post('nim_bayar');
+				$cicilan_bayar = $this->input->post('cicilan_bayar');
+				$semester_bayar = $this->input->post('semester_bayar');
+				$nominal_bayar = $this->input->post('nominal_bayar');
+
 				$dataInput = array(
-					'nim' => $this->input->post('nimbayar'),
-					'cicilan' => $this->input->post('cicilan')
+					'nim' => $nim_bayar,
+					'cicilan' => $cicilan_bayar
 				);
-				($tipe === 'uangkuliah' ? $dataInput['semester'] = $this->input->post('semester') : '');
-				if ($this->bayarModel->detailExists(($tipe === 'uangkuliah' ? 'det_bayar_semester' : 'det_bayar_spi'), $dataInput) === 0)
+
+				if ($tipe === 'uangkuliah')
+				{
+					$dataInput['semester'] = $semester_bayar;
+					$table = 'det_bayar_semester';
+				}
+				else
+				{
+					$table = 'det_bayar_spi';
+				}
+
+				if ($this->bayarModel->detailExists($table, $dataInput) === 0)
 				{
 					$id_bayar = $this->bayarModel->genID($tipe);
+
 					$bayarData = array(
 						'id_bayar' => $id_bayar,
-						'nim' => $this->input->post('nimbayar'),
+						'nim' => $nim_bayar,
 						'tgl_bayar' => mdate('%Y-%m-%d', now()),
 					);
+
 					$detBayarData = array(
 						'id_bayar' => $id_bayar,
-						'nominal' => $this->input->post('nominal'),
-						'cicilan' => $this->input->post('cicilan'),
+						'nominal' => $nominal_bayar,
+						'cicilan' => $cicilan_bayar,
 					);
-					($tipe === 'uangkuliah' ? $detBayarData['semester'] = $this->input->post('semester') : '');
+
+					($tipe === 'uangkuliah' ? $detBayarData['semester'] = $semester_bayar : '');
+
 					echo($this->bayarModel->add($tipe, $bayarData, $detBayarData) === TRUE ? 'TRUE' : 'FALSE');
 				}
+
 				elseif ($this->bayarModel->detailExists(($tipe === 'uangkuliah' ? 'det_bayar_semester' : 'det_bayar_spi'), $dataInput) === 1)
 				{
-					$data = array(
-						'nim' => $this->input->post('nimbayar'),
-						'cicilan' => $this->input->post('cicilan'),
-					);
-					($tipe === 'uangkuliah' ? $data['semester'] = $this->input->post('semester') : '');
-
-					$tgl_bayar = $this->bayarModel->dateTransaction($tipe, $data);
+					$tgl_bayar = $this->bayarModel->dateTransaction($tipe, $dataInput);
 					echo "Mahasiswa ini sudah pernah melakukan transaksi yang sama pada ".$tgl_bayar;
 				}
 			}
@@ -284,5 +300,20 @@ class Bayar extends MX_Controller
 		$this->load->view('sidebar/keuangan');
 		$this->load->view($page, $data);
 		$this->load->view('foot');
+	}
+
+	/**
+	 * validate amount of payment in one transaction
+	 * @param string type
+	 * @param string nim
+	 * @param string semester
+	 * @param string nominal
+	 */
+	public function validate_payment($type, $nim, $nominal, $semester = NULL)
+	{
+		if ($nominal > $this->bayarModel->remainingPayment($type, $nim, $semester))
+		{
+			echo $this->bayarModel->remainingPayment($type, $nim, $semester);
+		}
 	}
 }
