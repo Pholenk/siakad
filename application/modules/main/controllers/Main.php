@@ -26,9 +26,6 @@ class Main extends MX_Controller
                 case 'Mahasiswa': 
                     $this->_show('mahasiswa');
                     break;
-                default:
-                    redirect(base_url('/auth'));
-                    break;
 			}
 		}
 		else
