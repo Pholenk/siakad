@@ -9,6 +9,7 @@ class Matakuliah extends MX_Controller
 	{
 		parent::__construct();
 		$this->load->model('MatakuliahModel');
+		$this->load->module('jurusan');
 		$this->_access = $this->session->job;
 	}
 
@@ -58,6 +59,7 @@ class Matakuliah extends MX_Controller
 			$matakuliahData = $this->MatakuliahModel->read($id_matakuliah);
 			foreach ($matakuliahData as $data)
 			{
+				$jurusans = $this->jurusan->browse();
 				echo "
 				<div class='modal-header'>
 				<h1 class='modal-title'>Edit matakuliah</h1>
@@ -68,6 +70,19 @@ class Matakuliah extends MX_Controller
 				<div class='form-group'>
 				<label class='col-xs-4 control-label'>Kode matakuliah</label>
 				<label class='col-xs-4 control-label'>".$data->id_matakuliah."</label>
+				</div>
+				<div class='form-group'>
+					<label class='col-xs-4 control-label'>Jurusan</label>
+					<div class='col-xs-7'>
+					<select name='id_jurusan' id='id_jurusan_add' type='text' class='form-control' required>
+					<option></option>";
+					foreach ($jurusans as $jurusan)
+					{
+						echo "<option value='".$jurusan->id_jurusan."'".($data->id_jurusan === $jurusan->id_jurusan ? 'selected' : NULL).">".$jurusan->nama."</option>";
+					}
+				echo "
+				</select>
+				</div>
 				</div>
 				<div class='form-group'>
 				<label class='col-xs-4 control-label'>Nama</label>
@@ -116,9 +131,10 @@ class Matakuliah extends MX_Controller
 	{
 		if ($this->_access === 'BAAK')
 		{
-			if ($this->MatakuliahModel->dataExists('matakuliah', array('id_matakuliah' => $id_matakuliah)) === 0)
+			if ($this->MatakuliahModel->dataExists('matakuliah', array('id_matakuliah' => $id_matakuliah)) === 1)
 			{
 				$matakuliahData = array(
+					'id_jurusan' => $this->input->post('id_jurusan'),
 					'nama' => $this->input->post('namamatakuliah'),
 					'sks' => $this->input->post('sks'),
 					'semester' => $this->input->post('semester'),
@@ -145,12 +161,13 @@ class Matakuliah extends MX_Controller
 	 * @param string username
 	 * @return mixed
 	 */
-	public function add($id_matakuliah = '')
+	public function add()
 	{
 		if ($this->_access === 'BAAK')
 		{
-			if (empty($id_matakuliah))
+			if (empty($this->input->post('id_matakuliah')))
 			{
+				$jurusans = $this->jurusan->browse();
 				echo "
 					<div class='modal-header'>
 					<h1 class='modal-title'>Add Mata Kuliah</h1>
@@ -161,7 +178,20 @@ class Matakuliah extends MX_Controller
 					<div class='form-group'>
 					<label class='col-xs-4 control-label'>Kode matakuliah</label>
 					<div class='col-xs-7'>
-					<input name='idmatakuliah' id='idmatakuliah_add' type='text' class='form-control' required>
+					<input name='id_matakuliah' id='idmatakuliah_add' type='text' class='form-control' required>
+					</div>
+					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>Jurusan</label>
+					<div class='col-xs-7'>
+					<select name='id_jurusan' id='id_jurusan_add' type='text' class='form-control' required>
+					<option></option>";
+					foreach ($jurusans as $jurusan)
+					{
+						echo "<option value='".$jurusan->id_jurusan."'>".$jurusan->nama."</option>";
+					}
+					echo "
+					</select>
 					</div>
 					</div>
 					<div class='form-group'>
@@ -195,10 +225,11 @@ class Matakuliah extends MX_Controller
 			}
 			else
 			{
-				if ($this->MatakuliahModel->dataExists('matakuliah', array('id_matakuliah' => $id_matakuliah)) === 0)
+				if ($this->MatakuliahModel->dataExists('matakuliah', array('id_matakuliah' => $this->input->post('id_matakuliah'))) === 0)
 				{
 					$matakuliahData = array(
-						'id_matakuliah' => $id_matakuliah,
+						'id_matakuliah' => $this->input->post('id_matakuliah'),
+						'id_jurusan' => $this->input->post('id_jurusan'),
 						'nama' => $this->input->post('namamatakuliah'),
 						'sks' => $this->input->post('sks'),
 						'semester' => $this->input->post('semester'),
@@ -215,7 +246,7 @@ class Matakuliah extends MX_Controller
 		else
 		{
 			echo "!LOGIN";
-			redirect(base_url('/auth/logout'));
+			// redirect(base_url('/auth/logout'));
 		}
 	}
 
