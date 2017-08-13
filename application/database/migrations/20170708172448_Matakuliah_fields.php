@@ -21,6 +21,11 @@ class Migration_Matakuliah_fields extends CI_Migration
 				'constraint' => 40,
 				'null' => FALSE,
 			),
+			'id_jurusan' => array(
+				'type' => 'VARCHAR',
+				'constraint' => 40,
+				'null' => FALSE,
+			),
 			'nama' => array(
 				'type' => 'VARCHAR',
 				'constraint' => 80,
