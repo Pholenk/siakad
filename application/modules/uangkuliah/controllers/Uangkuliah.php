@@ -10,6 +10,12 @@ class Uangkuliah extends MX_Controller
 		parent::__construct();
 		$this->load->model('uangkuliahModel');
 		$this->_access = $this->session->job;
+		$config = array(
+			'api_key' => 'a0e1e0d5', 
+			'api_secret' => '6c8abc91cb631241',
+			'from' => 'PNC',
+		);
+		$this->load->library('sms',$config);
 	}
 
 	public function index()
@@ -26,6 +32,29 @@ class Uangkuliah extends MX_Controller
 			echo "!LOGIN";
 			redirect(base_url('/auth/logout'));
 		}
+	}
+
+	function sendSMS($id_uangkuliah)
+	{
+		// '+6285747577748','+6285701703169','+6285747149129','+628574740719','+6285640846856','+628561185775'
+		$listReceiver = array();
+		$messages = '';
+		$uangkuliahData = $this->uangkuliahModel->read($id_uangkuliah);
+		$receivers = $this->uangkuliahModel->browseOrangtua($id_uangkuliah);
+		
+		foreach ($uangkuliahData as $data)
+		{
+			$messages = 'pembayaran uang kuliah Politeknik Negeri Cilacap dapat dilakukan pada tanggal '.date('d F Y',strtotime($data->tgl_buka)).' sampai dengan '.date('d F Y',strtotime($data->tgl_tutup));
+		}
+
+		foreach ($receivers as $receiver)
+		{
+			array_push($listReceiver, substr_replace($receiver->telepon, '+62', 0, 1));
+		}
+
+		// print_r($messages);
+		$this->sms->send($messages, $listReceiver);
+		return '';
 	}
 
 	/**
@@ -118,7 +147,7 @@ class Uangkuliah extends MX_Controller
 	{
 		if ($this->_access === 'BAAK')
 		{
-			if ($this->uangkuliahModel->dataExists('uangkuliah', array('id_uangkuliah' => $id_uangkuliah)) === 0)
+			if ($this->uangkuliahModel->dataExists('uangkuliah', array('id_uangkuliah' => $id_uangkuliah)) === 1)
 			{
 				$uangkuliahData = array(
 					'nominal' => $this->input->post('nominaluangkuliah'),
@@ -127,6 +156,7 @@ class Uangkuliah extends MX_Controller
 					'edited_at' => mdate('%Y-%m-%d', now()),
 				);
 				echo($this->uangkuliahModel->edit($id_uangkuliah, $uangkuliahData) ? 'TRUE' : 'FALSE');
+				$this->sendSMS($id_uangkuliah);
 			}
 			else
 			{
