@@ -46,7 +46,7 @@ class Orangtua extends MX_Controller
 	 * @param string username or fullname
 	 * @return mixed
 	 */
-	public function read($type = '', $data = '')
+	public function read($data = '')
 	{
 		if ($this->_access === 'BAAK')
 		{
@@ -114,7 +114,7 @@ class Orangtua extends MX_Controller
 				<div class='form-group'>
 				<label class='col-xs-4 control-label'>Telepon</label>
 				<div class='col-xs-7'>
-				<input name='telepon' id='telepon_edit' type='number' min=0 step=1 class='form-control' value='".$data->telepon."' required>
+				<input name='telepon' id='telepon_edit' type='text' class='form-control' value='".$data->telepon."' required>
 				</div>
 				</div>
 				</div>
@@ -157,7 +157,6 @@ class Orangtua extends MX_Controller
 					'alamat' => $this->input->post('alamat'),
 					'email' => $this->input->post('email'),
 					'telepon' => $this->input->post('telepon'),
-					'edited_at' => mdate('%Y-%m-%d', now()),
 				);
 				echo ($this->OrangtuaModel->edit($nim, $orangtuaData) === TRUE ? 'TRUE' : 'FALSE');
 			}
@@ -183,7 +182,6 @@ class Orangtua extends MX_Controller
 	{
 		if ($this->_access === 'BAAK')
 		{
-			echo $this->_access;
 			if (empty($this->input->post('nim')))
 			{
 				$mahasiswa = $this->mahasiswa->_browse();
