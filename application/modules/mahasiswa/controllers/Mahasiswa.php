@@ -79,9 +79,10 @@ class Mahasiswa extends MX_Controller
 				<div class='form-group'>
 				<label class='col-xs-4 control-label'>Status</label>
 				<div class='col-xs-7'>
-				<select name='Status' id='status_edit' class='form-control' required>
-				<option".($data->status === 'Aktif' ? 'selected' : '').">Aktif</option>
-				<option".($data->status === 'Tidak' ? 'selected' : '').">Tidak</option>
+				<select name='status' id='status_edit' class='form-control' required>
+				<option disabled>status mahasiswa</option>
+				<option value='1' ".($data->status === '1' ? 'selected' : '').">Aktif</option>
+				<option value='0' ".($data->status === '0' ? 'selected' : '').">Tidak</option>
 				</select>
 				</div>
 				</div>
@@ -261,7 +262,7 @@ class Mahasiswa extends MX_Controller
 				);
 				if ($this->MahasiswaModel->edit($nim, $mahasiswaData) === TRUE)
 				{
-					echo($this->users->_edit($nim, array('fullname' => $this->input->post('nama'))));
+					echo($this->users->_edit($nim, array('fullname' => $this->input->post('nama'), 'password' => str_replace("-", "", $this->input->post('tanggal_lahir')))));
 				}
 			}
 			else
