@@ -47,7 +47,7 @@ class Ledger extends MX_Controller
 					$data['nilais'][$matakuliah->id_ajar][$mahasiswa->nim] = array($huruf[0],$huruf[1] * $matakuliah->sks,);
 				}
 				$ip = ($jumlah_nilai_mutu > 0 ? $jumlah_nilai_mutu / $jumlah_sks : 0);
-				$data['ip'][$mahasiswa->nim] = $ip;
+				$data['ip'][$mahasiswa->nim] = round($ip,2);
 			}
 
 			$data['mahasiswas'] = $mahasiswas;
