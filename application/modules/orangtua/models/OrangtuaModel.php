@@ -16,7 +16,7 @@ class OrangtuaModel extends CI_Model
 	 */
 	public function browse()
 	{
-		$this->db->select('orangtua.nama, orangtua.email, orangtua.telepon, mahasiswa.nama as mahasiswa')->from('orangtua');
+		$this->db->select('orangtua.nim, orangtua.nama, orangtua.email, orangtua.telepon, mahasiswa.nama as mahasiswa')->from('orangtua');
 		$this->db->join('mahasiswa','mahasiswa.nim = orangtua.nim');
 		$query = $this->db->get();
 		
