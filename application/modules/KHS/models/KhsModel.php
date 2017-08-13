@@ -12,6 +12,26 @@ class KhsModel extends CI_Model
 	}
 
 	/**
+	 * retrieve all data belongs to single jurusan and semester from mahasiswa table
+	 * @param string jurusan 
+	 * @param string semester
+	 * @return mixed
+	 */
+	public function browse_mahasiswa($id_jurusan, $semester)
+	{
+		return $this->db->get_where('mahasiswa', array('id_jurusan' => $id_jurusan, 'semester' => $semester))->result();
+	}
+
+	/**
+	 * retrieve all data jurusan from jurusan table
+	 * @return mixed
+	 */
+	public function browse_jurusan()
+	{
+		return $this->db->get('jurusan')->result();
+	}
+
+	/**
 	 * retrieve all data belongs to single nim from mahasiswa table
 	 * @param string nim
 	 * @return mixed
@@ -104,11 +124,12 @@ class KhsModel extends CI_Model
 	 * @param string semester
 	 * @return mixed
 	 */
-	public function data_matakuliah($semester)
+	public function data_matakuliah($semester, $kelas)
 	{
-		$this->db->select('ajar.id_ajar, matakuliah.id_matakuliah, matakuliah.nama, matakuliah.sks')->from('ajar');
+		$this->db->select('ajar.id_ajar, matakuliah.id_matakuliah, matakuliah.nama, matakuliah.sks, matakuliah.semester')->from('ajar');
 		$this->db->join('matakuliah', 'matakuliah.id_matakuliah = ajar.id_matakuliah');
 		$this->db->where('matakuliah.semester', $semester);
+		$this->db->like('ajar.kelas', $kelas);
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -120,7 +141,14 @@ class KhsModel extends CI_Model
 	 */
 	public function nilai_matakuliah($nim, $id_ajar)
 	{
-		$total_nilai = (($this->nilaiLain($nim,$id_ajar) / $this->maxPengambilan($id_ajar)) * 0.2) + ($this->nilaiUTS($nim,$id_ajar) * 0.4) + ($this->nilaiUAS($nim,$id_ajar) * 0.4);
+		$lain = 0;
+
+		if (!empty($this->nilaiLain($nim,$id_ajar)) || !empty($this->maxPengambilan($id_ajar)))
+		{
+			$lain = $this->nilaiLain($nim,$id_ajar) / $this->maxPengambilan($id_ajar);
+		}
+		
+		$total_nilai = ($lain * 0.2) + ($this->nilaiUTS($nim,$id_ajar) * 0.4) + ($this->nilaiUAS($nim,$id_ajar) * 0.4);
 		return $total_nilai;
 	}
 
