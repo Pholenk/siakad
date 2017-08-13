@@ -111,7 +111,7 @@ class Jurusan extends MX_Controller
 	{
 		if ($this->_access === 'BAAK')
 		{
-			if ($this->JurusanModel->dataExists('jurusan', array('id_jurusan' => $id_jurusan)) === 0)
+			if ($this->JurusanModel->dataExists('jurusan', array('id_jurusan' => $id_jurusan)) === 1)
 			{
 				$jurusanData = array(
 					'kode_jurusan' => $this->input->post('kode_jurusan'),
