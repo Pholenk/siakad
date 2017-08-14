@@ -115,7 +115,7 @@ class Uangkuliah extends MX_Controller
 				<div class='form-group'>
 				<label class='col-xs-4 control-label'>Tanggal Tutup</label>
 				<div class='col-xs-7'>
-				<input name='tgl_tutup' id='tgl_tutup_add' type='date' value='".mdate('%Y-%m-%d', strtotime($data->tgl_tutup))."' class='form-control' required>
+				<input name='tgl_tutup' id='tgl_tutup_add' type='date' value='".mdate('%Y-%m-%d', strtotime($data->tgl_tutup))."' class='form-control' min='' required>
 				</div>
 				</div>
 				</div>
