@@ -26,12 +26,13 @@ class LedgerModel extends CI_Model
 	 * @param string semester
 	 * @return mixed
 	 */
-	public function browse_mahasiswa($jurusan, $semester)
+	public function browse_mahasiswa($jurusan, $semester, $kelas)
 	{
 		$this->db->select('mahasiswa.nim, mahasiswa.nama, mahasiswa.kelas, jurusan.nama as jurusan')->from('mahasiswa');
 		$this->db->join('jurusan', 'jurusan.id_jurusan = mahasiswa.id_jurusan');
 		$this->db->where('mahasiswa.id_jurusan', $jurusan);
 		$this->db->where('mahasiswa.semester', $semester);
+		$this->db->where('mahasiswa.kelas', $kelas);
 		return $this->db->get()->result();
 	}
 
