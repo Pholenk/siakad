@@ -321,7 +321,14 @@ class Dosen extends MX_Controller
 		{
 			if ($this->DosenModel->dataExists('dosen', array('id_dosen' => $id_dosen)) === 1)
 			{
-				echo ($this->DosenModel->delete($id_dosen) === TRUE ? 'TRUE' : 'FALSE');
+				if($this->DosenModel->delete($id_dosen) === TRUE)
+				{
+					echo($this->users->delete($id_dosen));
+				}
+				else
+				{
+					echo "FALSE";
+				}
 			}
 			else
 			{
