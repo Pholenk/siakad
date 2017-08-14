@@ -831,6 +831,17 @@ $(document).ready(function() {
         $('.modal-content').html('<div class="modal-header alert-danger"><h1 class="modal-title">Delete uangkuliah</h1></div><div id="error_delete_uangkuliah"></div><div class="modal-body"><div class="alert"><h4>Tindakan ini akan menghapus uangkuliah.<br><strong>Hapus uangkuliah?</strong></h4></div></div><div class="modal-footer"><div class="col-xs-6"><button class="btn btn-danger" type="button" id="save_delete_uangkuliah"><i class="fa fa-trash"></i> Delete</button></div><div class="col-xs-6 push-left"><button class="btn btn-default push-left" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Cancel</button></div></div>')
     })
 
+    $('body').on('change', 'input[id^="tgl_buka_"]', function(event) {
+        var tgl_buka = new Date($('input[id^="tgl_buka_"]').val())
+        var tgl = (tgl_buka.getDate() < 10 ? '0' : '')+tgl_buka.getDate()
+        var bulan = (tgl_buka.getMonth()+1 < 10 ? '0' : '')+ (tgl_buka.getMonth()+1)
+        var tahun = tgl_buka.getFullYear()
+        var tgl_tutup = tahun+'-'+bulan+'-'+tgl
+        $('input[id^="tgl_tutup_"]').val(tgl_tutup)
+    
+        console.log(tgl_buka)
+    })
+
     $('body').on('submit', '#add_form_uangkuliah', function(event) {
         event.preventDefault()
         $.ajax({
