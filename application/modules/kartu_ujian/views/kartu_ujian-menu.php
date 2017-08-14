@@ -6,7 +6,7 @@
 				<div class="box box-success">
 					<div class="box-header">Cetak Kartu Ujian</div>
 					<div class="box-body no-padding">
-						<form method='post' action="<?php echo base_url('/kartu_ujian/cetak'); ?>">
+						<form method='post' id="form-kartu-ujian" action="<?php echo base_url('/kartu_ujian/cetak');?>">
 						<div class="col-xs-12">
 							<div class="col-xs-6 form-horizontal">
 								<div class='form-group'>
@@ -131,91 +131,91 @@
 								<tbody>
 									<tr>
 										<td rowspan="2" style="width:100px;vertical-align:middle;"><label class='control-label'>Hari Ke - 1</label></td>
-										<td style="width:100px;"><input name='jam1-tgl1' class='form-control' type="time" value="<?php echo date('H:m', now());?>" required></td>
+										<td style="width:100px;"><input name='jam1-tgl1' class='form-control' type="time" value="<?php echo date('H:i', now());?>" required></td>
 										<td>
 											<select name='jadwal1-tgl1' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
-										<td style="width:100px;"><input name='jam2-tgl1' class='form-control' type="time" value="<?php echo date('H:m', strtotime("+90 Minute"));?>" required></td>
+										<td style="width:100px;"><input name='jam2-tgl1' class='form-control' type="time" value="<?php echo date('H:i', strtotime("+90 Minute"));?>" required></td>
 										<td>
 											<select name='jadwal2-tgl1' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
 										<td rowspan="2" style="width:100px;vertical-align:middle;"><label class='control-label'>Hari Ke - 2</label></td>
-										<td style="width:100px;"><input name='jam1-tgl2' class='form-control' type="time" value="<?php echo date('H:m', now());?>" required></td>
+										<td style="width:100px;"><input name='jam1-tgl2' class='form-control' type="time" value="<?php echo date('H:i', now());?>" required></td>
 										<td>
 											<select name='jadwal1-tgl2' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
-										<td style="width:100px;"><input name='jam2-tgl2' class='form-control' type="time" value="<?php echo date('H:m', strtotime("+90 Minute"));?>" required></td>
+										<td style="width:100px;"><input name='jam2-tgl2' class='form-control' type="time" value="<?php echo date('H:i', strtotime("+90 Minute"));?>" required></td>
 										<td>
 											<select name='jadwal2-tgl2' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
 										<td rowspan="2" style="width:100px;vertical-align:middle;"><label class='control-label'>Hari Ke - 3</label></td>
-										<td style="width:100px;"><input name='jam1-tgl3' class='form-control' type="time" value="<?php echo date('H:m', now());?>" required></td>
+										<td style="width:100px;"><input name='jam1-tgl3' class='form-control' type="time" value="<?php echo date('H:i', now());?>" required></td>
 										<td>
 											<select name='jadwal1-tgl3' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
-										<td style="width:100px;"><input name='jam2-tgl3' class='form-control' type="time" value="<?php echo date('H:m', strtotime("+90 Minute"));?>" required></td>
+										<td style="width:100px;"><input name='jam2-tgl3' class='form-control' type="time" value="<?php echo date('H:i', strtotime("+90 Minute"));?>" required></td>
 										<td>
 											<select name='jadwal2-tgl3' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
 										<td rowspan="2" style="width:100px;vertical-align:middle;"><label class='control-label'>Hari Ke - 4</label></td>
-										<td style="width:100px;"><input name='jam1-tgl4' class='form-control' type="time" value="<?php echo date('H:m', now());?>" required></td>
+										<td style="width:100px;"><input name='jam1-tgl4' class='form-control' type="time" value="<?php echo date('H:i', now());?>" required></td>
 										<td>
 											<select name='jadwal1-tgl4' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
-										<td style="width:100px;"><input name='jam2-tgl4' class='form-control' type="time" value="<?php echo date('H:m', strtotime("+90 Minute"));?>" required></td>
+										<td style="width:100px;"><input name='jam2-tgl4' class='form-control' type="time" value="<?php echo date('H:i', strtotime("+90 Minute"));?>" required></td>
 										<td>
 											<select name='jadwal2-tgl4' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
 										<td rowspan="2" style="width:100px;vertical-align:middle;"><label class='control-label'>Hari Ke - 5</label></td>
-										<td style="width:100px;"><input name='jam1-tgl5' class='form-control' type="time" value="<?php echo date('H:m', now());?>" required></td>
+										<td style="width:100px;"><input name='jam1-tgl5' class='form-control' type="time" value="<?php echo date('H:i', now());?>" required></td>
 										<td>
 											<select name='jadwal1-tgl5' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
-										<td style="width:100px;"><input name='jam2-tgl5' class='form-control' type="time" value="<?php echo date('H:m', strtotime("+90 Minute"));?>" required></td>
+										<td style="width:100px;"><input name='jam2-tgl5' class='form-control' type="time" value="<?php echo date('H:i', strtotime("+90 Minute"));?>" required></td>
 										<td>
 											<select name='jadwal2-tgl5' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
 										<td rowspan="2" style="width:100px;vertical-align:middle;"><label class='control-label'>Hari Ke - 6</label></td>
-										<td style="width:100px;"><input name='jam1-tgl6' class='form-control' type="time" value="<?php echo date('H:m', now());?>" required></td>
+										<td style="width:100px;"><input name='jam1-tgl6' class='form-control' type="time" value="<?php echo date('H:i', now());?>" required></td>
 										<td>
 											<select name='jadwal1-tgl6' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
-										<td style="width:100px;"><input name='jam2-tgl6' class='form-control' type="time" value="<?php echo date('H:m', strtotime("+90 Minute"));?>" required></td>
+										<td style="width:100px;"><input name='jam2-tgl6' class='form-control' type="time" value="<?php echo date('H:i', strtotime("+90 Minute"));?>" required></td>
 										<td>
 											<select name='jadwal2-tgl6' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
 										<td rowspan="2" style="width:100px;vertical-align:middle;"><label class='control-label'>Hari Ke - 7</label></td>
-										<td style="width:100px;"><input name='jam1-tgl7' class='form-control' type="time" value="<?php echo date('H:m', now());?>" required></td>
+										<td style="width:100px;"><input name='jam1-tgl7' class='form-control' type="time" value="<?php echo date('H:i', now());?>" required></td>
 										<td>
 											<select name='jadwal1-tgl7' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
 									</tr>
 									<tr>
-										<td style="width:100px;"><input name='jam2-tgl7' class='form-control' type="time" value="<?php echo date('H:m', strtotime("+90 Minute"));?>" required></td>
+										<td style="width:100px;"><input name='jam2-tgl7' class='form-control' type="time" value="<?php echo date('H:i', strtotime("+90 Minute"));?>" required></td>
 										<td>
 											<select name='jadwal2-tgl7' id="kartu-ujian-jadwal" class='form-control'></select>
 										</td>
@@ -254,6 +254,14 @@ function opt_matakuliah() {
         (response !== '!LOGIN' ? jQuery('[id="kartu-ujian-jadwal"]').html(response) : window.location = '/')
       }
   })
+}
+
+function cetak() {
+	jQuery.ajax({
+		url: '/kartu_ujian/cetak',
+		type: 'POST',
+		data: jQuery('#form-kartu-ujian').serialize(),
+	})	
 }
 
 </script>
