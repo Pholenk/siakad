@@ -238,7 +238,7 @@ class KHS extends MX_Controller
 	 * render all data into a document with mime type .pdf
 	 * @void
 	 */
-	private function _pdf($sumber, $pdfName)
+	function _pdf($sumber, $pdfName)
 	{
 		$this->PDF->AddPage("","","","","",0,0,0,0,0,0,"","","","","","","","","","A4");
 		$this->PDF->WriteHTML($sumber);
