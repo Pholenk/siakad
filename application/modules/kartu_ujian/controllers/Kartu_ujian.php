@@ -7,7 +7,7 @@ class Kartu_ujian extends MX_Controller
 		parent::__construct();
 		$this->load->model('kartu_ujianModel');
 		$this->load->library('pdf');
-		$this->PDF = $this->pdf->load();
+		$this->load->helper('download');
 	}
 
 	public function index()
@@ -30,7 +30,7 @@ class Kartu_ujian extends MX_Controller
 			$matakuliahs = $this->kartu_ujianModel->browse_matakuliah($id_jurusan,$semester);
 			foreach ($matakuliahs as $matakuliah)
 			{
-				echo "<option value='".$matakuliah->id_matakuliah."'>".$matakuliah->nama."</option>";
+				echo "<option>".$matakuliah->nama."</option>";
 			}
 		}
 		else
@@ -58,6 +58,13 @@ class Kartu_ujian extends MX_Controller
 
 	public function cetak()
 	{
+		$zipName = FCPATH.'/tmpfile/archieve-kartu-ujian.zip';
+		$zip = new ZipArchive();
+		if ($zip->open($zipName, ZipArchive::CREATE) !== TRUE)
+		{
+			echo "zip failed";
+		}
+
 		$ujian = $this->input->post('ujian');
 		$npak = $this->input->post('npak');
 		$ketua_panitia = $this->input->post('ketua_panitia');
@@ -84,7 +91,7 @@ class Kartu_ujian extends MX_Controller
 		for ($i=1; $i < 8;) {
 			$data['tgl_ujian'][''.$i] = $this->input->post('tgl'.$i);
 			for ($j=1; $j < 3; ) { 
-				$data['jam_ujian'][''.$i][''.$j] = $this->input->post('jam'.$j.'-tgl'.$i);
+				$data['jam_ujian'][''.$i][''.$j] = date('H : i', strtotime($this->input->post('jam'.$j.'-tgl'.$i)));
 				$data['jadwal_ujian'][''.$i][''.$j] = $this->input->post('jadwal'.$j.'-tgl'.$i);
 				$j++;
 			}
@@ -93,21 +100,43 @@ class Kartu_ujian extends MX_Controller
 
 		foreach ($mahasiswas as $mahasiswa)
 		{
-			if ($this->kartu_ujianModel->grant_cetak($mahasiswa->nim, $type, $semester, $ujian)) {
-				$sumber = $this->load->view('kartu-ujian',$data,TRUE);
-			$pdfName = 'kartu-ujian-'.$mahasiswa->nim.'-'.$semester.'-'.$kelas.'.pdf';
-			
-			$this->PDF->AddPage("","","","","",0,0,0,0,0,0,"","","","","","","","","","Legal-L");
-			$this->PDF->WriteHTML($sumber);
-			
-			// render all necessary file and data into pdf and forced download
-			$this->PDF->Output($pdfName, 'D');
-			}
-			else
-			{
-				echo "false";
+			if ($this->kartu_ujianModel->grant_cetak($mahasiswa->nim, $type, $semester, $ujian) === TRUE) {
+				$this->PDF = $this->pdf->load();
+				$sumber = $this->_dataPrint($data);
+				$pdfName = FCPATH.'/tmpfile/kartu-ujian-'.$mahasiswa->nim.'-'.$semester.'-'.$kelas.'.pdf';
+				$this->_pdf($sumber, $pdfName);
+				if (file_exists($pdfName))
+				{
+					$zip->addFile($pdfName);
+				}
 			}
 		}
+		$zip->close();
+		force_download($zipName, NULL);
+	}
+
+	/**
+	 * retrieve all datas as necessary
+	 * @param mixed data
+	 * @return string
+	 */
+	function _dataPrint($data)
+	{
+		return $this->load->view('kartu-ujian',$data,TRUE);
+	}
+
+	/**
+	 * render all data into a document with mime type .pdf
+	 * @void
+	 */
+	function _pdf($sumber, $pdfName)
+	{
+		$this->PDF->AddPage("","","","","",0,0,0,0,0,0,"","","","","","","","","","Legal-L");
+		$this->PDF->WriteHTML($sumber);
+
+		// // render all necessary file and data into pdf and forced download
+		$this->PDF->Output($pdfName);
+		chmod($pdfName, 0777);
 	}
 
 	private function _show($page='', $data='')
