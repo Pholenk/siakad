@@ -17,7 +17,7 @@ class Email extends CI_Controller
 		$config['smtp_host'] = "ssl://smtp.gmail.com";
 		$config['smtp_port'] = "465";
 		$config['smtp_user'] = "pholenkadi17@gmail.com"; 
-		$config['smtp_pass'] = "pholenk0049";
+		$config['smtp_pass'] = "";
 		$config['charset'] = "utf-8";
 		$config['mailtype'] = "html";
 		$config['newline'] = "\r\n";
