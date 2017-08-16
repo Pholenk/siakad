@@ -11,8 +11,8 @@ class Uangkuliah extends MX_Controller
 		$this->load->model('uangkuliahModel');
 		$this->_access = $this->session->job;
 		$config = array(
-			'api_key' => 'a0e1e0d5', 
-			'api_secret' => '6c8abc91cb631241',
+			'api_key' => 'a8da7428', 
+			'api_secret' => '6cac20fa3307f6b6',
 			'from' => 'PNC',
 		);
 		$this->load->library('sms',$config);

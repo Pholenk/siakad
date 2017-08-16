@@ -20,6 +20,7 @@ class KHS extends MX_Controller
 	{
 		if ($this->_access === 'Mahasiswa')
 		{
+			// var_dump($this->session->username);
 			$data['data_diri'] = $this->_browse();
 			$this->_show('browse', $data);
 		}

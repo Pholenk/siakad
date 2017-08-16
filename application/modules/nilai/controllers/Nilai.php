@@ -119,7 +119,7 @@ class Nilai extends MX_Controller
 		                	<div class='form-group'>
 							<label class='col-xs-5 control-label' style='text-align: left;'>".$mahasiswa->nama."</label>
 							<div class='col-xs-6'>
-							<input name='nilai_".str_replace('.','',$mahasiswa->nim)."' type='number' min=0 max=100 step=1 class='form-control' id='nilai_edit'";
+							<input name='nilai_".str_replace('.','',$mahasiswa->nim)."' type='number' min=0.00 max=100.00 step=0.01 class='form-control' id='nilai_edit'";
 						foreach ($nilais as $nilai)
 						{
 							if ($mahasiswa->nim === $nilai->nim)
@@ -267,7 +267,7 @@ class Nilai extends MX_Controller
 		                	<div class='form-group'>
 							<label class='col-xs-5 control-label' style='text-align: left;'>".$mahasiswa->nama."</label>
 							<div class='col-xs-6'>
-		                	<input name='nilai_".str_replace('.','',$mahasiswa->nim)."' type='number' min=0 max=100 step=1 class='form-control' id='nilai_add' required>
+		                	<input name='nilai_".str_replace('.','',$mahasiswa->nim)."' type='number' min=0.00 max=100.00 step=0.01 class='form-control' id='nilai_add' required>
 		                	</div>
 							</div>";
 					}
@@ -350,6 +350,7 @@ class Nilai extends MX_Controller
 		$pengambilans = $this->nilaiModel->getPengambilan($id_ajar, $kelas, $semester);
 		foreach ($pengambilans as $pengambilan)
 		{
+			echo "<option></option>";
 			echo "<option value='".$pengambilan->pengambilan."'> Q".$pengambilan->pengambilan."</option>";
 		}
 	}

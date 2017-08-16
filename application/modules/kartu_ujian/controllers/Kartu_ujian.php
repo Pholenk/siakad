@@ -30,6 +30,7 @@ class Kartu_ujian extends MX_Controller
 			$matakuliahs = $this->kartu_ujianModel->browse_matakuliah($id_jurusan,$semester);
 			foreach ($matakuliahs as $matakuliah)
 			{
+				echo "<option></option>";
 				echo "<option>".$matakuliah->nama."</option>";
 			}
 		}
