@@ -194,6 +194,12 @@ class Bayar extends MX_Controller
 					<input name='nominal_bayar' id='nominal_bayar_add' type='number' min=100000 step=100 class='form-control' required>
 					</div>
 					</div>
+					<div class='form-group'>
+					<label class='col-xs-4 control-label'>Tanggal Bayar</label>
+					<div class='col-xs-7'>
+					<input name='tanggal_bayar' id='tanggal_bayar_add' type='date' class='form-control' required>
+					</div>
+					</div>
 					</div>
 					<div class='modal-footer'>
 					<div class='col-xs-6'>

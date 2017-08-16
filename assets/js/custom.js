@@ -1095,6 +1095,9 @@ $(document).ready(function() {
         })
     })
 
+    $('body').on('change', '#tgl_bayar_add', function(event) {
+    })
+
     $('body').on('keyup', '#nominal_bayar_add', function() {
         var tipe = uri.replace('bayar/add/', '')
         $.ajax({

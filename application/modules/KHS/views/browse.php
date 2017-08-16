@@ -28,7 +28,7 @@
                   </div>
                   <div class='form-group'>
                     <label class='col-xs-5 control-label' style="text-align:left;">Tahun Ajaran</label>
-                    <label class='col-xs-7 control-label' style="text-align:left;"><?php echo mdate('%Y',now()).' / '; echo mdate('%Y', now())+1; ?></label>
+                    <label class='col-xs-7 control-label' style="text-align:left;"><?php echo mdate('%Y',now()).' / '; echo mdate('%Y', now()+1); ?></label>
                   </div>
                   <div class='form-group'>
                     <label class='col-xs-5 control-label' style="text-align:left;">Jurusan</label>
